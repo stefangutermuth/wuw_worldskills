@@ -1,0 +1,175 @@
+---
+// Globale Kopfzeile: Logo (Wirth & Wiener) + Navigation.
+// Transparent über dem Hero, wird beim Scrollen zu einer dezenten dunklen Leiste.
+const nav = [
+  { href: '#route', label: 'Die Reise' },
+  { href: '#daumendruecken', label: 'Daumendrücken' },
+  { href: '#wunschbaum', label: 'Wunschbaum' },
+  { href: '#live', label: 'Live' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner u-container">
+    <a class="site-header__brand" href="#hero" aria-label="Road to Shanghai – Startseite">
+      <img src="/img/logo-ww.svg" alt="Wirth & Wiener" class="site-header__logo" width="248" height="40" />
+    </a>
+
+    <nav class="site-header__nav" data-nav aria-label="Hauptnavigation">
+      {nav.map((i) => <a href={i.href}>{i.label}</a>)}
+      <a href="#newsletter" class="site-header__cta">Newsletter</a>
+    </nav>
+
+    <button class="site-header__toggle" data-nav-toggle aria-label="Menü" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const nav = document.querySelector('[data-nav]');
+
+  // Scroll-Zustand: nach dem Hero dunkle Leiste
+  const onScroll = () => {
+    if (window.scrollY > window.innerHeight * 0.6) header.classList.add('is-scrolled');
+    else header.classList.remove('is-scrolled');
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile-Menü
+  toggle?.addEventListener('click', () => {
+    const open = header.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      header.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    })
+  );
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease, box-shadow 0.4s ease;
+  }
+  .site-header.is-scrolled {
+    background: rgba(12, 18, 15, 0.72);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(201, 162, 75, 0.18);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: clamp(60px, 9vh, 84px);
+  }
+
+  .site-header__logo {
+    height: clamp(28px, 4vh, 40px);
+    width: auto;
+    display: block;
+    /* Logo weiß auf dem dunklen Hero */
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+  }
+  .site-header__brand:hover .site-header__logo { opacity: 1; }
+
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.2rem);
+  }
+  .site-header__nav a {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--paper);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transition: color 0.25s ease;
+  }
+  .site-header__nav a:not(.site-header__cta)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.3s var(--ease-out);
+  }
+  .site-header__nav a:not(.site-header__cta):hover { color: var(--gold); }
+  .site-header__nav a:not(.site-header__cta):hover::after { width: 100%; }
+
+  .site-header__cta {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.55);
+    color: var(--gold) !important;
+    text-shadow: none !important;
+    transition: background 0.25s ease, transform 0.2s var(--ease-out);
+  }
+  .site-header__cta:hover { background: rgba(201, 162, 75, 0.16); transform: translateY(-1px); }
+
+  /* Mobile-Toggle */
+  .site-header__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 0;
+    padding: 8px;
+  }
+  .site-header__toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--paper);
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease-out), opacity 0.2s ease;
+  }
+  .site-header.is-open .site-header__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-header.is-open .site-header__toggle span:nth-child(2) { opacity: 0; }
+  .site-header.is-open .site-header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 860px) {
+    .site-header__toggle { display: flex; }
+    .site-header__nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      padding: 1rem clamp(1.25rem, 5vw, 4rem) 1.5rem;
+      background: rgba(12, 18, 15, 0.96);
+      backdrop-filter: blur(10px);
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
+    }
+    .site-header__nav a { padding: 0.6rem 0; font-size: 1.05rem; }
+    .site-header.is-open .site-header__nav {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .site-header__cta { margin-top: 0.5rem; }
+  }
+</style>

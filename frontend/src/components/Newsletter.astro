@@ -1,0 +1,121 @@
+---
+// Newsletter-Anmeldung (§5) – PLATZHALTER.
+// Volles UI; Backend-Endpunkt /newsletter validiert nur (ESP noch nicht angebunden).
+---
+
+<div class="nl" data-newsletter>
+  <h3 class="nl__title">Bleib an Bord</h3>
+  <p class="nl__lead">
+    Updates vor, während und nach der WM – direkt in dein Postfach. Kein Spam, jederzeit abbestellbar.
+  </p>
+
+  <form class="nl__form" data-nl-form novalidate>
+    <div class="nl__row">
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="deine@email.de"
+        autocomplete="email"
+        aria-label="E-Mail-Adresse"
+      />
+      <button type="submit" class="btn btn--gold">Eintragen</button>
+    </div>
+    <label class="nl__consent">
+      <input type="checkbox" name="consent" required />
+      <span>Ich möchte den Newsletter erhalten und stimme der <a href="#datenschutz">Datenschutzerklärung</a> zu.</span>
+    </label>
+    <p class="nl__status" data-nl-status aria-live="polite"></p>
+  </form>
+</div>
+
+<script>
+  import { api } from '../lib/api.js';
+
+  const form = document.querySelector('[data-nl-form]');
+  const statusEl = document.querySelector('[data-nl-status]');
+
+  function setStatus(msg, kind) {
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.dataset.kind = kind || '';
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const email = String(fd.get('email') || '').trim();
+    const consent = !!fd.get('consent');
+
+    if (!email || !/.+@.+\..+/.test(email)) {
+      setStatus('Bitte eine gültige E-Mail-Adresse eingeben.', 'err');
+      return;
+    }
+    if (!consent) {
+      setStatus('Bitte stimme der Datenschutzerklärung zu.', 'err');
+      return;
+    }
+
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
+    setStatus('Wird gesendet …', '');
+
+    try {
+      const res = await api.postNewsletter({ email, consent });
+      form.reset();
+      // Platzhalter: ESP ist noch nicht angebunden – ehrliche Rückmeldung.
+      if (res && res.placeholder) {
+        setStatus('Notiert! Der Newsletter wird gerade eingerichtet – wir melden uns. 🙌', 'ok');
+      } else {
+        setStatus('Fast geschafft – bitte bestätige den Link in deiner E-Mail. 📩', 'ok');
+      }
+    } catch (err) {
+      console.warn('[newsletter]', err);
+      setStatus('Hoppla, das hat nicht geklappt. Bitte später nochmal.', 'err');
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .nl { max-width: 32rem; }
+  .nl__title { font-size: 1.6rem; color: var(--gold); }
+  .nl__lead { margin: 0.5rem 0 1.25rem; color: var(--ink-soft); }
+  .nl__form { display: flex; flex-direction: column; gap: 0.75rem; }
+  .nl__row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .nl__row input {
+    flex: 1 1 14rem;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.35);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--paper);
+    font: inherit;
+  }
+  .nl__row input::placeholder { color: rgba(241, 232, 214, 0.4); }
+  .btn {
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.18s var(--ease-out);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .btn--gold { background: var(--gold); color: var(--china-red-dk); }
+  .nl__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+  .nl__consent input { margin-top: 0.2rem; flex-shrink: 0; }
+  .nl__consent a { color: var(--gold); text-decoration: underline; }
+  .nl__status { font-size: 0.9rem; min-height: 1.2em; }
+  .nl__status[data-kind='ok'] { color: #bfe6cd; }
+  .nl__status[data-kind='err'] { color: #ffc7b0; }
+</style>

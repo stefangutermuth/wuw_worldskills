@@ -1,0 +1,400 @@
+---
+// Sektion „Der Aufbruch" (Hero) — §A1
+// Cinematic, Übergang Erzgebirgswald → Shanghai-Skyline, Koi steigt mittig auf.
+// Parallax in getrennten Ebenen; Text-Layer strikt getrennt (Headline scharf/auswählbar).
+import Countdown from './Countdown.astro';
+---
+
+<section class="hero" id="hero" aria-label="Road to Shanghai – Der Aufbruch">
+  <!-- ============ Parallax-Ebenen ============ -->
+  <!-- BG: Erzgebirgswald (links) → Shanghai-Skyline bei Nacht (rechts).
+       TODO: echtes Hero-Bild 21:9 (public/img/hero-bg.avif) als <picture> einsetzen;
+       solange Platzhalter-Verlauf. -->
+  <div class="hero__layer hero__bg" data-parallax="bg" aria-hidden="true"></div>
+  <!-- Echtes Hero-Bild (sobald vorhanden). Fehlt es, bleibt der Verlauf von hero__bg sichtbar. -->
+  <div class="hero__layer hero__photo" data-parallax="bg" aria-hidden="true"></div>
+  <!-- Nebel: echtes Bild (schwarzer HG + Screen-Blend auf dem Container), 2 driftende Lagen -->
+  <div class="hero__layer hero__fog hero__fog--img" data-parallax="fog" aria-hidden="true">
+    <span class="fog-img fog-img--1"></span>
+    <span class="fog-img fog-img--2"></span>
+  </div>
+
+  <!-- Koi steigt mittig auf (eigene Ebene, getrennt vom Text) -->
+  <div class="hero__layer hero__koi" data-parallax="koi" aria-hidden="true">
+    <div class="koi-img" role="img" aria-label="Aufsteigender Koi"></div>
+  </div>
+
+  <!-- Schwebende Laternen (echtes Bild, schwarzer HG + Screen-Blend auf dem Container) -->
+  <div class="hero__layer hero__lanterns hero__lanterns--glow" data-parallax="lantern" aria-hidden="true">
+    <span class="lantern lantern--glow" style="--x:7%;  --s:.5;  --dur:25s; --delay:-3s;  --sway:16px; --o:.9"></span>
+    <span class="lantern lantern--glow" style="--x:16%; --s:.7;  --dur:21s; --delay:-13s; --sway:22px; --o:1"></span>
+    <span class="lantern lantern--glow" style="--x:27%; --s:.45; --dur:28s; --delay:-7s;  --sway:14px; --o:.85"></span>
+    <span class="lantern lantern--glow" style="--x:38%; --s:.6;  --dur:23s; --delay:-19s; --sway:20px; --o:.95"></span>
+    <span class="lantern lantern--glow" style="--x:47%; --s:.4;  --dur:30s; --delay:-10s; --sway:12px; --o:.8"></span>
+    <span class="lantern lantern--glow" style="--x:57%; --s:.8;  --dur:19s; --delay:-2s;  --sway:26px; --o:1"></span>
+    <span class="lantern lantern--glow" style="--x:66%; --s:.5;  --dur:26s; --delay:-15s; --sway:16px; --o:.9"></span>
+    <span class="lantern lantern--glow" style="--x:75%; --s:.65; --dur:22s; --delay:-6s;  --sway:20px; --o:.95"></span>
+    <span class="lantern lantern--glow" style="--x:84%; --s:.45; --dur:29s; --delay:-21s; --sway:14px; --o:.82"></span>
+    <span class="lantern lantern--glow" style="--x:92%; --s:.6;  --dur:24s; --delay:-11s; --sway:18px; --o:.9"></span>
+  </div>
+
+  <!-- Atmosphäre: Scrim (Lesbarkeit Headline) + Vignette (hinter Text) + Film-Korn (über allem) -->
+  <div class="hero__scrim" aria-hidden="true"></div>
+  <div class="hero__vignette atmo-vignette" aria-hidden="true"></div>
+  <div class="hero__grain atmo-grain atmo-grain--soft" aria-hidden="true"></div>
+
+  <!-- ============ Text-Layer (scharf, auswählbar) ============ -->
+  <div class="hero__content u-container" data-parallax="text">
+    <p class="u-eyebrow hero__eyebrow">WorldSkills 2026 · Shanghai</p>
+    <h1 class="hero__title">
+      <span class="hero__title-kicker">Road to</span>
+      <span class="hero__title-script u-gold-sheen">Shanghai</span>
+    </h1>
+    <p class="hero__subline">Unsere Jungs auf dem Weg zu den WorldSkills</p>
+
+    <div class="hero__countdown">
+      <Countdown />
+    </div>
+  </div>
+
+  <!-- Scroll-Hinweis -->
+  <a href="#route" class="hero__scroll" aria-label="Weiter scrollen">
+    <span class="hero__scroll-text">Die Reise beginnt</span>
+    <span class="hero__scroll-arrow" aria-hidden="true"></span>
+  </a>
+</section>
+
+<script>
+  import { initMotion } from '../scripts/motion.js';
+
+  const { gsap, ScrollTrigger, prefersReduced } = initMotion();
+  const hero = document.querySelector('.hero');
+
+  if (hero && !prefersReduced) {
+    // Intro-Reveal: Headline gestaffelt
+    gsap.from('.hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
+      y: 28,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+      stagger: 0.12,
+      delay: 0.15,
+    });
+
+    // 3D-Parallax beim Scrollen — Desktop only (schwere Effekte = Desktop-Luxus, §A0)
+    ScrollTrigger.matchMedia({
+      '(min-width: 768px)': () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+        // Jede Ebene mit eigener Geschwindigkeit + leichter BG-Zoom = Tiefe
+        tl.to('[data-parallax="bg"]',      { yPercent: 14, scale: 1.1, ease: 'none' }, 0)
+          .to('[data-parallax="fog"]',     { yPercent: 30, opacity: 0.25, ease: 'none' }, 0)
+          .to('[data-parallax="koi"]',     { yPercent: -34, ease: 'none' }, 0)
+          .to('[data-parallax="lantern"]', { yPercent: -58, ease: 'none' }, 0)
+          .to('[data-parallax="text"]',    { yPercent: 22, opacity: 0.6, ease: 'none' }, 0);
+      },
+    });
+
+    // Maus-Parallax (echte Tiefe) — nur feine Zeiger / Desktop
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const layers = [
+        { sel: '[data-parallax="bg"]', depth: 6 },
+        { sel: '[data-parallax="fog"]', depth: 16 },
+        { sel: '[data-parallax="koi"]', depth: 26 },
+        { sel: '[data-parallax="lantern"]', depth: 38 },
+        { sel: '[data-parallax="text"]', depth: 8 },
+      ];
+      const movers = layers.map((l) => ({
+        xTo: gsap.quickTo(l.sel, 'x', { duration: 0.7, ease: 'power3.out' }),
+        yTo: gsap.quickTo(l.sel, 'y', { duration: 0.7, ease: 'power3.out' }),
+        depth: l.depth,
+      }));
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5;
+        const ny = (e.clientY - r.top) / r.height - 0.5;
+        movers.forEach((m) => {
+          m.xTo(-nx * m.depth);
+          m.yTo(-ny * m.depth);
+        });
+      });
+      hero.addEventListener('pointerleave', () => {
+        movers.forEach((m) => {
+          m.xTo(0);
+          m.yTo(0);
+        });
+      });
+    }
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--ink);
+    isolation: isolate;
+  }
+
+  .hero__layer {
+    position: absolute;
+    inset: -8% 0 0 0; /* etwas Überstand für Parallax-Spielraum */
+    will-change: transform, opacity;
+  }
+
+  /* BG-Platzhalter: Wald (links, jade/ink) → Skyline-Nacht (rechts, night/red) */
+  .hero__bg {
+    z-index: var(--z-bg);
+    background:
+      radial-gradient(120% 90% at 82% 18%, rgba(168, 30, 46, 0.32), transparent 55%),
+      radial-gradient(90% 80% at 90% 80%, rgba(12, 22, 34, 0.9), transparent 60%),
+      linear-gradient(100deg,
+        #0b130f 0%,
+        #102016 22%,
+        #0e1a1d 48%,
+        #0c1622 72%,
+        #120c14 100%);
+  }
+  /* angedeutete Skyline rechts */
+  .hero__bg::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    height: 46%;
+    background:
+      linear-gradient(to top, rgba(201,162,75,0.10), transparent 70%),
+      repeating-linear-gradient(90deg,
+        transparent 0 22px,
+        rgba(201, 162, 75, 0.05) 22px 24px);
+    -webkit-mask-image: linear-gradient(to top, #000 30%, transparent);
+            mask-image: linear-gradient(to top, #000 30%, transparent);
+    opacity: 0.6;
+  }
+
+  /* Echtes Hero-Bild über dem Verlaufs-Fallback. Fehlt die Datei,
+     rendert die CSS-Bildebene einfach nichts → der Verlauf bleibt sichtbar. */
+  .hero__photo {
+    z-index: var(--z-bg);
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('/img/hero/hero-bg.jpg'); /* Fallback für ältere Browser */
+    background-image: image-set(
+      '/img/hero/hero-bg.avif' type('image/avif'),
+      '/img/hero/hero-bg.webp' type('image/webp'),
+      '/img/hero/hero-bg.jpg' type('image/jpeg')
+    );
+  }
+
+  /* Nebel: echtes Bild, schwarzer HG via Screen-Blend auf dem Container */
+  .hero__fog { z-index: var(--z-mist); pointer-events: none; }
+  .hero__fog--img { mix-blend-mode: screen; }
+  .fog-img {
+    position: absolute;
+    background-image: url('/img/hero/fog.jpg');
+    background-image: image-set(
+      '/img/hero/fog.webp' type('image/webp'),
+      '/img/hero/fog.jpg' type('image/jpeg')
+    );
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    will-change: transform, opacity;
+    /* weiche Kanten oben & unten – kein harter Schnitt */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 40%, #000 80%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 40%, #000 80%, transparent 100%);
+  }
+  .fog-img--1 {
+    width: 120%; height: 58vh; left: -10%; bottom: 4vh;
+    animation: fog-drift-a 42s ease-in-out infinite alternate;
+  }
+  .fog-img--2 {
+    width: 130%; height: 46vh; left: -16%; bottom: 22vh;
+    animation: fog-drift-b 56s ease-in-out infinite alternate;
+  }
+  @keyframes fog-drift-a {
+    0%   { transform: translate3d(-3%, 0, 0) scale(1.05);  opacity: 0.5; }
+    100% { transform: translate3d(4%, -2%, 0) scale(1.16); opacity: 0.8; }
+  }
+  @keyframes fog-drift-b {
+    0%   { transform: translate3d(2%, 1%, 0) scaleX(-1) scale(1.1);  opacity: 0.35; }
+    100% { transform: translate3d(-5%, -1%, 0) scaleX(-1) scale(1.22); opacity: 0.6; }
+  }
+
+  /* Atmosphäre-Layer: Scrim & Vignette hinter Text, Korn darüber */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    background: radial-gradient(58% 48% at 50% 45%, rgba(0, 0, 0, 0.5), transparent 72%);
+  }
+  .hero__vignette { z-index: 4; }
+  .hero__grain { z-index: 6; }
+
+  .hero__koi {
+    z-index: var(--z-koi);
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+  }
+  .koi-img {
+    width: clamp(96px, 12vw, 180px);
+    aspect-ratio: 1024 / 1536;
+    background-image: url('/img/hero/koi.png');
+    background-image: image-set(
+      '/img/hero/koi.webp' type('image/webp'),
+      '/img/hero/koi.png' type('image/png')
+    );
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(0 0 22px var(--gold-glow));
+    will-change: transform;
+    animation: koi-bob 5s ease-in-out infinite;
+  }
+  @keyframes koi-bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-14px) rotate(2deg); }
+  }
+
+  /* Schwebende Laternen (echte Bilder) */
+  .hero__lanterns { z-index: var(--z-lantern); pointer-events: none; }
+  .lantern {
+    position: absolute;
+    left: var(--x);
+    bottom: -12%;
+    width: calc(58px * var(--s, 1));
+    height: calc(82px * var(--s, 1));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: lantern-float var(--dur, 22s) linear infinite,
+               lantern-flicker 3.6s ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  /* Schwarzer HG + Screen-Blend (weicher Glühschein).
+     WICHTIG: Blend auf den Container, sonst hat er keinen Untergrund (schwarzer Kasten). */
+  .hero__lanterns--glow { mix-blend-mode: screen; }
+  .lantern--glow {
+    background-image: url('/img/hero/lantern-glow.png');
+    background-image: image-set(
+      '/img/hero/lantern-glow.webp' type('image/webp'),
+      '/img/hero/lantern-glow.png' type('image/png')
+    );
+  }
+  @keyframes lantern-float {
+    0%   { transform: translate3d(0, 0, 0);                                    opacity: 0; }
+    8%   { opacity: var(--o, 0.8); }
+    25%  { transform: translate3d(var(--sway, 14px), -25vh, 0); }
+    50%  { transform: translate3d(calc(var(--sway, 14px) * -1), -52vh, 0); }
+    75%  { transform: translate3d(calc(var(--sway, 14px) * 0.7), -78vh, 0); }
+    92%  { opacity: var(--o, 0.8); }
+    100% { transform: translate3d(0, -116vh, 0);                              opacity: 0; }
+  }
+  /* dezentes Helligkeits-Flackern (läuft parallel zur Float-Animation) */
+  @keyframes lantern-flicker {
+    0%, 100% { filter: brightness(0.92); }
+    50%      { filter: brightness(1.12); }
+  }
+
+  /* Text-Layer */
+  .hero__content {
+    position: relative;
+    z-index: var(--z-text);
+    text-align: center;
+    /* Headline eher links-mittig ruhig halten (Bild-Prompt: center-left calmer) */
+  }
+
+  .hero__eyebrow { margin-bottom: 1.25rem; }
+
+  .hero__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+  /* Nüchterner Über-Titel */
+  .hero__title-kicker {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: clamp(0.95rem, 3vw, 1.8rem);
+    letter-spacing: 0.42em;
+    text-indent: 0.42em; /* Letter-Spacing optisch zentrieren */
+    text-transform: uppercase;
+    color: var(--paper);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.05em;
+  }
+  /* Kalligrafischer Akzent „Shanghai" (Gold-Schimmer via .u-gold-sheen) */
+  .hero__title-script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(4rem, 16vw, 12rem);
+    line-height: 1.05;
+    padding-bottom: 0.14em; /* Platz für Unterlängen/Schwünge */
+    filter: drop-shadow(0 4px 30px rgba(0, 0, 0, 0.45));
+  }
+
+  .hero__subline {
+    margin-top: 1rem;
+    font-size: var(--fs-lead);
+    color: var(--ink-soft);
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+
+  .hero__countdown { margin-top: clamp(2rem, 5vw, 3.5rem); }
+
+  /* Scroll-Hinweis */
+  .hero__scroll {
+    position: absolute;
+    bottom: clamp(1.25rem, 4vh, 2.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-ui);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink-soft);
+    font-size: var(--fs-label);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .hero__scroll-arrow {
+    width: 1px;
+    height: 38px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero__scroll-arrow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    animation: scroll-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes scroll-pulse {
+    0%   { transform: translateY(-100%); }
+    60%, 100% { transform: translateY(100%); }
+  }
+
+  @media (max-width: 767px) {
+    .hero__layer { inset: 0; } /* mobil ohne Parallax-Überstand */
+  }
+</style>

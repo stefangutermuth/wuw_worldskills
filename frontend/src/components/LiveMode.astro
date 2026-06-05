@@ -1,0 +1,213 @@
+---
+// Sektion „Live aus Shanghai" (§A4) – Reportage-Dashboard.
+// Schaltet über GET /status frei; Uhren laufen immer.
+---
+
+<section class="live" id="live" data-live="off" data-live-root aria-labelledby="live-title">
+  <div class="live__grain atmo-grain atmo-grain--soft" aria-hidden="true"></div>
+  <div class="live__inner u-container">
+    <header class="live__head">
+      <span class="live__badge">
+        <span class="live__dot" aria-hidden="true"></span> Live aus Shanghai
+      </span>
+
+      <div class="live__clocks">
+        <div class="live__clock">
+          <span class="live__clock-time" data-clock-de>–:–</span>
+          <span class="live__clock-label">Chemnitz</span>
+        </div>
+        <span class="live__clock-sep" aria-hidden="true">·</span>
+        <div class="live__clock">
+          <span class="live__clock-time" data-clock-cn>–:–</span>
+          <span class="live__clock-label">Shanghai</span>
+        </div>
+      </div>
+    </header>
+
+    <h2 id="live-title" class="live__title">22.–27. September 2026</h2>
+
+    <!-- Vor dem Event: Teaser. Während: Status=on → Reportage. -->
+    <p class="live__teaser">
+      Ab dem 22. September berichten wir hier täglich direkt vom
+      National Exhibition and Convention Center.
+    </p>
+
+    <!-- Standard-Aufmacher (Platzhalter), wird durch den neuesten Dispatch ersetzt -->
+    <div class="live__featured" data-live-featured>
+      <picture>
+        <source srcset="/img/live/live-featured.avif" type="image/avif" />
+        <source srcset="/img/live/live-featured.webp" type="image/webp" />
+        <img
+          class="live__featured-img"
+          src="/img/live/live-featured.jpg"
+          alt="Zwei Landschaftsgärtner bauen einen Schaugarten mit Moon-Gate"
+          loading="lazy"
+          width="1536"
+          height="1024"
+        />
+      </picture>
+      <div class="live__featured-body">
+        <time class="live__date">Ab 22. September</time>
+        <h3 class="live__featured-title">Live vom Wettkampf</h3>
+        <p>Sobald es in Shanghai losgeht, erscheinen hier täglich neue Berichte direkt aus der Wettkampfhalle.</p>
+      </div>
+    </div>
+
+    <div class="live__cards" data-live-cards></div>
+
+    <!-- Instagram-Feed (von n8n entkoppelt; später via dispatch/Plugin). Platzhalter-Grid. -->
+    <div class="live__insta">
+      <p class="live__insta-label">#RoadToShanghai auf Instagram</p>
+      <div class="live__insta-grid" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initLive } from '../scripts/live.js';
+  initLive(document.querySelector('[data-live-root]'));
+</script>
+
+<style>
+  .live {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(100% 60% at 50% 0%, rgba(168, 30, 46, 0.18), transparent 60%),
+      var(--night);
+    color: var(--paper);
+    padding-block: clamp(4rem, 12vh, 7rem);
+  }
+  .live__grain { z-index: 1; }
+  .live__inner { position: relative; z-index: 2; }
+  .live__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .live__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(168, 30, 46, 0.5);
+    background: rgba(168, 30, 46, 0.14);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff9a8a;
+  }
+  .live__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--china-red);
+    box-shadow: 0 0 0 0 rgba(168, 30, 46, 0.6);
+    animation: live-pulse 1.8s ease-out infinite;
+  }
+  @keyframes live-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0.6); opacity: 1; }
+    70%  { box-shadow: 0 0 0 10px rgba(168, 30, 46, 0); opacity: 0.7; }
+    100% { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0); opacity: 1; }
+  }
+
+  .live__clocks { display: flex; align-items: center; gap: 1rem; }
+  .live__clock { display: flex; flex-direction: column; text-align: center; }
+  .live__clock-time {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--gold);
+  }
+  .live__clock-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .live__clock-sep { color: var(--ink-soft); }
+
+  .live__title {
+    font-size: var(--fs-h2);
+    color: var(--paper);
+    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0.6rem;
+  }
+  .live__teaser { max-width: 48ch; color: var(--ink-soft); }
+
+  /* on → Teaser ausblenden (Reportage übernimmt) */
+  .live[data-live='on'] .live__teaser { display: none; }
+
+  .live__featured {
+    margin-top: 2.5rem;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.25);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  :global(.live__featured-img) { width: 100%; height: auto; display: block; }
+  :global(.live__featured-body) { padding: clamp(1.25rem, 3vw, 2rem); }
+  :global(.live__featured-title) { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0.4rem 0 0.6rem; color: var(--gold); }
+
+  .live__empty { margin-top: 2.5rem; color: var(--ink-soft); font-style: italic; }
+
+  .live__cards {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) {
+    .live__cards { grid-template-columns: 1fr 1fr; }
+  }
+  :global(.live__card) {
+    border: 1px solid rgba(201, 162, 75, 0.2);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+  }
+  :global(.live__card-img) { width: 100%; height: auto; display: block; }
+  :global(.live__card h4) { font-family: var(--font-display); font-size: 1.3rem; margin: 0.3rem 0; padding-inline: 1rem; }
+  :global(.live__card p) { padding: 0 1rem 1rem; color: var(--ink-soft); }
+  :global(.live__date) {
+    display: inline-block;
+    padding: 0.75rem 1rem 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* Instagram-Platzhalter */
+  .live__insta { margin-top: clamp(2.5rem, 6vh, 4rem); }
+  .live__insta-label {
+    font-size: var(--fs-label);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+  .live__insta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .live__insta-grid span {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background:
+      linear-gradient(135deg, rgba(201, 162, 75, 0.12), rgba(168, 30, 46, 0.1)),
+      rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(201, 162, 75, 0.15);
+  }
+  @media (min-width: 720px) {
+    .live__insta-grid { grid-template-columns: repeat(6, 1fr); }
+  }
+</style>

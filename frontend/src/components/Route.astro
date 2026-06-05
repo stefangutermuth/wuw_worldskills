@@ -1,0 +1,261 @@
+---
+// Sektion „Die Reise" (§A2) — gepinntes Horizontal-Scrollytelling.
+// Finale Kapiteltexte (§8: echte Namen, 2026, Deutscher Meister).
+const chapters = [
+  { num: '01', title: 'Der Sieg',     text: 'Der Deutsche-Meister-Titel war erst der Anfang.' },
+  { num: '02', title: 'Das Training', text: 'Harte Arbeit. Tägliches Training. Ein Team, ein Ziel.' },
+  { num: '03', title: 'Der Aufbruch', text: 'Ein neuer Kontinent. Eine neue Herausforderung.' },
+  { num: '04', title: 'Shanghai',     text: 'Eine Stadt, die Tradition und Zukunft vereint.' },
+  { num: '05', title: 'Das Finale',   text: 'Die Weltbühne. Unser Moment.' },
+];
+---
+
+<section class="route" id="route" aria-labelledby="route-title">
+  <div class="route__bg" data-route-bg aria-hidden="true"></div>
+  <div class="route__viewport" data-route-viewport>
+    <div class="route__track" data-route-track>
+
+      <!-- Intro-Panel -->
+      <div class="route__intro" data-chapter>
+        <p class="u-eyebrow" data-reveal>Die Reise</p>
+        <h2 id="route-title" class="route__title" data-reveal>Deutschland&nbsp;→&nbsp;Shanghai</h2>
+        <p class="route__lead" data-reveal>
+          Über 8.000 Kilometer von Chemnitz bis ans East China Sea –
+          Marc-Aurel Spalek &amp; Lennard Weitzmann auf dem Weg zu den WorldSkills 2026.
+        </p>
+        <span class="route__seal" data-reveal>8.000&nbsp;km</span>
+      </div>
+
+      <!-- Kapitel -->
+      {chapters.map((c) => (
+        <article class="route__chapter" data-chapter>
+          <span class="route__dot" data-reveal></span>
+          <div class="route__card" data-reveal>
+            <span class="route__num">{c.num}</span>
+            <h3 class="route__chapter-title">{c.title}</h3>
+            <p class="route__chapter-text">{c.text}</p>
+          </div>
+        </article>
+      ))}
+
+      <!-- Ranke (Desktop, horizontal). preserveAspectRatio="none" → streckt über den Track. -->
+      <svg class="route__vine" viewBox="0 0 2400 360" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="vineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"  stop-color="var(--jade)" />
+            <stop offset="50%" stop-color="var(--gold)" />
+            <stop offset="100%" stop-color="var(--china-red)" />
+          </linearGradient>
+        </defs>
+        <path
+          class="route__vine-bg"
+          d="M 40 200 C 380 60, 560 320, 880 200 S 1400 70, 1700 220 S 2160 300, 2360 150"
+          fill="none"
+        />
+        <path
+          data-vine
+          class="route__vine-fg"
+          d="M 40 200 C 380 60, 560 320, 880 200 S 1400 70, 1700 220 S 2160 300, 2360 150"
+          fill="none"
+        />
+      </svg>
+
+      <!-- Ranke (Mobile, vertikal, wächst per scaleY) -->
+      <span class="route__vline" data-vline aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initRoute } from '../scripts/route.js';
+  initRoute(document.querySelector('.route'));
+</script>
+
+<style>
+  .route {
+    position: relative;
+    color: var(--ink);
+    background: var(--paper); /* Fallback hinter der Bild-Ebene */
+  }
+  /* Karten-Hintergrund als eigene, zoombare Ebene (mit Überstand) */
+  .route__bg {
+    position: absolute;
+    inset: -6%;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('/img/route/route-bg.jpg');
+    background-image: image-set(
+      '/img/route/route-bg.avif' type('image/avif'),
+      '/img/route/route-bg.webp' type('image/webp'),
+      '/img/route/route-bg.jpg' type('image/jpeg')
+    );
+    transform: scale(1.04);
+    transform-origin: center;
+    will-change: transform;
+  }
+  /* Reispapier-Faser */
+  .route::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: var(--grain-svg);
+    background-size: 220px 220px;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+  }
+
+  .route__viewport {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .route__track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    min-height: 100svh;
+    padding-inline: clamp(1.5rem, 6vw, 6rem);
+    gap: clamp(2rem, 8vw, 9rem);
+  }
+
+  /* Intro */
+  .route__intro {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    width: min(86vw, 560px);
+  }
+  .route__title {
+    font-size: var(--fs-h2);
+    color: var(--china-red-dk);
+    margin: 0.5rem 0 1rem;
+  }
+  .route__lead {
+    max-width: 42ch;
+    color: #4a423a;
+  }
+  .route__seal {
+    display: inline-grid;
+    place-items: center;
+    margin-top: 1.75rem;
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    color: var(--china-red);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    rotate: -8deg;
+    box-shadow: inset 0 0 0 4px rgba(201, 162, 75, 0.18);
+  }
+
+  /* Kapitel */
+  .route__chapter {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    width: clamp(280px, 64vw, 520px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .route__dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 6px rgba(201, 162, 75, 0.18), 0 0 20px var(--gold-glow);
+    margin-bottom: 1.5rem;
+  }
+  .route__card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .route__num {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .route__chapter-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--china-red-dk);
+    margin: 0.25rem 0 0.6rem;
+  }
+  .route__chapter-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    color: #3a332c;
+    max-width: 32ch;
+  }
+
+  /* Ranke Desktop */
+  .route__vine {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .route__vine-bg {
+    stroke: rgba(62, 125, 90, 0.18);
+    stroke-width: 3;
+  }
+  .route__vine-fg {
+    stroke: url(#vineGrad);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  /* Ranke Mobile (versteckt auf Desktop) */
+  .route__vline {
+    display: none;
+  }
+
+  /* -------------------- Mobile -------------------- */
+  @media (max-width: 767px) {
+    .route__viewport { overflow: visible; }
+    .route__track {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      gap: clamp(2.5rem, 10vw, 4rem);
+      padding-block: clamp(3rem, 10vh, 5rem);
+    }
+    .route__intro,
+    .route__chapter {
+      width: 100%;
+    }
+    .route__vine { display: none; }
+    .route__vline {
+      display: block;
+      position: absolute;
+      left: clamp(1.5rem, 6vw, 6rem);
+      top: 8rem;
+      bottom: 3rem;
+      width: 3px;
+      background: linear-gradient(180deg, var(--jade), var(--gold) 50%, var(--china-red));
+      transform: scaleY(0);
+      transform-origin: top center;
+      border-radius: 2px;
+    }
+    .route__chapter { padding-left: 2.25rem; }
+    .route__dot { position: absolute; left: calc(clamp(1.5rem, 6vw, 6rem) - 6px); }
+    .route__chapter.is-in [data-reveal],
+    .route__intro.is-in [data-reveal] { opacity: 1; }
+  }
+</style>

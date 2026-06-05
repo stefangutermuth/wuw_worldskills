@@ -1,0 +1,224 @@
+---
+// Sektion „Wunschbaum" (§A3) – Wünsche hinterlassen & ansehen (moderiert).
+const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
+---
+
+<section class="wishtree" id="wunschbaum" data-wishtree aria-labelledby="wish-title">
+  <!-- Hängende Wunsch-Laternen (schwingen sanft) -->
+  <div class="wishtree__lanterns" aria-hidden="true">
+    <span class="wish-lantern" style="--x:9%;  --len:70px; --d:-1.2s"></span>
+    <span class="wish-lantern" style="--x:21%; --len:46px; --d:-3.1s"></span>
+    <span class="wish-lantern" style="--x:34%; --len:88px; --d:-0.5s"></span>
+    <span class="wish-lantern" style="--x:50%; --len:58px; --d:-2.4s"></span>
+    <span class="wish-lantern" style="--x:65%; --len:78px; --d:-1.8s"></span>
+    <span class="wish-lantern" style="--x:79%; --len:50px; --d:-3.6s"></span>
+    <span class="wish-lantern" style="--x:91%; --len:66px; --d:-0.9s"></span>
+  </div>
+  <div class="wishtree__grain atmo-grain atmo-grain--soft" aria-hidden="true"></div>
+
+  <div class="wishtree__inner u-container">
+    <p class="u-eyebrow">Wunschbaum</p>
+    <h2 id="wish-title" class="wishtree__title">Häng deinen Wunsch in den Baum</h2>
+    <p class="wishtree__lead">
+      Schon <strong data-wish-total>0</strong> Wünsche begleiten die Jungs nach Shanghai.
+    </p>
+
+    <div class="wishtree__grid">
+      <!-- Formular -->
+      <form class="wishtree__form" data-wish-form novalidate>
+        <div class="wishtree__row">
+          <label class="field">
+            <span>Vorname</span>
+            <input type="text" name="vorname" maxlength="80" required autocomplete="given-name" />
+          </label>
+          <label class="field">
+            <span>Ort</span>
+            <input type="text" name="ort" maxlength="120" autocomplete="address-level2" />
+          </label>
+        </div>
+        <label class="field">
+          <span>Dein Wunsch</span>
+          <textarea name="nachricht" rows="4" maxlength="500" required
+            placeholder="Drück die Daumen und schreib ein paar Zeilen …"></textarea>
+        </label>
+
+        <label class="field field--check">
+          <input type="checkbox" name="consent" required />
+          <span>Ich bin einverstanden, dass mein Vorname, Ort &amp; Wunsch nach Prüfung öffentlich angezeigt werden.</span>
+        </label>
+
+        {sitekey && (
+          <div class="cf-turnstile" data-sitekey={sitekey}></div>
+        )}
+
+        <button type="submit" class="btn btn--gold">Wunsch hinterlassen</button>
+        <p class="wishtree__status" data-wish-status aria-live="polite"></p>
+      </form>
+
+      <!-- Liste -->
+      <div class="wishtree__list-wrap">
+        <div class="wishtree__list" data-wish-list></div>
+        <button type="button" class="btn btn--ghost" data-wish-more hidden>Mehr Wünsche anzeigen</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{sitekey && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script>
+  import { initWishTree } from '../scripts/wish.js';
+  initWishTree(document.querySelector('[data-wishtree]'));
+</script>
+
+<style>
+  .wishtree {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--paper);
+    padding-block: clamp(5rem, 13vh, 8rem);
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(255, 220, 150, 0.12), transparent 60%),
+      radial-gradient(100% 80% at 50% 120%, rgba(12, 22, 18, 0.55), transparent 60%),
+      radial-gradient(90% 70% at 12% 8%, rgba(111, 169, 138, 0.22), transparent 55%),
+      linear-gradient(180deg, #3e7d5a 0%, #336a4b 55%, #234a36 100%);
+  }
+  .wishtree__inner { position: relative; z-index: 2; text-align: center; }
+  .wishtree__grain { z-index: 1; }
+
+  /* Hängende Wunsch-Laternen */
+  .wishtree__lanterns {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .wish-lantern {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+    transform-origin: top center;
+    animation: wish-sway 4.5s ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .wish-lantern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: var(--len, 60px);
+    background: linear-gradient(rgba(201, 162, 75, 0.5), rgba(201, 162, 75, 0.2));
+    transform: translateX(-50%);
+  }
+  .wish-lantern::after {
+    content: '';
+    position: absolute;
+    top: var(--len, 60px);
+    left: 50%;
+    width: 15px;
+    height: 21px;
+    margin-left: -7.5px;
+    border-radius: 50% 50% 45% 45%;
+    background: radial-gradient(circle at 50% 35%, #ffe6a8, var(--gold) 58%, var(--china-red-dk));
+    box-shadow: 0 0 16px var(--gold-glow);
+  }
+  @keyframes wish-sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50%      { transform: rotate(3deg); }
+  }
+  .wishtree__title {
+    font-size: var(--fs-h2);
+    color: var(--paper);
+    margin: 0.4rem 0 0.6rem;
+  }
+  .wishtree__lead { color: rgba(241, 232, 214, 0.85); margin-bottom: clamp(2rem, 5vh, 3rem); }
+  .wishtree__lead strong { color: var(--gold); }
+
+  .wishtree__grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    text-align: left;
+    grid-template-columns: 1fr;
+    max-width: 64rem;
+    margin-inline: auto;
+  }
+  @media (min-width: 880px) {
+    .wishtree__grid { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+
+  /* Formular */
+  .wishtree__form {
+    background: rgba(12, 22, 34, 0.28);
+    border: 1px solid rgba(201, 162, 75, 0.28);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .wishtree__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 0.4rem; font-size: var(--fs-label); }
+  .field > span { letter-spacing: 0.08em; text-transform: uppercase; color: rgba(241,232,214,0.7); }
+  .field input[type='text'],
+  .field textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--paper);
+    font: inherit;
+    resize: vertical;
+  }
+  .field--check {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(241, 232, 214, 0.85);
+  }
+  .field--check input { margin-top: 0.2rem; flex-shrink: 0; }
+
+  .btn {
+    align-self: flex-start;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    font-size: var(--fs-body);
+    transition: transform 0.18s var(--ease-out), background 0.3s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .btn--gold { background: var(--gold); color: var(--china-red-dk); }
+  .btn--ghost { background: transparent; border-color: rgba(241, 232, 214, 0.4); color: var(--paper); }
+
+  .wishtree__status { font-size: 0.9rem; min-height: 1.2em; }
+  .wishtree__status[data-kind='ok'] { color: #bfe6cd; }
+  .wishtree__status[data-kind='err'] { color: #ffc7b0; }
+
+  /* Liste */
+  .wishtree__list { display: flex; flex-direction: column; gap: 1rem; }
+  .wishtree__list-wrap { display: flex; flex-direction: column; gap: 1.25rem; align-items: center; }
+  :global(.wish) {
+    width: 100%;
+    background: rgba(241, 232, 214, 0.08);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 1rem 1.25rem;
+  }
+  :global(.wish__msg) { font-family: var(--font-display); font-style: italic; font-size: 1.15rem; }
+  :global(.wish__by) { margin-top: 0.5rem; font-size: var(--fs-label); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+
+  @media (max-width: 520px) {
+    .wishtree__row { grid-template-columns: 1fr; }
+  }
+</style>

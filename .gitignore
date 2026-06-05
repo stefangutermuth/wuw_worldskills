@@ -1,0 +1,26 @@
+# ============================================================
+# Road to Shanghai — nur Projektcode versionieren,
+# NICHT die komplette Local/WordPress-Installation.
+# ============================================================
+
+# --- WordPress-Core & Local-Internals: nur das eigene Plugin behalten ---
+/app/public/*
+!/app/public/wp-content/
+/app/public/wp-content/*
+!/app/public/wp-content/plugins/
+/app/public/wp-content/plugins/*
+!/app/public/wp-content/plugins/rts-backend/
+
+# --- Local-Konfig: nur die nginx-Templates (Proxy-Setup) behalten ---
+/conf/*
+!/conf/nginx/
+
+# --- Local DB-Dump & Logs / Runtime ---
+/app/sql/
+/logs/
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

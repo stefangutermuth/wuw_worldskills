@@ -1,0 +1,158 @@
+---
+// Split-Flap-Countdown bis 2026-09-22 (Shanghai-Zeit).
+// Markup wird client-seitig von countdown.js befüllt; hier nur die Hülle + Optik.
+---
+
+<div class="countdown" aria-label="Countdown bis zum WM-Start in Shanghai">
+  <div class="cd-track" data-countdown>
+    <!-- Felder (Tage / Stunden / Minuten / Sekunden) injiziert countdown.js -->
+  </div>
+  <p class="u-visually-hidden">Countdown bis zum Start der WorldSkills am 22. September 2026 in Shanghai.</p>
+</div>
+
+<script>
+  import { initCountdown } from '../scripts/countdown.js';
+  const root = document.querySelector('[data-countdown]');
+  initCountdown(root);
+</script>
+
+<style>
+  .countdown {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cd-track {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(0.5rem, 1.6vw, 1.1rem);
+    flex-wrap: nowrap;
+  }
+
+  /* Ein Feld = Karten + Label */
+  :global(.cd-group) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  :global(.cd-cards) {
+    display: flex;
+    gap: 0.18em;
+    font-size: clamp(1.6rem, 5.2vw, 3.6rem);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global(.cd-label) {
+    font-family: var(--font-body);
+    font-size: var(--fs-label);
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- Flip-Karte ---------------- */
+  :global(.flap) {
+    position: relative;
+    display: inline-block;
+    width: 0.74em;
+    height: 1.08em;
+    line-height: 1;
+    color: var(--paper);
+    perspective: 220px;
+  }
+
+  :global(.flap__static),
+  :global(.flap__fold) {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1f1a16, #14100d);
+    box-shadow: inset 0 0 0 1px rgba(201, 162, 75, 0.12);
+  }
+
+  :global(.flap__static i),
+  :global(.flap__fold i) {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 200%; /* volle Kartenhöhe → Glyphe über beide Hälften zentriert */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+  }
+
+  /* obere Hälfte */
+  :global(.flap__static--top),
+  :global(.flap__fold--front) {
+    top: 0;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+  }
+  :global(.flap__static--top i),
+  :global(.flap__fold--front i) {
+    top: 0;
+  }
+
+  /* untere Hälfte */
+  :global(.flap__static--bottom),
+  :global(.flap__fold--back) {
+    bottom: 0;
+    border-radius: 0 0 6px 6px;
+  }
+  :global(.flap__static--bottom i),
+  :global(.flap__fold--back i) {
+    bottom: 0;
+  }
+
+  /* die beweglichen Klappen */
+  :global(.flap__fold--front) {
+    z-index: 2;
+    transform-origin: bottom center;
+    backface-visibility: hidden;
+  }
+  :global(.flap__fold--back) {
+    z-index: 1;
+    transform-origin: top center;
+    transform: rotateX(90deg);
+    backface-visibility: hidden;
+  }
+
+  :global(.flap.is-flipping .flap__fold--front) {
+    animation: cd-flip-down 0.25s ease-in forwards;
+  }
+  :global(.flap.is-flipping .flap__fold--back) {
+    animation: cd-flip-up 0.25s ease-out 0.25s forwards;
+  }
+
+  @keyframes cd-flip-down {
+    0%   { transform: rotateX(0deg); }
+    100% { transform: rotateX(-90deg); }
+  }
+  @keyframes cd-flip-up {
+    0%   { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+  }
+
+  /* Sekundenfeld auf kleinen Screens optional ausblenden? -> sichtbar lassen, aber kompakter */
+  @media (max-width: 420px) {
+    :global(.cd-cards) { gap: 0.12em; }
+    .cd-track { gap: 0.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.flap.is-flipping .flap__fold--front),
+    :global(.flap.is-flipping .flap__fold--back) {
+      animation: none;
+    }
+    :global(.flap__fold) { display: none; } /* nur statische Hälften zeigen */
+  }
+</style>

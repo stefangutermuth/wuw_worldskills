@@ -1,0 +1,143 @@
+upstream php {
+  {{#each fastcgi_servers}}
+  server {{this}};
+  {{/each}}
+}
+
+server {
+	listen 127.0.0.1:{{port}};
+	listen [::1]:{{port}};
+    root   "{{root}}";
+
+    index index.php index.html index.htm;
+
+    #
+    # Gzip rules
+    #
+    include includes/gzip.conf;
+
+    # ======================================================================
+    # HEADLESS-SETUP (angepasst)
+    # ----------------------------------------------------------------------
+    # WordPress ist reines Backend. Die öffentliche Seite ist das Astro-
+    # Projekt, das im Dev als eigener Server auf 127.0.0.1:4321 läuft.
+    #
+    #   /wp-admin, /wp-login.php, /wp-json, /wp-content, /wp-includes, *.php
+    #     -> WordPress (PHP-FPM)
+    #   alles andere
+    #     -> Astro-Dev-Server (Proxy, inkl. Vite-HMR-Websocket)
+    #
+    # Original gesichert als site.conf.hbs.bak. Zum Reinen-WP-Betrieb
+    # zurückkehren: .bak zurückkopieren und Site in Local neu starten.
+    # ======================================================================
+
+    #
+    # Sicherheit: versteckte Dateien an der Wurzel (.htaccess, .env, .git …)
+    # NICHT die generische "/\." Regel — die würde Vites /node_modules/.vite/
+    # blocken. Daher nur am Pfadanfang.
+    #
+    location ~ ^/\.(?!well-known) {
+        deny all;
+        return 404;
+    }
+
+    # Kein PHP aus dem Uploads-Verzeichnis ausführen
+    location ~* /(?:uploads)/.*\.php$ {
+        deny all;
+    }
+
+    #
+    # WordPress-Backend, REST-API und WP-eigene Assets
+    # (plain prefix → die \.php$-Regel unten greift weiter für PHP-Dateien)
+    #
+    location = /wp-admin { return 301 /wp-admin/; }
+
+    location /wp-admin/ {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+    location /wp-json/ {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+    location /wp-content/ {
+        try_files $uri $uri/ =404;
+    }
+    location /wp-includes/ {
+        try_files $uri $uri/ =404;
+    }
+
+    #
+    # Astro-Dev-Server (alles, was nicht WordPress ist)
+    #
+    location / {
+        proxy_pass http://127.0.0.1:4321;
+        proxy_http_version 1.1;
+
+        # Websocket für Vite-HMR
+        proxy_set_header Upgrade            $http_upgrade;
+        proxy_set_header Connection         $connection_upgrade;
+
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+
+        proxy_buffering    off;
+        proxy_read_timeout 86400;
+
+        # Falls der Dev-Server nicht läuft: klarer Hinweis statt 502
+        error_page 502 504 = @astro_down;
+    }
+
+    location @astro_down {
+        default_type text/html;
+        return 503 "<h1>Astro-Dev-Server laeuft nicht</h1><p>Starte ihn im Ordner frontend/ mit 'npm run dev' (Port 4321). WordPress-Admin bleibt unter /wp-admin/ erreichbar.</p>";
+    }
+
+    #
+    # PHP-FPM (WordPress) — greift für index.php, wp-login.php, wp-admin/*.php …
+    #
+    location ~ \.php$ {
+        try_files $uri =404;
+
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+
+        fastcgi_param   QUERY_STRING            $query_string;
+        fastcgi_param   REQUEST_METHOD          $request_method;
+        fastcgi_param   CONTENT_TYPE            $content_type;
+        fastcgi_param   CONTENT_LENGTH          $content_length;
+
+        fastcgi_param   SCRIPT_FILENAME         $document_root$fastcgi_script_name;
+        fastcgi_param   SCRIPT_NAME             $fastcgi_script_name;
+        fastcgi_param   PATH_INFO               $fastcgi_path_info;
+        fastcgi_param   PATH_TRANSLATED         $document_root$fastcgi_path_info;
+        fastcgi_param   REQUEST_URI             $request_uri;
+        fastcgi_param   DOCUMENT_URI            $document_uri;
+        fastcgi_param   DOCUMENT_ROOT           $document_root;
+        fastcgi_param   SERVER_PROTOCOL         $server_protocol;
+
+        fastcgi_param   GATEWAY_INTERFACE       CGI/1.1;
+        fastcgi_param   SERVER_SOFTWARE         nginx/$nginx_version;
+
+        fastcgi_param   REMOTE_ADDR             $remote_addr;
+        fastcgi_param   REMOTE_PORT             $remote_port;
+        fastcgi_param   SERVER_ADDR             $server_addr;
+        fastcgi_param   SERVER_PORT             $server_port;
+        fastcgi_param   SERVER_NAME             $host;
+
+        fastcgi_param   HTTPS                   $fastcgi_https;
+
+        fastcgi_param   REDIRECT_STATUS         200;
+
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+        fastcgi_pass php;
+        fastcgi_buffer_size      64k;
+        fastcgi_buffers          32 32k;
+        fastcgi_read_timeout	 1200s;
+
+        proxy_buffer_size        64k;
+        proxy_buffers            32 32k;
+        proxy_busy_buffers_size  256k;
+    }
+}

@@ -1,0 +1,54 @@
+/* ============================================================
+   Design-Tokens — Road to Shanghai
+   Farbwelt: Koi-zur-Drache / "East meets Erzgebirge"
+   ============================================================ */
+:root {
+  /* --- Farbwelt --- */
+  --china-red:    #A81E2E;   /* Chinarot, primär */
+  --china-red-dk: #6E1320;
+  --gold:         #C9A24B;   /* Akzent, Lettering */
+  --jade:         #3E7D5A;   /* GaLaBau-Grün × Glückssymbol – der „grüne Faden" */
+  --jade-lt:      #6FA98A;
+  --ink:          #16120F;   /* Tusche-Schwarz, Hintergrund */
+  --paper:        #F1E8D6;   /* Reispapier, helle Sektionen */
+  --night:        #0C1622;   /* Nachthimmel (Daumendrücken/Live) */
+
+  /* --- Abgeleitete Töne --- */
+  --paper-dim:    #d8cdb5;
+  --ink-soft:     rgba(241, 232, 214, 0.72); /* paper auf dunklem Grund, gedämpft */
+  --gold-glow:    rgba(201, 162, 75, 0.45);
+
+  /* --- Die „Route": Reise West → Ost --- */
+  --route-start:  var(--jade);
+  --route-mid:    var(--gold);
+  --route-end:    var(--china-red);
+
+  /* --- Typo --- */
+  --font-display: "Cormorant Garamond", Georgia, serif;  /* Headlines, elegant */
+  --font-body:    "Inter", system-ui, sans-serif;        /* UI/Fließtext */
+  --font-script:  "Great Vibes", "Segoe Script", cursive; /* kalligrafischer Akzent */
+
+  /* --- Fluid type scale (clamp: mobil → desktop) --- */
+  --fs-hero:   clamp(3rem, 11vw, 9.5rem);
+  --fs-h2:     clamp(2rem, 5vw, 3.5rem);
+  --fs-lead:   clamp(1.05rem, 2.2vw, 1.5rem);
+  --fs-body:   clamp(1rem, 1.4vw, 1.125rem);
+  --fs-label:  clamp(0.7rem, 1.1vw, 0.85rem);
+
+  /* --- Layout --- */
+  --maxw:      1280px;
+  --gutter:    clamp(1.25rem, 5vw, 4rem);
+  --radius:    10px;
+
+  /* --- Motion --- */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --dur:       0.6s;
+
+  /* --- z-Ebenen (Hero-Parallax) --- */
+  --z-bg:      1;
+  --z-mist:    2;
+  --z-koi:     3;
+  --z-lantern: 4;
+  --z-text:    5;
+  --z-ui:      10;
+}
