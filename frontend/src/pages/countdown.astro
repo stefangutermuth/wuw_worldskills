@@ -1,0 +1,251 @@
+---
+import Base from '../layouts/Base.astro';
+import Countdown from '../components/Countdown.astro';
+
+const variants = [
+  { n: 1, name: 'Split-Flap (aktuell)' },
+  { n: 2, name: 'Minimal · große Zahlen' },
+  { n: 3, name: 'Glas-Karten' },
+  { n: 4, name: 'Kreis-Ringe' },
+  { n: 5, name: 'Fließtext' },
+  { n: 6, name: 'Pillen' },
+  { n: 7, name: 'Digital / Mono' },
+  { n: 8, name: 'Elegant · Haarlinien' },
+  { n: 9, name: 'Ticket-Stub' },
+  { n: 10, name: 'Ein großer Fokus' },
+];
+---
+
+<Base title="Countdown-Varianten">
+  <main class="cdv">
+    <header class="cdv__head u-container">
+      <p class="u-eyebrow">Auswahl</p>
+      <h1>Countdown — 10 Varianten</h1>
+      <p class="cdv__lead">Alle ticken live bis zum WM-Start. Sag mir die Nummer, die dir gefällt — die baue ich in den Hero ein.</p>
+    </header>
+
+    <!-- V1 -->
+    <section class="cdv__row"><span class="cdv__tag">01 · Split-Flap (aktuell)</span><div class="cdv__demo"><Countdown /></div></section>
+
+    <!-- V2 Minimal -->
+    <section class="cdv__row"><span class="cdv__tag">02 · Minimal · große Zahlen</span>
+      <div class="cdv__demo">
+        <div class="v2">
+          <div class="v2-u"><b data-cd="d" data-pad>000</b><em>Tage</em></div><span class="v2-sep">:</span>
+          <div class="v2-u"><b data-cd="h">00</b><em>Std</em></div><span class="v2-sep">:</span>
+          <div class="v2-u"><b data-cd="m">00</b><em>Min</em></div><span class="v2-sep">:</span>
+          <div class="v2-u"><b data-cd="s">00</b><em>Sek</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V3 Glas-Karten -->
+    <section class="cdv__row"><span class="cdv__tag">03 · Glas-Karten</span>
+      <div class="cdv__demo">
+        <div class="v3">
+          <div class="v3-c"><b data-cd="d" data-pad>000</b><em>Tage</em></div>
+          <div class="v3-c"><b data-cd="h">00</b><em>Stunden</em></div>
+          <div class="v3-c"><b data-cd="m">00</b><em>Minuten</em></div>
+          <div class="v3-c"><b data-cd="s">00</b><em>Sekunden</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V4 Ringe -->
+    <section class="cdv__row"><span class="cdv__tag">04 · Kreis-Ringe</span>
+      <div class="cdv__demo">
+        <div class="v4">
+          <div class="v4-r" data-ring="d"><b data-cd="d">0</b><em>Tage</em></div>
+          <div class="v4-r" data-ring="h"><b data-cd="h">00</b><em>Std</em></div>
+          <div class="v4-r" data-ring="m"><b data-cd="m">00</b><em>Min</em></div>
+          <div class="v4-r" data-ring="s"><b data-cd="s">00</b><em>Sek</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V5 Fließtext -->
+    <section class="cdv__row"><span class="cdv__tag">05 · Fließtext</span>
+      <div class="cdv__demo">
+        <p class="v5">Noch <b data-cd="d">0</b> Tage, <b data-cd="h">00</b> Stunden und <b data-cd="m">00</b> Minuten bis Shanghai.</p>
+      </div>
+    </section>
+
+    <!-- V6 Pillen -->
+    <section class="cdv__row"><span class="cdv__tag">06 · Pillen</span>
+      <div class="cdv__demo">
+        <div class="v6">
+          <span class="v6-p"><b data-cd="d" data-pad>000</b> Tage</span>
+          <span class="v6-p"><b data-cd="h">00</b> Std</span>
+          <span class="v6-p"><b data-cd="m">00</b> Min</span>
+          <span class="v6-p"><b data-cd="s">00</b> Sek</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- V7 Digital/Mono -->
+    <section class="cdv__row"><span class="cdv__tag">07 · Digital / Mono</span>
+      <div class="cdv__demo">
+        <div class="v7"><b data-cd="d" data-pad>000</b><i>:</i><b data-cd="h">00</b><i>:</i><b data-cd="m">00</b><i>:</i><b data-cd="s">00</b></div>
+      </div>
+    </section>
+
+    <!-- V8 Elegant Haarlinien -->
+    <section class="cdv__row"><span class="cdv__tag">08 · Elegant · Haarlinien</span>
+      <div class="cdv__demo">
+        <div class="v8">
+          <div class="v8-u"><b data-cd="d" data-pad>000</b><em>Tage</em></div>
+          <div class="v8-u"><b data-cd="h">00</b><em>Stunden</em></div>
+          <div class="v8-u"><b data-cd="m">00</b><em>Minuten</em></div>
+          <div class="v8-u"><b data-cd="s">00</b><em>Sekunden</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V9 Ticket-Stub -->
+    <section class="cdv__row"><span class="cdv__tag">09 · Ticket-Stub</span>
+      <div class="cdv__demo">
+        <div class="v9">
+          <div class="v9-u"><b data-cd="d" data-pad>000</b><em>Tage</em></div>
+          <div class="v9-u"><b data-cd="h">00</b><em>Std</em></div>
+          <div class="v9-u"><b data-cd="m">00</b><em>Min</em></div>
+          <div class="v9-u"><b data-cd="s">00</b><em>Sek</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- V10 Ein großer Fokus -->
+    <section class="cdv__row"><span class="cdv__tag">10 · Ein großer Fokus</span>
+      <div class="cdv__demo">
+        <div class="v10">
+          <div class="v10-big"><b data-cd="d">0</b><em>Tage bis Shanghai</em></div>
+          <div class="v10-row">
+            <span><b data-cd="h">00</b> Std</span>
+            <span><b data-cd="m">00</b> Min</span>
+            <span><b data-cd="s">00</b> Sek</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  const TARGET = new Date('2026-09-22T00:00:00+08:00').getTime();
+  const pad = (n, l = 2) => String(Math.max(0, n)).padStart(l, '0');
+  function update() {
+    const diff = Math.max(0, TARGET - Date.now());
+    const s = Math.floor(diff / 1000);
+    const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    const set = (k, v, p) =>
+      document.querySelectorAll(`[data-cd="${k}"]`).forEach((e) => {
+        e.textContent = e.hasAttribute('data-pad') ? pad(v, p) : String(v);
+      });
+    set('d', d, 3); set('h', h, 2); set('m', m, 2); set('s', sec, 2);
+    const ring = (k, val) => document.querySelectorAll(`[data-ring="${k}"]`).forEach((e) => e.style.setProperty('--p', val));
+    ring('d', Math.min(1, d / 365)); ring('h', h / 24); ring('m', m / 60); ring('s', sec / 60);
+  }
+  update();
+  setInterval(update, 1000);
+</script>
+
+<style>
+  .cdv { padding-block: clamp(2rem, 6vh, 4rem) 6rem; }
+  .cdv__head { text-align: center; margin-bottom: 3rem; }
+  .cdv__head h1 { font-size: clamp(2rem, 5vw, 3.2rem); color: var(--gold); margin: 0.4rem 0 0.8rem; }
+  .cdv__lead { color: var(--ink-soft); max-width: 48ch; margin-inline: auto; }
+
+  .cdv__row {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 2.5rem var(--gutter);
+    border-top: 1px solid rgba(201, 162, 75, 0.14);
+    display: grid;
+    gap: 1.25rem;
+  }
+  .cdv__tag {
+    font-size: var(--fs-label);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201, 162, 75, 0.7);
+  }
+  .cdv__demo { min-height: 4rem; display: flex; align-items: center; }
+
+  /* gemeinsame Defaults für b/em */
+  .cdv__demo b { font-style: normal; }
+  .cdv__demo em { font-style: normal; }
+
+  /* V2 Minimal */
+  .v2 { display: flex; align-items: flex-end; gap: 1rem; }
+  .v2-u { display: flex; flex-direction: column; align-items: center; }
+  .v2-u b { font-family: var(--font-display); font-weight: 600; font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1; color: var(--paper); font-variant-numeric: tabular-nums; }
+  .v2-u em { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.4rem; }
+  .v2-sep { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); color: rgba(201, 162, 75, 0.5); }
+
+  /* V3 Glas-Karten */
+  .v3 { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .v3-c {
+    min-width: 5.2rem; padding: 1rem 1.2rem; border-radius: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.3); background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center;
+  }
+  .v3-c b { font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+  .v3-c em { font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.4rem; }
+
+  /* V4 Ringe */
+  .v4 { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .v4-r {
+    position: relative; width: 92px; height: 92px; border-radius: 50%;
+    background: conic-gradient(var(--gold) calc(var(--p, 0) * 360deg), rgba(255, 255, 255, 0.08) 0);
+    display: grid; place-items: center;
+  }
+  .v4-r::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: var(--ink); }
+  .v4-r b { position: relative; z-index: 1; font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; color: var(--paper); font-variant-numeric: tabular-nums; }
+  .v4-r em { position: relative; z-index: 1; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-top: 2px; }
+
+  /* V5 Fließtext */
+  .v5 { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 2rem); color: var(--paper); }
+  .v5 b { color: var(--gold); font-variant-numeric: tabular-nums; }
+
+  /* V6 Pillen */
+  .v6 { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .v6-p {
+    padding: 0.6rem 1.1rem; border-radius: 999px; border: 1px solid rgba(201, 162, 75, 0.35);
+    background: rgba(201, 162, 75, 0.08); font-size: 0.95rem; letter-spacing: 0.06em; color: var(--ink-soft);
+  }
+  .v6-p b { color: var(--gold); font-size: 1.2rem; font-weight: 700; margin-right: 0.2rem; font-variant-numeric: tabular-nums; }
+
+  /* V7 Digital/Mono */
+  .v7 {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; letter-spacing: 0.04em;
+    color: var(--gold); display: inline-flex; align-items: center; gap: 0.1em;
+    background: rgba(0, 0, 0, 0.35); padding: 0.5rem 1.2rem; border-radius: 10px;
+    border: 1px solid rgba(201, 162, 75, 0.2);
+  }
+  .v7 i { color: rgba(201, 162, 75, 0.5); font-style: normal; }
+
+  /* V8 Elegant Haarlinien */
+  .v8 { display: flex; align-items: center; }
+  .v8-u { padding: 0 clamp(1rem, 3vw, 2.2rem); display: flex; flex-direction: column; align-items: center; border-left: 1px solid rgba(201, 162, 75, 0.25); }
+  .v8-u:first-child { border-left: 0; }
+  .v8-u b { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: clamp(2.2rem, 6vw, 3.8rem); color: var(--paper); line-height: 1; font-variant-numeric: tabular-nums; }
+  .v8-u em { font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-top: 0.5rem; }
+
+  /* V9 Ticket-Stub */
+  .v9 { display: flex; gap: 1.4rem; }
+  .v9-u { display: flex; flex-direction: column; align-items: center; }
+  .v9-u b {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(2.2rem, 6vw, 3.6rem);
+    color: var(--paper); line-height: 1; padding-bottom: 0.3rem;
+    border-bottom: 2px dashed rgba(201, 162, 75, 0.5); font-variant-numeric: tabular-nums;
+  }
+  .v9-u em { font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-soft); margin-top: 0.5rem; }
+
+  /* V10 Ein großer Fokus */
+  .v10 { display: flex; flex-direction: column; gap: 0.6rem; }
+  .v10-big { display: flex; align-items: baseline; gap: 0.8rem; }
+  .v10-big b { font-family: var(--font-display); font-weight: 700; font-size: clamp(3.5rem, 11vw, 7rem); color: var(--gold); line-height: 0.9; font-variant-numeric: tabular-nums; text-shadow: 0 4px 30px var(--gold-glow); }
+  .v10-big em { font-family: var(--font-display); font-style: italic; font-size: clamp(1rem, 2.4vw, 1.5rem); color: var(--paper); }
+  .v10-row { display: flex; gap: 1.4rem; color: var(--ink-soft); font-size: 0.95rem; }
+  .v10-row b { color: var(--gold); font-weight: 700; font-variant-numeric: tabular-nums; }
+</style>

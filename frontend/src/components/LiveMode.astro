@@ -1,67 +1,69 @@
 ---
 // Sektion „Live aus Shanghai" (§A4) – Reportage-Dashboard.
-// Schaltet über GET /status frei; Uhren laufen immer.
+// Vor dem Event: Vorfreude (Countdown, Uhren, „Was dich erwartet").
+// Während (Status=on / Dispatches vorhanden): Reportage (Featured + Karten).
+const expect = [
+  { ic: '📝', title: 'Tägliche Berichte', text: 'Jeden Tag ein kurzer Bericht direkt aus der Wettkampfhalle.' },
+  { ic: '📸', title: 'Live-Fotos', text: 'Eindrücke vom Aufbau, vom Team und vom Schaugarten.' },
+  { ic: '🏅', title: 'Ergebnisse', text: 'Wie schlagen sich die Jungs auf der Weltbühne?' },
+];
 ---
 
 <section class="live" id="live" data-live="off" data-live-root aria-labelledby="live-title">
+  <div class="live__bg" data-live-bg aria-hidden="true"></div>
+  <div class="live__veil" aria-hidden="true"></div>
   <div class="live__grain atmo-grain atmo-grain--soft" aria-hidden="true"></div>
+
   <div class="live__inner u-container">
     <header class="live__head">
       <span class="live__badge">
         <span class="live__dot" aria-hidden="true"></span> Live aus Shanghai
       </span>
-
-      <div class="live__clocks">
-        <div class="live__clock">
-          <span class="live__clock-time" data-clock-de>–:–</span>
-          <span class="live__clock-label">Chemnitz</span>
-        </div>
-        <span class="live__clock-sep" aria-hidden="true">·</span>
-        <div class="live__clock">
-          <span class="live__clock-time" data-clock-cn>–:–</span>
-          <span class="live__clock-label">Shanghai</span>
-        </div>
-      </div>
     </header>
 
     <h2 id="live-title" class="live__title">22.–27. September 2026</h2>
 
-    <!-- Vor dem Event: Teaser. Während: Status=on → Reportage. -->
-    <p class="live__teaser">
-      Ab dem 22. September berichten wir hier täglich direkt vom
-      National Exhibition and Convention Center.
-    </p>
-
-    <!-- Standard-Aufmacher (Platzhalter), wird durch den neuesten Dispatch ersetzt -->
-    <div class="live__featured" data-live-featured>
-      <picture>
-        <source srcset="/img/live/live-featured.avif" type="image/avif" />
-        <source srcset="/img/live/live-featured.webp" type="image/webp" />
-        <img
-          class="live__featured-img"
-          src="/img/live/live-featured.jpg"
-          alt="Zwei Landschaftsgärtner bauen einen Schaugarten mit Moon-Gate"
-          loading="lazy"
-          width="1536"
-          height="1024"
-        />
-      </picture>
-      <div class="live__featured-body">
-        <time class="live__date">Ab 22. September</time>
-        <h3 class="live__featured-title">Live vom Wettkampf</h3>
-        <p>Sobald es in Shanghai losgeht, erscheinen hier täglich neue Berichte direkt aus der Wettkampfhalle.</p>
+    <!-- Vorfreude (vor dem Event) -->
+    <div class="live__pre" data-live-pre>
+      <div class="live__cd">
+        <span class="live__cd-num" data-live-days>–</span>
+        <span class="live__cd-unit">Tage bis Shanghai</span>
       </div>
+      <p class="live__cd-text">
+        bis zum ersten Bericht direkt aus dem National Exhibition and Convention Center.
+      </p>
     </div>
 
+    <!-- Was dich erwartet -->
+    <div class="live__expect" data-live-expect>
+      {expect.map((c) => (
+        <article class="live__expect-card">
+          <span class="live__expect-ic" aria-hidden="true">{c.ic}</span>
+          <h3>{c.title}</h3>
+          <p>{c.text}</p>
+        </article>
+      ))}
+    </div>
+
+    <!-- Reportage (erscheint, sobald Berichte da sind) -->
+    <div class="live__featured" data-live-featured hidden></div>
     <div class="live__cards" data-live-cards></div>
 
-    <!-- Instagram-Feed (von n8n entkoppelt; später via dispatch/Plugin). Platzhalter-Grid. -->
+    <!-- Instagram-Feed-Vorschau (Stockbilder; später echter Feed übers Plugin) -->
     <div class="live__insta">
       <p class="live__insta-label">#RoadToShanghai auf Instagram</p>
-      <div class="live__insta-grid" aria-hidden="true">
-        <span></span><span></span><span></span>
-        <span></span><span></span><span></span>
+      <div class="live__insta-grid">
+        {[1, 2, 3, 4, 5, 6].map((n) => (
+          <figure class="live__insta-tile">
+            <picture>
+              <source srcset={`/img/live/insta/insta-${n}.avif`} type="image/avif" />
+              <source srcset={`/img/live/insta/insta-${n}.webp`} type="image/webp" />
+              <img src={`/img/live/insta/insta-${n}.jpg`} alt="" loading="lazy" width="600" height="600" />
+            </picture>
+          </figure>
+        ))}
       </div>
+      <p class="live__insta-note">Eindrücke von der Reise – bald mit echten Posts vom Wettkampf.</p>
     </div>
   </div>
 </section>
@@ -75,17 +77,41 @@
   .live {
     position: relative;
     isolation: isolate;
-    background:
-      radial-gradient(100% 60% at 50% 0%, rgba(168, 30, 46, 0.18), transparent 60%),
-      var(--night);
+    overflow: hidden;
     color: var(--paper);
-    padding-block: clamp(4rem, 12vh, 7rem);
+    padding-block: clamp(4.5rem, 12vh, 8rem);
+    background: var(--night); /* Fallback */
   }
-  .live__grain { z-index: 1; }
-  .live__inner { position: relative; z-index: 2; }
+  /* Shanghai-Nacht als zoombare Bild-Ebene */
+  .live__bg {
+    position: absolute;
+    inset: -6%;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('/img/live/live-bg.jpg');
+    background-image: image-set(
+      '/img/live/live-bg.avif' type('image/avif'),
+      '/img/live/live-bg.webp' type('image/webp'),
+      '/img/live/live-bg.jpg' type('image/jpeg')
+    );
+    will-change: transform;
+  }
+  .live__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(100% 60% at 50% 0%, rgba(168, 30, 46, 0.22), transparent 55%),
+      linear-gradient(180deg, rgba(8, 14, 22, 0.72) 0%, rgba(8, 14, 22, 0.5) 40%, rgba(8, 12, 16, 0.86) 100%);
+  }
+  .live__grain { z-index: 2; }
+  .live__inner { position: relative; z-index: 3; }
+
   .live__head {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
@@ -93,11 +119,11 @@
   .live__badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.45rem 1rem;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
     border-radius: 999px;
     border: 1px solid rgba(168, 30, 46, 0.5);
-    background: rgba(168, 30, 46, 0.14);
+    background: rgba(168, 30, 46, 0.16);
     font-size: var(--fs-label);
     font-weight: 600;
     letter-spacing: 0.14em;
@@ -105,46 +131,79 @@
     color: #ff9a8a;
   }
   .live__dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
+    width: 8px; height: 8px; border-radius: 50%;
     background: var(--china-red);
-    box-shadow: 0 0 0 0 rgba(168, 30, 46, 0.6);
     animation: live-pulse 1.8s ease-out infinite;
   }
   @keyframes live-pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0.6); opacity: 1; }
-    70%  { box-shadow: 0 0 0 10px rgba(168, 30, 46, 0); opacity: 0.7; }
-    100% { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0); opacity: 1; }
+    0% { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0.6); }
+    70% { box-shadow: 0 0 0 9px rgba(168, 30, 46, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0); }
   }
-
-  .live__clocks { display: flex; align-items: center; gap: 1rem; }
-  .live__clock { display: flex; flex-direction: column; text-align: center; }
-  .live__clock-time {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: var(--gold);
-  }
-  .live__clock-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .live__clock-sep { color: var(--ink-soft); }
 
   .live__title {
     font-size: var(--fs-h2);
     color: var(--paper);
-    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0.6rem;
+    margin: 0.5rem 0 0;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   }
-  .live__teaser { max-width: 48ch; color: var(--ink-soft); }
 
-  /* on → Teaser ausblenden (Reportage übernimmt) */
-  .live[data-live='on'] .live__teaser { display: none; }
+  /* ---------- Vorfreude-Block ---------- */
+  .live__pre {
+    margin-top: clamp(2rem, 5vh, 3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .live__cd { display: flex; align-items: baseline; gap: 0.8rem; }
+  .live__cd-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(4rem, 13vw, 8.5rem);
+    line-height: 0.9;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 6px 40px var(--gold-glow);
+  }
+  .live__cd-unit {
+    font-size: clamp(1rem, 2.4vw, 1.6rem);
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--paper);
+  }
+  .live__cd-text { max-width: 44ch; color: var(--ink-soft); margin-top: -0.5rem; }
 
+  /* ---------- Was dich erwartet ---------- */
+  .live__expect {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) { .live__expect { grid-template-columns: repeat(3, 1fr); } }
+  .live__expect-card {
+    padding: 1.4rem 1.5rem;
+    border: 1px solid rgba(201, 162, 75, 0.2);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(3px);
+  }
+  .live__expect-ic { font-size: 1.6rem; }
+  .live__expect-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin: 0.5rem 0 0.3rem;
+  }
+  .live__expect-card p { color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* on / Dispatches → Vorfreude weicht der Reportage */
+  .live[data-live='on'] .live__pre,
+  .live[data-dispatches='yes'] .live__pre,
+  .live[data-dispatches='yes'] .live__expect { display: none; }
+
+  /* ---------- Reportage ---------- */
   .live__featured {
     margin-top: 2.5rem;
     overflow: hidden;
@@ -156,17 +215,13 @@
   :global(.live__featured-body) { padding: clamp(1.25rem, 3vw, 2rem); }
   :global(.live__featured-title) { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 0.4rem 0 0.6rem; color: var(--gold); }
 
-  .live__empty { margin-top: 2.5rem; color: var(--ink-soft); font-style: italic; }
-
   .live__cards {
     margin-top: 1.5rem;
     display: grid;
     gap: 1.25rem;
     grid-template-columns: 1fr;
   }
-  @media (min-width: 720px) {
-    .live__cards { grid-template-columns: 1fr 1fr; }
-  }
+  @media (min-width: 720px) { .live__cards { grid-template-columns: 1fr 1fr; } }
   :global(.live__card) {
     border: 1px solid rgba(201, 162, 75, 0.2);
     border-radius: var(--radius);
@@ -185,29 +240,51 @@
     color: var(--gold);
   }
 
-  /* Instagram-Platzhalter */
-  .live__insta { margin-top: clamp(2.5rem, 6vh, 4rem); }
+  /* ---------- Instagram ---------- */
+  .live__insta { margin-top: clamp(3rem, 7vh, 4.5rem); }
   .live__insta-label {
     font-size: var(--fs-label);
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--gold);
     margin-bottom: 1rem;
   }
   .live__insta-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
-  .live__insta-grid span {
+  @media (min-width: 720px) { .live__insta-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .live__insta-tile {
+    position: relative;
+    margin: 0;
     aspect-ratio: 1;
-    border-radius: 6px;
-    background:
-      linear-gradient(135deg, rgba(201, 162, 75, 0.12), rgba(168, 30, 46, 0.1)),
-      rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(201, 162, 75, 0.15);
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(201, 162, 75, 0.18);
   }
-  @media (min-width: 720px) {
-    .live__insta-grid { grid-template-columns: repeat(6, 1fr); }
+  :global(.live__insta-tile img) {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.95) brightness(0.96);
+    transition: transform 0.55s var(--ease-out), filter 0.4s ease;
+  }
+  .live__insta-tile::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(12, 22, 34, 0.5));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .live__insta-tile:hover :global(img) { transform: scale(1.08); filter: saturate(1.12) brightness(1.05); }
+  .live__insta-tile:hover::after { opacity: 1; }
+
+  .live__insta-note {
+    margin-top: 1rem;
+    font-size: var(--fs-label);
+    color: var(--ink-soft);
+    font-style: italic;
   }
 </style>

@@ -2,6 +2,7 @@
 // Basis-Layout — globale Styles, Meta, Fonts.
 import '../styles/tokens.css';
 import '../styles/global.css';
+import Preloader from '../components/Preloader.astro';
 
 interface Props {
   title?: string;
@@ -35,6 +36,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <Preloader />
     <slot />
   </body>
 </html>

@@ -79,7 +79,18 @@ export function initCountdown(root) {
 
   // Felder + Karten aufbauen
   const cards = {};
+  let first = true;
   for (const field of FIELDS) {
+    // Doppelpunkt-Trenner zwischen den Gruppen (rein dekorativ)
+    if (!first) {
+      const sep = document.createElement('span');
+      sep.className = 'cd-sep';
+      sep.setAttribute('aria-hidden', 'true');
+      sep.textContent = ':';
+      root.appendChild(sep);
+    }
+    first = false;
+
     const group = document.createElement('div');
     group.className = 'cd-group';
 

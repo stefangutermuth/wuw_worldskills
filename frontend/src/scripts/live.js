@@ -1,20 +1,15 @@
 /**
  * Sektion „Live aus Shanghai" (§A4).
- * - Zwei-Zeitzonen-Uhr (Chemnitz / Shanghai) – reine Client-Zeitlogik.
+ * - Tage-Countdown bis zum Event (Uhren laufen global im Header, siehe clocks.js).
  * - Status-Toggle: GET /status → schaltet Reportage-Modus frei.
- * - Dispatches (GET /dispatches) als Featured + Karten.
+ * - Dispatches (GET /dispatches): Featured + Karten; erscheinen erst, wenn vorhanden.
+ * - Hintergrund-Zoom beim Scrollen.
  */
 import { api } from '../lib/api.js';
+import { initBgParallax } from './bgParallax.js';
+import { DEMO_DISPATCHES_ON, DEMO_DISPATCHES } from '../lib/demo.js';
 
-function clockFactory(tz) {
-  const time = new Intl.DateTimeFormat('de-DE', {
-    timeZone: tz,
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
-  return () => time.format(new Date());
-}
+const TARGET = new Date('2026-09-22T00:00:00+08:00').getTime();
 
 function fmtDate(iso) {
   try {
@@ -38,29 +33,31 @@ function escapeHtml(s) {
 export function initLive(root) {
   if (!root) return;
 
-  // ---- Uhren ----
-  const deClock = root.querySelector('[data-clock-de]');
-  const cnClock = root.querySelector('[data-clock-cn]');
-  const fmtDe = clockFactory('Europe/Berlin');
-  const fmtCn = clockFactory('Asia/Shanghai');
+  // ---- Tage-Countdown (Uhren laufen jetzt global im Header, siehe clocks.js) ----
+  const daysEl = root.querySelector('[data-live-days]');
+
   function tick() {
-    if (deClock) deClock.textContent = fmtDe();
-    if (cnClock) cnClock.textContent = fmtCn();
+    if (daysEl) {
+      const days = Math.max(0, Math.ceil((TARGET - Date.now()) / 86400000));
+      daysEl.textContent = String(days);
+    }
   }
   tick();
-  setInterval(tick, 1000 * 15);
+  setInterval(tick, 1000 * 30);
+
+  // ---- Hintergrund-Zoom ----
+  initBgParallax(root.querySelector('[data-live-bg]'));
 
   // ---- Status + Dispatches ----
   const featured = root.querySelector('[data-live-featured]');
   const cards = root.querySelector('[data-live-cards]');
-  const empty = root.querySelector('[data-live-empty]');
 
   function renderDispatches(items) {
     if (!items || !items.length) {
-      if (empty) empty.hidden = false;
+      root.dataset.dispatches = 'no';
       return;
     }
-    if (empty) empty.hidden = true;
+    root.dataset.dispatches = 'yes';
 
     const [first, ...rest] = items;
     if (featured && first) {
@@ -96,10 +93,20 @@ export function initLive(root) {
     }
     try {
       const data = await api.getDispatches();
-      renderDispatches(data.items || []);
+      const items = data.items || [];
+      // Demo-Fallback (optional, via Flag): leeres Backend → Beispiel-Berichte
+      if (DEMO_DISPATCHES_ON && items.length === 0) {
+        root.dataset.live = 'on';
+        renderDispatches(DEMO_DISPATCHES);
+      } else {
+        renderDispatches(items);
+      }
     } catch (e) {
       console.warn('[live] dispatches laden fehlgeschlagen', e);
-      if (empty) empty.hidden = false;
+      if (DEMO_DISPATCHES_ON) {
+        root.dataset.live = 'on';
+        renderDispatches(DEMO_DISPATCHES);
+      }
     }
   }
 

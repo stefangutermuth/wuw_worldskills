@@ -3,7 +3,7 @@
 // Markup wird client-seitig von countdown.js befüllt; hier nur die Hülle + Optik.
 ---
 
-<div class="countdown" aria-label="Countdown bis zum WM-Start in Shanghai">
+<div class="countdown" data-cd-variant="4" aria-label="Countdown bis zum WM-Start in Shanghai">
   <div class="cd-track" data-countdown>
     <!-- Felder (Tage / Stunden / Minuten / Sekunden) injiziert countdown.js -->
   </div>
@@ -154,5 +154,38 @@
       animation: none;
     }
     :global(.flap__fold) { display: none; } /* nur statische Hälften zeigen */
+  }
+
+  /* ============================================================
+     Stil: Reispapier-Kacheln (hell) — heller Gegenpol zum dunklen Hero
+     ============================================================ */
+  .countdown[data-cd-variant="4"] :global(.flap) { color: var(--china-red-dk); }
+  .countdown[data-cd-variant="4"] :global(.flap__static),
+  .countdown[data-cd-variant="4"] :global(.flap__fold) {
+    background: linear-gradient(180deg, #fbf7ee, #efe6d2);
+    box-shadow: inset 0 0 0 1px rgba(201, 162, 75, 0.55);
+  }
+  .countdown[data-cd-variant="4"] :global(.flap__static--top),
+  .countdown[data-cd-variant="4"] :global(.flap__fold--front) {
+    border-bottom: 1px solid rgba(110, 19, 32, 0.18);
+  }
+  .countdown[data-cd-variant="4"] :global(.cd-cards) {
+    filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.38));
+  }
+  .countdown[data-cd-variant="4"] :global(.cd-label) { color: var(--paper); }
+
+  /* Doppelpunkt-Trenner zwischen den Gruppen (Tage : Stunden : …) */
+  :global(.cd-sep) {
+    align-self: flex-start;
+    font-family: var(--font-body);
+    font-size: clamp(1.6rem, 5.2vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.08; /* = Karten­höhe → Doppelpunkt sitzt mittig auf den Ziffern */
+    color: var(--paper);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+    user-select: none;
+  }
+  @media (max-width: 420px) {
+    :global(.cd-sep) { font-size: clamp(1.4rem, 6vw, 2.4rem); }
   }
 </style>

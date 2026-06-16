@@ -11,11 +11,61 @@
  */
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { lenis } from './motion.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/**
+ * Karten-Detail-Modal („Mehr erfahren"). Läuft unabhängig von Scroll-Animationen,
+ * also auch bei prefers-reduced-motion. Klont den versteckten [data-detail]-Inhalt
+ * der angeklickten Karte in den (an <body> verschobenen) Dialog.
+ */
+function initRouteCards(section) {
+  const dialog = section.querySelector('[data-route-dialog]');
+  if (!dialog) return;
+
+  // Dialog ans <body> hängen → liegt sicher über allem (kein Pin-/Overflow-Konflikt).
+  if (dialog.parentElement !== document.body) document.body.appendChild(dialog);
+
+  const body = dialog.querySelector('[data-route-dialog-body]');
+  const card = dialog.querySelector('.route__dialog-card');
+  const closeBtn = dialog.querySelector('[data-route-close]');
+  let lastFocus = null;
+
+  function openCard(el) {
+    const detail = el.querySelector('[data-detail]');
+    if (!detail) return;
+    body.innerHTML = detail.innerHTML;
+    card.setAttribute('aria-label', el.dataset.title || 'Kapitel-Details');
+    lastFocus = document.activeElement;
+    dialog.hidden = false;
+    requestAnimationFrame(() => dialog.classList.add('is-open'));
+    if (lenis) lenis.stop();            // Hintergrund-Scroll einfrieren
+    closeBtn.focus();
+  }
+
+  function close() {
+    dialog.classList.remove('is-open');
+    if (lenis) lenis.start();
+    setTimeout(() => { dialog.hidden = true; body.innerHTML = ''; }, 260);
+    if (lastFocus) lastFocus.focus();
+  }
+
+  section.querySelectorAll('[data-card]').forEach((el) => {
+    el.addEventListener('click', () => openCard(el));
+  });
+  closeBtn.addEventListener('click', close);
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !dialog.hidden) close();
+  });
+}
+
 export function initRoute(section) {
   if (!section) return;
+
+  // Detail-Modal immer initialisieren (auch bei reduced-motion).
+  initRouteCards(section);
 
   const viewport = section.querySelector('[data-route-viewport]');
   const track = section.querySelector('[data-route-track]');

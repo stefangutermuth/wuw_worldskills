@@ -58,9 +58,11 @@ import Countdown from './Countdown.astro';
   </div>
 
   <!-- Scroll-Hinweis -->
-  <a href="#route" class="hero__scroll" aria-label="Weiter scrollen">
-    <span class="hero__scroll-text">Die Reise beginnt</span>
-    <span class="hero__scroll-arrow" aria-hidden="true"></span>
+  <a href="#route" class="hero__scroll" aria-label="Weiter scrollen zur Reise">
+    <span class="hero__scroll-text">Die Reise beginnt — scrollen</span>
+    <span class="hero__scroll-chevrons" aria-hidden="true">
+      <span></span><span></span>
+    </span>
   </a>
 </section>
 
@@ -238,7 +240,7 @@ import Countdown from './Countdown.astro';
     inset: 0;
     z-index: 4;
     pointer-events: none;
-    background: radial-gradient(58% 48% at 50% 45%, rgba(0, 0, 0, 0.5), transparent 72%);
+    background: radial-gradient(60% 52% at 50% 46%, rgba(0, 0, 0, 0.56), transparent 74%);
   }
   .hero__vignette { z-index: 4; }
   .hero__grain { z-index: 6; }
@@ -343,14 +345,22 @@ import Countdown from './Countdown.astro';
   .hero__title-script {
     font-family: var(--font-script);
     font-weight: 400;
-    font-size: clamp(4rem, 16vw, 12rem);
-    line-height: 1.05;
-    padding-bottom: 0.14em; /* Platz für Unterlängen/Schwünge */
-    filter: drop-shadow(0 4px 30px rgba(0, 0, 0, 0.45));
+    font-size: clamp(6rem, 22vw, 18rem);
+    line-height: 1.05;            /* enger – weniger Leerraum unter dem Schriftzug */
+    /* oben Luft, damit der hohe „S"-Bogen vom Gold-Verlauf (background-clip:text)
+       noch erfasst und nicht abgeschnitten wird; unten bleibt es eng */
+    padding: 0.35em 0.18em 0.1em;
+    overflow: visible;
+    max-width: 100%;
+    /* Gold-Schrift ist via background-clip transparent → text-shadow greift nicht.
+       drop-shadow umrandet die Buchstaben, damit das „S" auch über hellem Nebel lesbar bleibt. */
+    filter:
+      drop-shadow(0 2px 20px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 0 3px rgba(0, 0, 0, 0.45));
   }
 
   .hero__subline {
-    margin-top: 1rem;
+    margin-top: 0.25rem;
     font-size: var(--fs-lead);
     color: var(--ink-soft);
     font-family: var(--font-display);
@@ -362,36 +372,46 @@ import Countdown from './Countdown.astro';
   /* Scroll-Hinweis */
   .hero__scroll {
     position: absolute;
-    bottom: clamp(1.25rem, 4vh, 2.5rem);
+    bottom: clamp(1.1rem, 3.5vh, 2.2rem);
     left: 50%;
     transform: translateX(-50%);
     z-index: var(--z-ui);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.6rem;
-    color: var(--ink-soft);
+    gap: 0.55rem;
+    color: var(--gold);
     font-size: var(--fs-label);
-    letter-spacing: 0.2em;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+    animation: hero-scroll-bob 2.4s ease-in-out infinite;
   }
-  .hero__scroll-arrow {
-    width: 1px;
-    height: 38px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    position: relative;
-    overflow: hidden;
+  .hero__scroll-chevrons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 22px;
   }
-  .hero__scroll-arrow::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    animation: scroll-pulse 1.8s ease-in-out infinite;
+  .hero__scroll-chevrons span {
+    width: 13px;
+    height: 13px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    margin-top: -6px;
+    transform: rotate(45deg);
+    animation: hero-chevron 1.6s ease-in-out infinite;
   }
-  @keyframes scroll-pulse {
-    0%   { transform: translateY(-100%); }
-    60%, 100% { transform: translateY(100%); }
+  .hero__scroll-chevrons span:nth-child(2) { animation-delay: 0.18s; }
+  @keyframes hero-chevron {
+    0%   { opacity: 0; transform: rotate(45deg) translate(-3px, -3px); }
+    50%  { opacity: 1; }
+    100% { opacity: 0; transform: rotate(45deg) translate(3px, 3px); }
+  }
+  @keyframes hero-scroll-bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%      { transform: translateX(-50%) translateY(5px); }
   }
 
   @media (max-width: 767px) {

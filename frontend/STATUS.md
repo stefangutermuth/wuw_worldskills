@@ -4,7 +4,30 @@
 für die Azubis **Marc-Aurel Spalek & Lennard Weitzmann** (Wirth & Wiener GmbH, GaLaBau Chemnitz, Deutsche Meister 2025).
 Konzept: **Koi-zur-Drache-Legende** & „East meets Erzgebirge". Vollständiges Briefing: `~/Desktop/CLAUDE.md`.
 
-Stand: **2026-06-05**
+Stand: **2026-06-08**
+
+---
+
+## 0. Update 2026-06-08 (neuester Stand)
+
+Seit dem 2026-06-05 dazugekommen / geändert:
+
+- **Header & Navigation** mit echtem **Wirth-&-Wiener-Logo** (von `wirth-wiener.de` geholt, weiß auf Hero), Burger-Menü.
+- **Alle Foto-Sektionen mit Hintergrund + Zoom-Effekt** beim Scrollen (Modul `bgParallax.js`): Hero, Reise, Daumendrücken, **Wunschbaum** (neues Bild) und **Live** (neues Shanghai-Nacht-Bild).
+- **Wunschbaum**: echtes Hintergrundbild + hängende, schwingende Wunsch-Laternen.
+- **Live-Sektion komplett überarbeitet**: Shanghai-Nacht-Hintergrund, großer **Vorfreude-Countdown** („X Tage bis Shanghai"), prominente Zwei-Zeitzonen-Uhr, **„Was dich erwartet"-Karten**, **Instagram-Grid mit echten Stockbildern** (Unsplash, freie Lizenz, in `public/img/live/insta/`). Schaltet bei echten Dispatches in den Reportage-Modus.
+- **Newsletter in den Wunschbaum integriert** (optionales E-Mail-Feld + separate DSGVO-Einwilligung; Footer-Newsletter auf schlanke Variante reduziert via `<Newsletter compact />`).
+- **Hero**: Kalligrafie-„Shanghai" verkleinert (passte vorher nicht ganz rein), deutlicher Scroll-Hinweis („Die Reise beginnt — scrollen" + animierte Chevrons). Wording überall **WorldSkills** (nicht „Berufe-WM").
+- **Sektionsübergänge**: weiche Verlaufs-Streifen (`.seam`) im Scrollfluss zwischen Hero→Reise und Reise→Daumendrücken.
+- **Reise-Detail**: kräftigere Kapitel-Karten, sichtbarere Ranke (dicker + Gold-Glow).
+- **Daumendrücken neu gedacht**: Button als glühender Orb; **Dialog** fragt beim Klick nach Name/Ort (oder „anonym mitmachen"); **eine schwebende Laterne pro echtem Fan** (Anzahl = `count`, gedeckelt bei 60), die Laternen **schweben an Ort und Stelle** (nicht mehr aufsteigend/verschwindend) und sind **anklickbar** → Tooltip „X aus Y drückt die Daumen" bzw. „anonym".
+- **Vorschau-Seite** `/countdown` mit **10 Countdown-Design-Varianten** zur Auswahl (versteckte Dev-Seite, später entfernen). **Offen: User wählt eine Variante für den Hero.**
+- **GitHub**: Repo `github.com/stefangutermuth/wuw_worldskills` (privat) — Initial-Commit ist drin; **aktueller Stand noch nicht gepusht**.
+
+**Gelernt / Stolperfallen (neu):**
+- **Per JS erzeugte Elemente bekommen Astro-Scoped-Styles NICHT** (es fehlt das `data-astro-cid-…`-Attribut). Lösung: Scope-Attribut vom Markup-Container übernehmen (`el.setAttribute(scopeAttr, '')`) — siehe `cheer.js` Laternen.
+- **Stale CSS-Keyframes im Dev-Server**: eine alte Keyframe-Version (mit `opacity:0`) hing nach Edits fest und überschrieb sogar `!important` (CSS-Animationen schlagen `!important`). Lösung: Keyframes umbenennen + Opacity statisch (nicht animiert) + Dev-Server neu starten.
+- **Dialoge an `document.body` hängen**, sonst liegen sie im Stapelkontext der Sektion und unter dem fixierten Header.
 
 ---
 

@@ -16,8 +16,14 @@ import Footer from '../components/Footer.astro';
     <!-- §A1 — Der Aufbruch (Hero + Split-Flap-Countdown) -->
     <Hero />
 
+    <!-- Übergang Hero (Tusche-Dunkel) → Reise (Reispapier) -->
+    <div class="seam" style="background: linear-gradient(180deg, #14100d, #ece2cf)" aria-hidden="true"></div>
+
     <!-- §A2 — Die Reise (Route-Scrollytelling) -->
     <Route />
+
+    <!-- Übergang Reise (Reispapier) → Daumendrücken (Nachthimmel) -->
+    <div class="seam" style="background: linear-gradient(180deg, #ece2cf, #0c1622)" aria-hidden="true"></div>
 
     <!-- §A3 — Daumendrücken (dynamische Insel, /cheer) -->
     <Cheer />

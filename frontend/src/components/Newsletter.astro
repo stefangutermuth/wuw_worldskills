@@ -1,13 +1,17 @@
 ---
 // Newsletter-Anmeldung (§5) – PLATZHALTER.
 // Volles UI; Backend-Endpunkt /newsletter validiert nur (ESP noch nicht angebunden).
+// compact=true → schlanke Variante (Footer), Hauptanmeldung liegt im Wunschbaum.
+const { compact = false } = Astro.props;
 ---
 
-<div class="nl" data-newsletter>
-  <h3 class="nl__title">Bleib an Bord</h3>
-  <p class="nl__lead">
-    Updates vor, während und nach der WM – direkt in dein Postfach. Kein Spam, jederzeit abbestellbar.
-  </p>
+<div class={`nl${compact ? ' nl--compact' : ''}`} data-newsletter>
+  <h3 class="nl__title">{compact ? 'Newsletter' : 'Bleib an Bord'}</h3>
+  {!compact && (
+    <p class="nl__lead">
+      Updates vor, während und nach der WM – direkt in dein Postfach. Kein Spam, jederzeit abbestellbar.
+    </p>
+  )}
 
   <form class="nl__form" data-nl-form novalidate>
     <div class="nl__row">
@@ -82,6 +86,11 @@
   .nl { max-width: 32rem; }
   .nl__title { font-size: 1.6rem; color: var(--gold); }
   .nl__lead { margin: 0.5rem 0 1.25rem; color: var(--ink-soft); }
+
+  /* Kompakt-Variante (Footer) */
+  .nl--compact { max-width: 24rem; }
+  .nl--compact .nl__title { font-size: 1.15rem; margin-bottom: 0.6rem; }
+  .nl--compact .nl__form { gap: 0.5rem; }
   .nl__form { display: flex; flex-direction: column; gap: 0.75rem; }
   .nl__row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
   .nl__row input {

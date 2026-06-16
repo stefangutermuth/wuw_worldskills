@@ -4,15 +4,16 @@ const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
 ---
 
 <section class="wishtree" id="wunschbaum" data-wishtree aria-labelledby="wish-title">
-  <!-- Hängende Wunsch-Laternen (schwingen sanft) -->
+  <!-- Foto-Hintergrund (zoombar) + Dunkel-Schleier -->
+  <div class="wishtree__bg" data-wish-bg aria-hidden="true"></div>
+  <div class="wishtree__veil" aria-hidden="true"></div>
+  <!-- Animierte Laternen über der dunklen Fläche links (ergänzen die Bild-Laternen rechts) -->
   <div class="wishtree__lanterns" aria-hidden="true">
-    <span class="wish-lantern" style="--x:9%;  --len:70px; --d:-1.2s"></span>
-    <span class="wish-lantern" style="--x:21%; --len:46px; --d:-3.1s"></span>
-    <span class="wish-lantern" style="--x:34%; --len:88px; --d:-0.5s"></span>
-    <span class="wish-lantern" style="--x:50%; --len:58px; --d:-2.4s"></span>
-    <span class="wish-lantern" style="--x:65%; --len:78px; --d:-1.8s"></span>
-    <span class="wish-lantern" style="--x:79%; --len:50px; --d:-3.6s"></span>
-    <span class="wish-lantern" style="--x:91%; --len:66px; --d:-0.9s"></span>
+    <span class="wish-lantern" style="--x:7%;  --len:64px; --d:-1.2s"></span>
+    <span class="wish-lantern" style="--x:15%; --len:44px; --d:-3.1s"></span>
+    <span class="wish-lantern" style="--x:24%; --len:82px; --d:-0.5s"></span>
+    <span class="wish-lantern" style="--x:34%; --len:54px; --d:-2.4s"></span>
+    <span class="wish-lantern" style="--x:44%; --len:72px; --d:-1.8s"></span>
   </div>
   <div class="wishtree__grain atmo-grain atmo-grain--soft" aria-hidden="true"></div>
 
@@ -47,6 +48,18 @@ const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
           <span>Ich bin einverstanden, dass mein Vorname, Ort &amp; Wunsch nach Prüfung öffentlich angezeigt werden.</span>
         </label>
 
+        <!-- Optionaler Newsletter (separate Einwilligung, DSGVO) -->
+        <div class="wishtree__nl">
+          <label class="field">
+            <span>E-Mail <em>(optional)</em></span>
+            <input type="email" name="email" autocomplete="email" placeholder="deine@email.de" />
+          </label>
+          <label class="field--check">
+            <input type="checkbox" name="newsletter" />
+            <span>Haltet mich per E-Mail auf dem Laufenden (Newsletter, jederzeit abbestellbar).</span>
+          </label>
+        </div>
+
         {sitekey && (
           <div class="cf-turnstile" data-sitekey={sitekey}></div>
         )}
@@ -70,7 +83,9 @@ const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
 
 <script>
   import { initWishTree } from '../scripts/wish.js';
+  import { initBgParallax } from '../scripts/bgParallax.js';
   initWishTree(document.querySelector('[data-wishtree]'));
+  initBgParallax(document.querySelector('[data-wish-bg]'));
 </script>
 
 <style>
@@ -80,21 +95,43 @@ const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
     overflow: hidden;
     color: var(--paper);
     padding-block: clamp(5rem, 13vh, 8rem);
-    background:
-      radial-gradient(60% 40% at 50% 0%, rgba(255, 220, 150, 0.12), transparent 60%),
-      radial-gradient(100% 80% at 50% 120%, rgba(12, 22, 18, 0.55), transparent 60%),
-      radial-gradient(90% 70% at 12% 8%, rgba(111, 169, 138, 0.22), transparent 55%),
-      linear-gradient(180deg, #3e7d5a 0%, #336a4b 55%, #234a36 100%);
+    background: #234a36; /* Fallback hinter der Bild-Ebene */
   }
-  .wishtree__inner { position: relative; z-index: 2; text-align: center; }
-  .wishtree__grain { z-index: 1; }
+  /* Foto-Hintergrund als eigene, zoombare Ebene (mit Überstand) */
+  .wishtree__bg {
+    position: absolute;
+    inset: -6%;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('/img/wish/wish-bg.jpg');
+    background-image: image-set(
+      '/img/wish/wish-bg.avif' type('image/avif'),
+      '/img/wish/wish-bg.webp' type('image/webp'),
+      '/img/wish/wish-bg.jpg' type('image/jpeg')
+    );
+    will-change: transform;
+  }
+  /* Dunkel-Schleier für Lesbarkeit (Formular/Liste liegen darüber) */
+  .wishtree__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(80% 60% at 50% 80%, rgba(12, 22, 18, 0.6), transparent 70%),
+      linear-gradient(180deg, rgba(12, 22, 18, 0.45) 0%, rgba(12, 22, 18, 0.2) 35%, rgba(12, 22, 18, 0.55) 100%);
+  }
+  .wishtree__inner { position: relative; z-index: 3; text-align: center; }
+  .wishtree__grain { z-index: 2; }
 
   /* Hängende Wunsch-Laternen */
   .wishtree__lanterns {
     position: absolute;
     inset: 0 0 auto 0;
     height: 0;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
   }
   .wish-lantern {
@@ -186,6 +223,17 @@ const sitekey = import.meta.env.PUBLIC_TURNSTILE_SITEKEY ?? '';
     color: rgba(241, 232, 214, 0.85);
   }
   .field--check input { margin-top: 0.2rem; flex-shrink: 0; }
+
+  /* Optionaler Newsletter-Block */
+  .wishtree__nl {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding-top: 1rem;
+    margin-top: 0.2rem;
+    border-top: 1px dashed rgba(201, 162, 75, 0.3);
+  }
+  .wishtree__nl .field > span em { color: rgba(241, 232, 214, 0.5); font-style: normal; }
 
   .btn {
     align-self: flex-start;

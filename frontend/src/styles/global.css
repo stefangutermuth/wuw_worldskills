@@ -157,6 +157,12 @@ button {
   mix-blend-mode: multiply;
 }
 
+/* Verlaufs-Streifen im Scrollfluss zwischen zwei Sektionen (weicher Farbübergang) */
+.seam {
+  height: clamp(60px, 11vh, 130px);
+  width: 100%;
+}
+
 /* Gold-Lettering mit wanderndem Schimmer */
 .u-gold-sheen {
   background: linear-gradient(100deg, #9c7a2f 0%, #f4e3ad 38%, #c9a24b 55%, #b8863b 75%, #f4e3ad 100%);

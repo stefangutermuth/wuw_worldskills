@@ -1,12 +1,49 @@
 ---
 // Sektion „Die Reise" (§A2) — gepinntes Horizontal-Scrollytelling.
 // Finale Kapiteltexte (§8: echte Namen, 2026, Deutscher Meister).
+// Jede Karte trägt ein Motiv + ausklappbaren Detail-Inhalt (Modal „Mehr erfahren").
+// HINWEIS: img/gallery sind vorerst Mustermotive aus vorhandenen Assets.
 const chapters = [
-  { num: '01', title: 'Der Sieg',     text: 'Der Deutsche-Meister-Titel war erst der Anfang.' },
-  { num: '02', title: 'Das Training', text: 'Harte Arbeit. Tägliches Training. Ein Team, ein Ziel.' },
-  { num: '03', title: 'Der Aufbruch', text: 'Ein neuer Kontinent. Eine neue Herausforderung.' },
-  { num: '04', title: 'Shanghai',     text: 'Eine Stadt, die Tradition und Zukunft vereint.' },
-  { num: '05', title: 'Das Finale',   text: 'Die Weltbühne. Unser Moment.' },
+  {
+    num: '01', title: 'Der Sieg',
+    text: 'Der Deutsche-Meister-Titel war erst der Anfang.',
+    img: '/img/live/live-featured',
+    alt: 'Marc-Aurel & Lennard nach dem Sieg bei der Deutschen Meisterschaft',
+    long: 'Der nationale Titel war der Funke. In Chemnitz fiel die Entscheidung: Marc-Aurel Spalek und Lennard Weitzmann vertreten Deutschland im Landschaftsgartenbau bei den WorldSkills 2026 in Shanghai.',
+    gallery: ['/img/live/insta/insta-1', '/img/live/insta/insta-2'],
+  },
+  {
+    num: '02', title: 'Das Training',
+    text: 'Harte Arbeit. Tägliches Training. Ein Team, ein Ziel.',
+    img: '/img/live/insta/insta-1',
+    alt: 'Training auf dem Übungsgelände',
+    long: 'Jeder Handgriff sitzt – tausendfach geübt. Pflasterverband, Holzbau, Bepflanzung: Unter Zeitdruck zählt Präzision auf den Millimeter. Trainer und Team feilen an jedem Detail.',
+    gallery: ['/img/live/insta/insta-3', '/img/live/insta/insta-4'],
+  },
+  {
+    num: '03', title: 'Der Aufbruch',
+    text: 'Ein neuer Kontinent. Eine neue Herausforderung.',
+    img: '/img/live/insta/insta-2',
+    alt: 'Aufbruch Richtung China',
+    long: 'Über 8.000 Kilometer liegen zwischen dem Erzgebirge und dem East China Sea. Koffer gepackt, Werkzeug verzollt – die Reise nach Osten beginnt.',
+    gallery: ['/img/live/insta/insta-5', '/img/live/insta/insta-6'],
+  },
+  {
+    num: '04', title: 'Shanghai',
+    text: 'Eine Stadt, die Tradition und Zukunft vereint.',
+    img: '/img/live/insta/insta-3',
+    alt: 'Skyline von Shanghai',
+    long: 'Wolkenkratzer und klassische Gärten Seite an Seite. Shanghai empfängt die besten Nachwuchskräfte der Welt – die Bühne für unseren Moment ist bereitet.',
+    gallery: ['/img/live/insta/insta-4', '/img/live/insta/insta-5'],
+  },
+  {
+    num: '05', title: 'Das Finale',
+    text: 'Die Weltbühne. Unser Moment.',
+    img: '/img/live/insta/insta-4',
+    alt: 'Wettkampfgelände der WorldSkills',
+    long: 'Vier Tage Wettkampf, eine Jury, die Weltspitze. Hier zählt alles, was über Monate erarbeitet wurde. Drückt mit – jeder Daumen zählt.',
+    gallery: ['/img/live/insta/insta-6', '/img/live/insta/insta-1'],
+  },
 ];
 ---
 
@@ -18,7 +55,7 @@ const chapters = [
       <!-- Intro-Panel -->
       <div class="route__intro" data-chapter>
         <p class="u-eyebrow" data-reveal>Die Reise</p>
-        <h2 id="route-title" class="route__title" data-reveal>Deutschland&nbsp;→&nbsp;Shanghai</h2>
+        <h2 id="route-title" class="route__title" data-reveal>Deutschland&nbsp;→ Shanghai</h2>
         <p class="route__lead" data-reveal>
           Über 8.000 Kilometer von Chemnitz bis ans East China Sea –
           Marc-Aurel Spalek &amp; Lennard Weitzmann auf dem Weg zu den WorldSkills 2026.
@@ -29,22 +66,62 @@ const chapters = [
       <!-- Kapitel -->
       {chapters.map((c) => (
         <article class="route__chapter" data-chapter>
-          <span class="route__dot" data-reveal></span>
-          <div class="route__card" data-reveal>
-            <span class="route__num">{c.num}</span>
-            <h3 class="route__chapter-title">{c.title}</h3>
-            <p class="route__chapter-text">{c.text}</p>
+          <span class="route__spot" data-reveal aria-hidden="true"></span>
+          <div class="route__card" data-reveal data-card data-title={`${c.num} · ${c.title}`}>
+            <figure class="route__media">
+              <picture>
+                <source srcset={`${c.img}.avif`} type="image/avif" />
+                <source srcset={`${c.img}.webp`} type="image/webp" />
+                <img src={`${c.img}.jpg`} alt={c.alt} loading="lazy" decoding="async" />
+              </picture>
+            </figure>
+            <div class="route__card-body">
+              <span class="route__num">{c.num}</span>
+              <h3 class="route__chapter-title">{c.title}</h3>
+              <p class="route__chapter-text">{c.text}</p>
+              <button class="route__more" type="button" data-card-open aria-haspopup="dialog">
+                Mehr erfahren
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Ausklapp-Inhalt fürs Modal (versteckt; JS klont ihn) -->
+            <div class="route__detail" data-detail hidden>
+              <p class="route__dlg-kicker">{c.num}</p>
+              <h3 class="route__dlg-title">{c.title}</h3>
+              <figure class="route__dlg-hero">
+                <picture>
+                  <source srcset={`${c.img}.avif`} type="image/avif" />
+                  <source srcset={`${c.img}.webp`} type="image/webp" />
+                  <img src={`${c.img}.jpg`} alt={c.alt} loading="lazy" decoding="async" />
+                </picture>
+              </figure>
+              <p class="route__dlg-lead">{c.text}</p>
+              <p class="route__dlg-text">{c.long}</p>
+              <div class="route__dlg-gallery">
+                {c.gallery.map((g) => (
+                  <picture>
+                    <source srcset={`${g}.avif`} type="image/avif" />
+                    <source srcset={`${g}.webp`} type="image/webp" />
+                    <img src={`${g}.jpg`} alt="" loading="lazy" decoding="async" />
+                  </picture>
+                ))}
+              </div>
+            </div>
           </div>
         </article>
       ))}
 
-      <!-- Ranke (Desktop, horizontal). preserveAspectRatio="none" → streckt über den Track. -->
+      <!-- Tusche-Pinselstrich (Desktop, horizontal). preserveAspectRatio="none" → streckt über den Track. -->
       <svg class="route__vine" viewBox="0 0 2400 360" preserveAspectRatio="none" aria-hidden="true">
         <defs>
-          <linearGradient id="vineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"  stop-color="var(--jade)" />
-            <stop offset="50%" stop-color="var(--gold)" />
-            <stop offset="100%" stop-color="var(--china-red)" />
+          <!-- Tusche-Schwarz → zum Ende hin Chinarot -->
+          <linearGradient id="inkGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stop-color="#16120f" />
+            <stop offset="55%"  stop-color="#1a1511" />
+            <stop offset="100%" stop-color="#a81e2e" />
           </linearGradient>
         </defs>
         <path
@@ -62,6 +139,14 @@ const chapters = [
 
       <!-- Ranke (Mobile, vertikal, wächst per scaleY) -->
       <span class="route__vline" data-vline aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <!-- Detail-Modal („Mehr erfahren") — JS verschiebt es nach <body> -->
+  <div class="route__dialog" data-route-dialog hidden>
+    <div class="route__dialog-card" role="dialog" aria-modal="true" aria-label="Kapitel-Details">
+      <button class="route__dialog-close" data-route-close type="button" aria-label="Schließen">&times;</button>
+      <div class="route__dialog-body" data-route-dialog-body></div>
     </div>
   </div>
 </section>
@@ -130,15 +215,27 @@ const chapters = [
     z-index: 2;
     flex: 0 0 auto;
     width: min(86vw, 560px);
+    padding: clamp(1.75rem, 4vw, 3rem);
+    background: linear-gradient(135deg, rgba(252, 248, 240, 0.95), rgba(247, 240, 227, 0.9));
+    backdrop-filter: blur(7px);
+    border: 1px solid rgba(201, 162, 75, 0.38);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 54px rgba(45, 38, 28, 0.24);
+  }
+  .route__intro .u-eyebrow {
+    color: var(--china-red);
   }
   .route__title {
-    font-size: var(--fs-h2);
+    font-size: clamp(1.9rem, 4.4vw, 3.1rem);
     color: var(--china-red-dk);
     margin: 0.5rem 0 1rem;
+    overflow-wrap: break-word;
+    hyphens: none;
   }
   .route__lead {
     max-width: 42ch;
-    color: #4a423a;
+    color: #2f2922;
+    line-height: 1.65;
   }
   .route__seal {
     display: inline-grid;
@@ -148,13 +245,14 @@ const chapters = [
     height: 7.5rem;
     border-radius: 50%;
     border: 2px solid var(--gold);
+    background: radial-gradient(circle at 50% 45%, rgba(255, 253, 248, 0.92), rgba(247, 240, 227, 0.7));
     color: var(--china-red);
     font-family: var(--font-display);
     font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     rotate: -8deg;
-    box-shadow: inset 0 0 0 4px rgba(201, 162, 75, 0.18);
+    box-shadow: inset 0 0 0 4px rgba(201, 162, 75, 0.18), 0 8px 22px rgba(45, 38, 28, 0.18);
   }
 
   /* Kapitel */
@@ -167,19 +265,58 @@ const chapters = [
     flex-direction: column;
     align-items: flex-start;
   }
-  .route__dot {
-    width: 16px;
-    height: 16px;
+  /* XXL-Lichtspot auf der Ranke: hinter der Karte, leuchtet sie warm aus */
+  .route__spot {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: 142%;
+    height: 150%;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 0 6px rgba(201, 162, 75, 0.18), 0 0 20px var(--gold-glow);
-    margin-bottom: 1.5rem;
+    background: radial-gradient(
+      circle,
+      rgba(201, 162, 75, 0.55) 0%,
+      rgba(201, 162, 75, 0.26) 30%,
+      rgba(201, 162, 75, 0.08) 52%,
+      rgba(201, 162, 75, 0) 70%
+    );
+    filter: blur(8px);
+    pointer-events: none;
   }
   .route__card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(2px);
-    border: 1px solid rgba(201, 162, 75, 0.3);
+    position: relative;
+    overflow: hidden;
+    background: rgba(252, 248, 240, 0.86);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(201, 162, 75, 0.4);
     border-radius: var(--radius);
+    box-shadow: 0 14px 44px rgba(45, 38, 28, 0.18);
+    cursor: pointer;
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  }
+  .route__card:hover,
+  .route__card:focus-within {
+    transform: translateY(-5px);
+    box-shadow: 0 22px 56px rgba(45, 38, 28, 0.26);
+  }
+  /* Motiv */
+  .route__media {
+    margin: 0;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .route__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out);
+  }
+  .route__card:hover .route__media img {
+    transform: scale(1.05);
+  }
+  .route__card-body {
     padding: clamp(1.5rem, 3vw, 2.5rem);
   }
   .route__num {
@@ -201,6 +338,36 @@ const chapters = [
     color: #3a332c;
     max-width: 32ch;
   }
+  /* „Mehr erfahren"-Hinweis */
+  .route__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.25rem;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--china-red);
+  }
+  .route__more svg {
+    transition: transform 0.3s var(--ease-out);
+  }
+  .route__card:hover .route__more svg,
+  .route__more:focus-visible svg {
+    transform: translateX(4px);
+  }
+  .route__more:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  /* Detail-Inhalt nur im Modal sichtbar */
+  .route__detail[hidden] { display: none; }
 
   /* Ranke Desktop */
   .route__vine {
@@ -211,19 +378,117 @@ const chapters = [
     z-index: 1;
     pointer-events: none;
   }
+  /* zarte Tinten-Vorzeichnung (der noch nicht „gemalte" Teil) */
   .route__vine-bg {
-    stroke: rgba(62, 125, 90, 0.18);
-    stroke-width: 3;
-  }
-  .route__vine-fg {
-    stroke: url(#vineGrad);
-    stroke-width: 4;
+    stroke: rgba(26, 21, 17, 0.14);
+    stroke-width: 2.5;
     stroke-linecap: round;
+  }
+  /* der wachsende Tuschestrich — weicher Tinten-Schatten (CSS-Filter ist hier
+     robust; SVG-Verzerrfilter vertrug sich nicht mit preserveAspectRatio="none") */
+  .route__vine-fg {
+    stroke: url(#inkGrad);
+    stroke-width: 9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter:
+      drop-shadow(0 1px 2px rgba(22, 18, 15, 0.45))
+      drop-shadow(0 0 1px rgba(22, 18, 15, 0.55));
   }
 
   /* Ranke Mobile (versteckt auf Desktop) */
   .route__vline {
     display: none;
+  }
+
+  /* -------------------- Detail-Modal -------------------- */
+  .route__dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+    background: rgba(12, 9, 7, 0.62);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.26s var(--ease-out);
+  }
+  .route__dialog.is-open { opacity: 1; }
+  .route__dialog[hidden] { display: none; }
+  .route__dialog-card {
+    position: relative;
+    width: min(640px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid rgba(201, 162, 75, 0.45);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    transform: translateY(18px) scale(0.97);
+    transition: transform 0.26s var(--ease-out);
+  }
+  .route__dialog.is-open .route__dialog-card { transform: translateY(0) scale(1); }
+  .route__dialog-close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.9rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--china-red-dk);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .route__dialog-close:hover { opacity: 1; }
+
+  /* Modal-Inhalt */
+  .route__dlg-kicker {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .route__dlg-title {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    color: var(--china-red-dk);
+    margin: 0.1rem 0 1rem;
+  }
+  .route__dlg-hero {
+    margin: 0 0 1.25rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .route__dlg-hero img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .route__dlg-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lead);
+    color: var(--china-red-dk);
+    margin-bottom: 0.75rem;
+  }
+  .route__dlg-text {
+    color: #3a332c;
+    margin-bottom: 1.5rem;
+  }
+  .route__dlg-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .route__dlg-gallery img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   /* -------------------- Mobile -------------------- */
@@ -247,14 +512,17 @@ const chapters = [
       left: clamp(1.5rem, 6vw, 6rem);
       top: 8rem;
       bottom: 3rem;
-      width: 3px;
-      background: linear-gradient(180deg, var(--jade), var(--gold) 50%, var(--china-red));
+      width: 5px;
+      /* Tusche-Strich: Schwarz oben → zum Ende hin Chinarot */
+      background: linear-gradient(180deg, #16120f, #1a1511 55%, #a81e2e);
       transform: scaleY(0);
       transform-origin: top center;
-      border-radius: 2px;
+      border-radius: 40% / 2px; /* leicht pinselig statt exakt gerade */
+      box-shadow: 0 1px 3px rgba(22, 18, 15, 0.3);
     }
     .route__chapter { padding-left: 2.25rem; }
-    .route__dot { position: absolute; left: calc(clamp(1.5rem, 6vw, 6rem) - 6px); }
+    /* Spot etwas zurückhaltender, damit er auf Mobil nicht in die Nachbarkarten blutet */
+    .route__spot { width: 118%; height: 126%; }
     .route__chapter.is-in [data-reveal],
     .route__intro.is-in [data-reveal] { opacity: 1; }
   }
