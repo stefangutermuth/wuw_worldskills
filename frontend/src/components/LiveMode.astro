@@ -7,6 +7,8 @@ const expect = [
   { ic: '📸', title: 'Live-Fotos', text: 'Eindrücke vom Aufbau, vom Team und vom Schaugarten.' },
   { ic: '🏅', title: 'Ergebnisse', text: 'Wie schlagen sich die Jungs auf der Weltbühne?' },
 ];
+// Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
 
 <section class="live" id="live" data-live="off" data-live-root aria-labelledby="live-title">
@@ -56,9 +58,9 @@ const expect = [
         {[1, 2, 3, 4, 5, 6].map((n) => (
           <figure class="live__insta-tile">
             <picture>
-              <source srcset={`/img/live/insta/insta-${n}.avif`} type="image/avif" />
-              <source srcset={`/img/live/insta/insta-${n}.webp`} type="image/webp" />
-              <img src={`/img/live/insta/insta-${n}.jpg`} alt="" loading="lazy" width="600" height="600" />
+              <source srcset={asset(`/img/live/insta/insta-${n}.avif`)} type="image/avif" />
+              <source srcset={asset(`/img/live/insta/insta-${n}.webp`)} type="image/webp" />
+              <img src={asset(`/img/live/insta/insta-${n}.jpg`)} alt="" loading="lazy" width="600" height="600" />
             </picture>
           </figure>
         ))}

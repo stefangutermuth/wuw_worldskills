@@ -45,6 +45,8 @@ const chapters = [
     gallery: ['/img/live/insta/insta-6', '/img/live/insta/insta-1'],
   },
 ];
+// Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
 
 <section class="route" id="route" aria-labelledby="route-title">
@@ -70,9 +72,9 @@ const chapters = [
           <div class="route__card" data-reveal data-card data-title={`${c.num} · ${c.title}`}>
             <figure class="route__media">
               <picture>
-                <source srcset={`${c.img}.avif`} type="image/avif" />
-                <source srcset={`${c.img}.webp`} type="image/webp" />
-                <img src={`${c.img}.jpg`} alt={c.alt} loading="lazy" decoding="async" />
+                <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
+                <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
+                <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
               </picture>
             </figure>
             <div class="route__card-body">
@@ -93,9 +95,9 @@ const chapters = [
               <h3 class="route__dlg-title">{c.title}</h3>
               <figure class="route__dlg-hero">
                 <picture>
-                  <source srcset={`${c.img}.avif`} type="image/avif" />
-                  <source srcset={`${c.img}.webp`} type="image/webp" />
-                  <img src={`${c.img}.jpg`} alt={c.alt} loading="lazy" decoding="async" />
+                  <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
+                  <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
+                  <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
                 </picture>
               </figure>
               <p class="route__dlg-lead">{c.text}</p>
@@ -103,9 +105,9 @@ const chapters = [
               <div class="route__dlg-gallery">
                 {c.gallery.map((g) => (
                   <picture>
-                    <source srcset={`${g}.avif`} type="image/avif" />
-                    <source srcset={`${g}.webp`} type="image/webp" />
-                    <img src={`${g}.jpg`} alt="" loading="lazy" decoding="async" />
+                    <source srcset={asset(`${g}.avif`)} type="image/avif" />
+                    <source srcset={asset(`${g}.webp`)} type="image/webp" />
+                    <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" />
                   </picture>
                 ))}
               </div>

@@ -7,12 +7,14 @@ const nav = [
   { href: '#wunschbaum', label: 'Wunschbaum' },
   { href: '#live', label: 'Live' },
 ];
+// Public-Asset mit Base-Pfad (für GitHub-Pages-Unterordner; lokal/Prod = '/').
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
 
 <header class="site-header" data-header>
   <div class="site-header__inner u-container">
     <a class="site-header__brand" href="#hero" aria-label="Road to Shanghai – Startseite">
-      <img src="/img/logo-ww.svg" alt="Wirth & Wiener" class="site-header__logo" width="248" height="40" />
+      <img src={asset('/img/logo-ww.svg')} alt="Wirth & Wiener" class="site-header__logo" width="248" height="40" />
     </a>
 
     <div class="site-header__clocks" aria-label="Ortszeiten Chemnitz und Shanghai">

@@ -6,6 +6,9 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   output: 'static',
   site: 'https://shanghai.wirth-wiener.de',
+  // Base nur für den GitHub-Pages-Build (Action setzt PAGES_BASE=/wuw_worldskills).
+  // Produktion (All-Inkl, root) und lokal: PAGES_BASE ungesetzt → base '/'.
+  base: process.env.PAGES_BASE || undefined,
   server: { port: 4321, host: true },
   vite: {
     server: {

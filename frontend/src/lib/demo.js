@@ -40,23 +40,25 @@ export const DEMO_CHEERS = {
 };
 
 /* ---------- Live aus Shanghai: Berichte (nur wenn DEMO_DISPATCHES_ON) ---------- */
+// Base-Pfad für Public-Assets (GitHub-Pages-Unterordner; lokal/Prod = '/').
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
 export const DEMO_DISPATCHES = [
   {
     date: '2026-09-22 09:30',
     title: 'Angekommen in Shanghai',
     text: 'Nach über 8.000 Kilometern sind Marc-Aurel und Lennard im National Exhibition and Convention Center eingetroffen. Erste Eindrücke: überwältigend.',
-    image: '/img/live/live-featured.jpg',
+    image: `${B}/img/live/live-featured.jpg`,
   },
   {
     date: '2026-09-23 14:10',
     title: 'Aufbau läuft',
     text: 'Material gesichtet, Werkzeug kalibriert, Plan steht. Heute der erste Probelauf am Wettkampfstand.',
-    image: '/img/live/insta/insta-1.jpg',
+    image: `${B}/img/live/insta/insta-1.jpg`,
   },
   {
     date: '2026-09-24 18:45',
     title: 'Tag 1 geschafft',
     text: 'Pflasterverband sitzt sauber, der Zeitplan passt. Die Jungs sind fokussiert – morgen geht es an den Holzbau.',
-    image: '/img/live/insta/insta-2.jpg',
+    image: `${B}/img/live/insta/insta-2.jpg`,
   },
 ];
