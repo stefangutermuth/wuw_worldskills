@@ -31,6 +31,12 @@ function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 function labelFor(entry) {
+  if (entry && entry.nachricht) {
+    const who = entry.vorname
+      ? `${entry.vorname}${entry.ort ? ' aus ' + entry.ort : ''}`
+      : 'Anonym';
+    return `„${entry.nachricht}" – ${who}`;
+  }
   if (entry && entry.vorname) {
     const ort = entry.ort ? ` aus ${entry.ort}` : '';
     return `${entry.vorname}${ort} drückt die Daumen! 🤞`;
@@ -58,7 +64,18 @@ export function initCheer(root) {
   const dialog = root.querySelector('[data-cheer-dialog]');
   const nameInput = root.querySelector('[data-cheer-name]');
   const ortInput = root.querySelector('[data-cheer-ort]');
+  const greetingInput = root.querySelector('[data-cheer-greeting]');
   const consentInput = root.querySelector('[data-cheer-consent]');
+  const newsletterInput = root.querySelector('[data-cheer-newsletter]');
+  const emailInput = root.querySelector('[data-cheer-email]');
+
+  // E-Mail-Feld nur zeigen, wenn Newsletter angehakt ist
+  if (newsletterInput && emailInput) {
+    newsletterInput.addEventListener('change', () => {
+      emailInput.hidden = !newsletterInput.checked;
+      if (newsletterInput.checked) emailInput.focus();
+    });
+  }
   const confirmBtn = root.querySelector('[data-cheer-confirm]');
   const anonBtn = root.querySelector('[data-cheer-anon]');
   const closeBtn = root.querySelector('[data-cheer-close]');
@@ -180,7 +197,10 @@ export function initCheer(root) {
     try { saved = JSON.parse(localStorage.getItem(NAME_KEY) || '{}'); } catch {}
     if (nameInput) nameInput.value = saved.vorname || '';
     if (ortInput) ortInput.value = saved.ort || '';
+    if (greetingInput) greetingInput.value = '';
     if (consentInput) consentInput.checked = false;
+    if (newsletterInput) newsletterInput.checked = false;
+    if (emailInput) { emailInput.value = ''; emailInput.hidden = true; }
     if (dlgStatus) { dlgStatus.textContent = ''; dlgStatus.dataset.kind = ''; }
     dialog.hidden = false;
     requestAnimationFrame(() => dialog.classList.add('is-open'));
@@ -195,14 +215,25 @@ export function initCheer(root) {
     if (busy) return;
     const vorname = nameInput ? nameInput.value.trim() : '';
     const ort = ortInput ? ortInput.value.trim() : '';
+    const nachricht = greetingInput ? greetingInput.value.trim() : '';
     const consent = consentInput && consentInput.checked;
 
-    if (withName && vorname && !consent) {
-      dlgStatus.textContent = 'Bitte das Häkchen setzen, damit dein Name erscheinen darf.';
+    // Sobald Name ODER Gruß angegeben ist, braucht es die öffentliche Zustimmung.
+    if (withName && (vorname || nachricht) && !consent) {
+      dlgStatus.textContent = 'Bitte das Häkchen setzen, damit Name & Gruß erscheinen dürfen.';
       dlgStatus.dataset.kind = 'err';
       return;
     }
-    const useName = withName && vorname && consent;
+    const useName = withName && (vorname || nachricht) && consent;
+
+    // Newsletter (separate Einwilligung): bei Haken ist die E-Mail Pflicht.
+    const wantsNewsletter = newsletterInput && newsletterInput.checked;
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (wantsNewsletter && !/.+@.+\..+/.test(email)) {
+      dlgStatus.textContent = 'Für den Newsletter bitte eine gültige E-Mail angeben (oder Haken entfernen).';
+      dlgStatus.dataset.kind = 'err';
+      return;
+    }
 
     busy = true;
     if (confirmBtn) confirmBtn.disabled = true;
@@ -212,7 +243,21 @@ export function initCheer(root) {
     if (!alreadyLocal) animateCountTo(count + 1);
 
     const payload = { device_id: deviceId() };
-    if (useName) { payload.vorname = vorname; payload.ort = ort; payload.consent = true; }
+    if (useName) {
+      payload.vorname = vorname;
+      payload.ort = ort;
+      payload.consent = true;
+      if (nachricht) payload.nachricht = nachricht;
+    }
+    let successMsg = nachricht ? 'Dein Gruß ist unterwegs! 🤞' : 'Daumen sind gedrückt! 🤞';
+    if (wantsNewsletter) successMsg += ' Infos kommen per Mail.';
+
+    // Newsletter separat anstoßen (Double-Opt-in übernimmt der ESP); fehlertolerant.
+    const signupNewsletter = async () => {
+      if (!wantsNewsletter || !email) return;
+      try { await api.postNewsletter({ email, consent: true }); }
+      catch (err) { console.warn('[cheer] newsletter fehlgeschlagen', err); }
+    };
 
     try {
       const data = await api.postCheer(payload);
@@ -222,12 +267,27 @@ export function initCheer(root) {
       animateCountTo(Number(data.count) || count);
       renderLanterns(Number(data.count) || count); // ggf. neue Laterne (faded ein)
       startTicker();
-      setMsg(data.already ? 'Du bist schon dabei – danke! 🤞' : 'Daumen sind gedrückt! 🤞');
+      setMsg(data.already ? 'Du bist schon dabei – danke! 🤞' : successMsg);
+      signupNewsletter();
       closeDialog();
     } catch (e) {
       console.warn('[cheer] post fehlgeschlagen', e);
-      if (dlgStatus) { dlgStatus.textContent = 'Hat nicht geklappt – bitte später nochmal.'; dlgStatus.dataset.kind = 'err'; }
-      load();
+      if (DEMO_FALLBACK) {
+        // Demo ohne Backend: Erfolg simulieren (Zähler bleibt erhöht, Laterne erscheint)
+        localStorage.setItem(votedKey(), '1');
+        if (useName) {
+          localStorage.setItem(NAME_KEY, JSON.stringify({ vorname, ort }));
+          ticker = [{ vorname, ort, nachricht }, ...ticker];
+        }
+        renderLanterns(count);
+        startTicker();
+        setMsg(successMsg);
+        signupNewsletter();
+        closeDialog();
+      } else {
+        if (dlgStatus) { dlgStatus.textContent = 'Hat nicht geklappt – bitte später nochmal.'; dlgStatus.dataset.kind = 'err'; }
+        load();
+      }
     } finally {
       busy = false;
       if (confirmBtn) confirmBtn.disabled = false;

@@ -145,6 +145,10 @@ import Countdown from './Countdown.astro';
     overflow: hidden;
     background: var(--ink);
     isolation: isolate;
+    /* Platz für fixierten Header (oben) und Scroll-Hinweis (unten) reservieren,
+       damit der zentrierte Inhalt auf niedrigen Viewports nichts überlappt. */
+    padding-top: clamp(64px, 11vh, 100px);
+    padding-bottom: clamp(56px, 9vh, 80px);
   }
 
   .hero__layer {
@@ -345,7 +349,9 @@ import Countdown from './Countdown.astro';
   .hero__title-script {
     font-family: var(--font-script);
     font-weight: 400;
-    font-size: clamp(6rem, 22vw, 18rem);
+    /* zusätzlich höhenabhängig deckeln, damit der Hero auf niedrigen Viewports
+       nicht überläuft (auf großen Schirmen gewinnt der vw-Wert → bleibt riesig). */
+    font-size: min(clamp(6rem, 22vw, 18rem), 26vh);
     line-height: 1.05;            /* enger – weniger Leerraum unter dem Schriftzug */
     /* oben Luft, damit der hohe „S"-Bogen vom Gold-Verlauf (background-clip:text)
        noch erfasst und nicht abgeschnitten wird; unten bleibt es eng */
@@ -416,5 +422,12 @@ import Countdown from './Countdown.astro';
 
   @media (max-width: 767px) {
     .hero__layer { inset: 0; } /* mobil ohne Parallax-Überstand */
+  }
+
+  /* Niedrige Viewports (Laptops): Abstände straffen, damit Countdown und
+     Scroll-Hinweis nicht kollidieren (Hero-Inhalt bleibt zentriert & passt). */
+  @media (max-height: 780px) {
+    .hero__eyebrow { margin-bottom: 0.6rem; }
+    .hero__countdown { margin-top: clamp(0.75rem, 2vh, 1.4rem); }
   }
 </style>

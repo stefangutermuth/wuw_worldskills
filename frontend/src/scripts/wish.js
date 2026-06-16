@@ -129,7 +129,17 @@ export function initWishTree(root) {
         );
       } catch (err) {
         console.warn('[wish] senden fehlgeschlagen', err);
-        setStatus('Hoppla, das hat nicht geklappt. Bitte später nochmal.', 'err');
+        if (DEMO_FALLBACK) {
+          // Demo ohne Backend: Wunsch direkt oben anzeigen
+          listEl.insertBefore(
+            card({ vorname: payload.vorname, ort: payload.ort, nachricht: payload.nachricht }),
+            listEl.firstChild
+          );
+          form.reset();
+          setStatus('Danke! Dein Wunsch ist eingetragen. 🌿', 'ok');
+        } else {
+          setStatus('Hoppla, das hat nicht geklappt. Bitte später nochmal.', 'err');
+        }
       } finally {
         if (btn) btn.disabled = false;
       }

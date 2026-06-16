@@ -4,7 +4,6 @@ import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Route from '../components/Route.astro';
 import Cheer from '../components/Cheer.astro';
-import WishTree from '../components/WishTree.astro';
 import LiveMode from '../components/LiveMode.astro';
 import Footer from '../components/Footer.astro';
 ---
@@ -25,11 +24,8 @@ import Footer from '../components/Footer.astro';
     <!-- Übergang Reise (Reispapier) → Daumendrücken (Nachthimmel) -->
     <div class="seam" style="background: linear-gradient(180deg, #ece2cf, #0c1622)" aria-hidden="true"></div>
 
-    <!-- §A3 — Daumendrücken (dynamische Insel, /cheer) -->
+    <!-- §A3 — Daumendrücken: Laternen mit optionalem Gruß (vereint Cheer + Wunschbaum) -->
     <Cheer />
-
-    <!-- §A3 — Wunschbaum (dynamische Insel, /wishes, moderiert) -->
-    <WishTree />
 
     <!-- §A4 — Live aus Shanghai (Status-Toggle, /dispatches) -->
     <LiveMode />

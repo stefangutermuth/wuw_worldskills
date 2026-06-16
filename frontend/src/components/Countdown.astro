@@ -148,6 +148,14 @@
     .cd-track { gap: 0.5rem; }
   }
 
+  /* Niedrige Viewports (Laptops): Countdown kompakter, damit der Hero-Inhalt
+     nicht mit dem Scroll-Hinweis kollidiert. */
+  @media (max-height: 780px) {
+    :global(.cd-cards) { font-size: clamp(1.4rem, 4vw, 2.7rem); }
+    :global(.cd-group) { gap: 0.4rem; }
+    :global(.cd-sep) { font-size: clamp(1.4rem, 4vw, 2.7rem); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     :global(.flap.is-flipping .flap__fold--front),
     :global(.flap.is-flipping .flap__fold--back) {

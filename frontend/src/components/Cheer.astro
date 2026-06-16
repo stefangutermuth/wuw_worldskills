@@ -14,7 +14,7 @@
     <p class="u-eyebrow">Mitmachen</p>
     <h2 id="cheer-title" class="cheer__title">Drück die Daumen</h2>
     <p class="cheer__lead">
-      Jede Laterne steigt für Marc-Aurel &amp; Lennard auf dem Weg nach Shanghai auf.
+      Jede Laterne steigt für Marc-Aurel &amp; Lennard auf – schick deine mit einem guten Wunsch.
     </p>
 
     <!-- Start-Punkt der aufsteigenden Tap-Laternen -->
@@ -32,7 +32,7 @@
 
     <p class="cheer__msg" data-cheer-msg aria-live="polite">&nbsp;</p>
     <p class="cheer__ticker" data-cheer-ticker aria-live="polite">&nbsp;</p>
-    <p class="cheer__hint">Tipp: Klick auf eine Laterne, um zu sehen, wer mitfiebert.</p>
+    <p class="cheer__hint">Tipp: Klick auf eine Laterne, um Namen &amp; Grüße zu sehen.</p>
   </div>
 
   <!-- Laternen-Tooltip -->
@@ -44,15 +44,21 @@
       <button class="cheer__dialog-close" data-cheer-close type="button" aria-label="Schließen">&times;</button>
       <span class="cheer__dialog-emoji" aria-hidden="true">🤞</span>
       <h3 id="cheer-dlg-title">Drück die Daumen!</h3>
-      <p class="cheer__dialog-text">Magst du sagen, wer mitfiebert? Dann steigt deine Laterne mit Namen auf.</p>
+      <p class="cheer__dialog-text">Schick eine Laterne – optional mit Namen und einem guten Wunsch an die Jungs.</p>
       <div class="cheer__dialog-row">
         <input type="text" data-cheer-name placeholder="Vorname" maxlength="80" autocomplete="given-name" />
         <input type="text" data-cheer-ort placeholder="Ort" maxlength="120" autocomplete="address-level2" />
       </div>
+      <textarea class="cheer__dialog-msg" data-cheer-greeting placeholder="Dein Gruß an die Jungs (optional)" maxlength="240" rows="3"></textarea>
       <label class="cheer__dialog-consent">
         <input type="checkbox" data-cheer-consent />
-        <span>Vorname &amp; Ort dürfen öffentlich in einer Laterne erscheinen.</span>
+        <span>Vorname, Ort &amp; Gruß dürfen öffentlich in einer Laterne erscheinen.</span>
       </label>
+      <label class="cheer__dialog-consent">
+        <input type="checkbox" data-cheer-newsletter />
+        <span>Newsletter abonnieren – alle Infos zur Reise nach Shanghai.</span>
+      </label>
+      <input type="email" class="cheer__dialog-email" data-cheer-email placeholder="Deine E-Mail für den Newsletter" autocomplete="email" hidden />
       <button class="cheer__dialog-confirm" data-cheer-confirm type="button">Daumen drücken 🤞</button>
       <button class="cheer__dialog-anon" data-cheer-anon type="button">Lieber anonym mitmachen</button>
       <p class="cheer__dialog-status" data-cheer-dialog-status aria-live="polite"></p>
@@ -352,6 +358,30 @@
     font: inherit;
   }
   .cheer__dialog-row input::placeholder { color: rgba(241, 232, 214, 0.4); }
+  .cheer__dialog-msg {
+    width: 100%;
+    margin-top: 0.6rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--paper);
+    font: inherit;
+    resize: vertical;
+  }
+  .cheer__dialog-msg::placeholder { color: rgba(241, 232, 214, 0.4); }
+  .cheer__dialog-email {
+    width: 100%;
+    margin: -0.4rem 0 0.2rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--paper);
+    font: inherit;
+  }
+  .cheer__dialog-email[hidden] { display: none; }
+  .cheer__dialog-email::placeholder { color: rgba(241, 232, 214, 0.4); }
   .cheer__dialog-consent {
     display: flex;
     gap: 0.55rem;
