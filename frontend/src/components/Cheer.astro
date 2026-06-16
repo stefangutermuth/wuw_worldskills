@@ -152,6 +152,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Klicks auf Leerflächen fallen zu den Laternen dahinter durch;
+       nur interaktive Kinder (Daumen-Button) fangen sie wieder ab. */
+    pointer-events: none;
   }
 
   .cheer__title {
@@ -178,6 +181,7 @@
   .cheer__btn {
     position: relative;
     z-index: 3;
+    pointer-events: auto; /* Button bleibt klickbar (Inner ist pointer-events:none) */
     display: inline-flex;
     flex-direction: column;
     align-items: center;
