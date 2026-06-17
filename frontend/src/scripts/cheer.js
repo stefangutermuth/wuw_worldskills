@@ -68,6 +68,12 @@ export function initCheer(root) {
   const consentInput = root.querySelector('[data-cheer-consent]');
   const newsletterInput = root.querySelector('[data-cheer-newsletter]');
   const emailInput = root.querySelector('[data-cheer-email]');
+  const goalFill = root.querySelector('[data-cheer-fill]');
+  const goalBar = root.querySelector('[data-cheer-bar]');
+  const sharePanel = root.querySelector('[data-cheer-share]');
+  const sharePanelText = root.querySelector('[data-cheer-share-text]');
+  const shareBtn = root.querySelector('[data-cheer-share-btn]');
+  const GOAL = 2026;
 
   // E-Mail-Feld nur zeigen, wenn Newsletter angehakt ist
   if (newsletterInput && emailInput) {
@@ -91,6 +97,11 @@ export function initCheer(root) {
   /* ---------- Zähler ---------- */
   function renderCount() {
     countEl.textContent = fmt.format(count);
+    if (goalFill && goalBar) {
+      const pct = Math.min((count / GOAL) * 100, 100);
+      goalFill.style.width = pct.toFixed(1) + '%';
+      goalBar.setAttribute('aria-valuenow', String(count));
+    }
   }
   function animateCountTo(target) {
     if (reduced) { count = target; renderCount(); return; }
@@ -202,6 +213,7 @@ export function initCheer(root) {
     if (newsletterInput) newsletterInput.checked = false;
     if (emailInput) { emailInput.value = ''; emailInput.hidden = true; }
     if (dlgStatus) { dlgStatus.textContent = ''; dlgStatus.dataset.kind = ''; }
+    if (sharePanel) sharePanel.hidden = true;
     dialog.hidden = false;
     requestAnimationFrame(() => dialog.classList.add('is-open'));
     setTimeout(() => nameInput && nameInput.focus(), 120);
@@ -269,6 +281,7 @@ export function initCheer(root) {
       startTicker();
       setMsg(data.already ? 'Du bist schon dabei – danke! 🤞' : successMsg);
       signupNewsletter();
+      showSharePanel(useName ? vorname : '');
       closeDialog();
     } catch (e) {
       console.warn('[cheer] post fehlgeschlagen', e);
@@ -283,6 +296,7 @@ export function initCheer(root) {
         startTicker();
         setMsg(successMsg);
         signupNewsletter();
+        showSharePanel(useName ? vorname : '');
         closeDialog();
       } else {
         if (dlgStatus) { dlgStatus.textContent = 'Hat nicht geklappt – bitte später nochmal.'; dlgStatus.dataset.kind = 'err'; }
@@ -293,6 +307,36 @@ export function initCheer(root) {
       if (confirmBtn) confirmBtn.disabled = false;
       if (anonBtn) anonBtn.disabled = false;
     }
+  }
+
+  /* ---------- Teilen-Panel ---------- */
+  function showSharePanel(vorname) {
+    if (!sharePanel) return;
+    const who = vorname ? ` mit ${vorname}` : '';
+    if (sharePanelText) sharePanelText.textContent = `Deine Laterne fliegt${who}! 🏮`;
+    const shareUrl = window.location.href.split('?')[0];
+    sharePanel.dataset.shareMsg = (vorname
+      ? `${vorname} drückt die Daumen für Marc-Aurel & Lennard bei den WorldSkills 2026 in Shanghai! 🏮 `
+      : 'Ich drücke die Daumen für Marc-Aurel & Lennard bei den WorldSkills 2026! 🏮 '
+    ) + shareUrl;
+    sharePanel.hidden = false;
+  }
+
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const text = sharePanel ? sharePanel.dataset.shareMsg : '';
+      const url = window.location.href.split('?')[0];
+      if (navigator.share) {
+        try { await navigator.share({ title: 'Road to Shanghai – WorldSkills 2026', text, url }); } catch {}
+      } else {
+        try {
+          await navigator.clipboard.writeText(text || url);
+          const orig = shareBtn.innerHTML;
+          shareBtn.textContent = 'Kopiert! ✓';
+          setTimeout(() => { shareBtn.innerHTML = orig; }, 2400);
+        } catch {}
+      }
+    });
   }
 
   btn.addEventListener('click', openDialog);

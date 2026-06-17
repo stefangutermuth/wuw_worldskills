@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Road to Shanghai//WorldSkills 2026//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260922
+DTEND;VALUE=DATE:20260926
+SUMMARY:WorldSkills 2026 – Chemnitz kämpft in Shanghai
+DESCRIPTION:Marc-Aurel Spalek & Lennard Weitzmann von Wirth & Wiener treten bei den WorldSkills 2026 in Shanghai an – drück die Daumen!\n\nhttps://stefangutermuth.github.io/wuw_worldskills/
+URL:https://stefangutermuth.github.io/wuw_worldskills/
+LOCATION:Shanghai\, China
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR

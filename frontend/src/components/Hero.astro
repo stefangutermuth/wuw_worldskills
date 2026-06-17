@@ -1,8 +1,7 @@
 ---
 // Sektion „Der Aufbruch" (Hero) — §A1
-// Cinematic, Übergang Erzgebirgswald → Shanghai-Skyline, Koi steigt mittig auf.
-// Parallax in getrennten Ebenen; Text-Layer strikt getrennt (Headline scharf/auswählbar).
 import Countdown from './Countdown.astro';
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
 
 <section class="hero" id="hero" aria-label="Road to Shanghai – Der Aufbruch">
@@ -55,6 +54,11 @@ import Countdown from './Countdown.astro';
     <div class="hero__countdown">
       <Countdown />
     </div>
+
+    <a href={asset('/worldskills-2026.ics')} class="hero__cal-btn" download aria-label="Termin zum Kalender hinzufügen">
+      <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
+      Erinnere mich – 22. Sept. 2026
+    </a>
   </div>
 
   <!-- Scroll-Hinweis -->
@@ -73,6 +77,21 @@ import Countdown from './Countdown.astro';
   const hero = document.querySelector('.hero');
 
   if (hero && !prefersReduced) {
+    // Koi verstecken bis Preloader weg ist — verhindert sichtbaren GSAP-Positionssprung
+    gsap.set('.hero__koi', { autoAlpha: 0 });
+    const revealKoi = () => gsap.to('.hero__koi', { autoAlpha: 1, duration: 1.2, ease: 'power2.out' });
+    if (!document.documentElement.classList.contains('is-preloading')) {
+      revealKoi();
+    } else {
+      const _mo = new MutationObserver(() => {
+        if (!document.documentElement.classList.contains('is-preloading')) {
+          _mo.disconnect();
+          revealKoi();
+        }
+      });
+      _mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+
     // Intro-Reveal: Headline gestaffelt
     gsap.from('.hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
       y: 28,
@@ -374,6 +393,30 @@ import Countdown from './Countdown.astro';
   }
 
   .hero__countdown { margin-top: clamp(2rem, 5vw, 3.5rem); }
+
+  .hero__cal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.4rem;
+    padding: 0.52rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.38);
+    background: rgba(12, 18, 15, 0.32);
+    backdrop-filter: blur(6px);
+    color: rgba(241, 232, 214, 0.72);
+    font-size: 0.83rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: border-color 0.22s ease, color 0.22s ease, background 0.22s ease;
+  }
+  .hero__cal-btn:hover {
+    border-color: rgba(201, 162, 75, 0.7);
+    color: var(--gold);
+    background: rgba(201, 162, 75, 0.1);
+  }
+  .hero__cal-btn i { font-size: 0.9rem; }
 
   /* Scroll-Hinweis */
   .hero__scroll {

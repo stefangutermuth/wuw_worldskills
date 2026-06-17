@@ -30,7 +30,30 @@
       <span class="cheer__count-suffix">Fans drücken die Daumen</span>
     </p>
 
+    <!-- Meilenstein-Fortschrittsbalken: Ziel 2.026 Daumendrücker -->
+    <div class="cheer__goal" data-cheer-goal>
+      <div class="cheer__goal-track"
+           role="progressbar"
+           aria-valuenow="0"
+           aria-valuemin="0"
+           aria-valuemax="2026"
+           aria-label="Fortschritt zum Ziel"
+           data-cheer-bar>
+        <div class="cheer__goal-fill" data-cheer-fill></div>
+      </div>
+      <p class="cheer__goal-label">Ziel: <strong>2.026</strong> Daumendrücker bis zum Abflug</p>
+    </div>
+
     <p class="cheer__msg" data-cheer-msg aria-live="polite">&nbsp;</p>
+
+    <!-- Teilen-Panel: erscheint nach erfolgreichem Daumendrücken -->
+    <div class="cheer__share-panel" data-cheer-share hidden>
+      <p class="cheer__share-fly" data-cheer-share-text>Deine Laterne fliegt! 🏮</p>
+      <button type="button" class="cheer__share-btn" data-cheer-share-btn>
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Mit Freunden teilen
+      </button>
+    </div>
+
     <p class="cheer__ticker" data-cheer-ticker aria-live="polite">&nbsp;</p>
     <p class="cheer__hint">Tipp: Klick auf eine Laterne, um Namen &amp; Grüße zu sehen.</p>
   </div>
@@ -421,6 +444,69 @@
   .cheer__dialog-anon:hover { color: var(--paper); }
   .cheer__dialog-status { margin-top: 0.7rem; min-height: 1.1em; font-size: 0.85rem; }
   .cheer__dialog-status[data-kind='err'] { color: #ffc7b0; }
+
+  /* Meilenstein-Fortschrittsbalken */
+  .cheer__goal {
+    width: min(28rem, 90%);
+    margin-top: clamp(1.2rem, 3vh, 2rem);
+    pointer-events: auto;
+  }
+  .cheer__goal-track {
+    height: 6px;
+    background: rgba(241, 232, 214, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .cheer__goal-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold) 0%, #ffdc8a 100%);
+    border-radius: 999px;
+    transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 10px rgba(201, 162, 75, 0.45);
+  }
+  .cheer__goal-label {
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: rgba(241, 232, 214, 0.45);
+    text-transform: uppercase;
+  }
+  .cheer__goal-label strong { color: var(--gold); }
+
+  /* Teilen-Panel */
+  .cheer__share-panel {
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    pointer-events: auto;
+  }
+  .cheer__share-panel[hidden] { display: none; }
+  .cheer__share-fly {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold);
+  }
+  .cheer__share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.3rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.5);
+    background: rgba(201, 162, 75, 0.1);
+    color: var(--gold);
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.22s ease, transform 0.18s var(--ease-out);
+    pointer-events: auto;
+  }
+  .cheer__share-btn:hover { background: rgba(201, 162, 75, 0.2); transform: translateY(-2px); }
 
   /* Bestätigung am Daumen-Button */
   .cheer__msg {

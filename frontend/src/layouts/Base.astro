@@ -15,6 +15,10 @@ const {
 } = Astro.props;
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
+const _base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const _ogOrigin = _base ? 'https://stefangutermuth.github.io' : 'https://road-to-shanghai.de';
+const ogUrl = `${_ogOrigin}${_base}/`;
+const ogImage = `${_ogOrigin}${_base}/img/hero/hero-bg.jpg`;
 ---
 
 <!doctype html>
@@ -34,8 +38,19 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <title>{title}</title>
+
+    <!-- Font Awesome 6 (Brand-Icons für Social) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body>
     <Preloader />

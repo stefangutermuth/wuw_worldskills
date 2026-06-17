@@ -13,11 +13,22 @@ import Newsletter from './Newsletter.astro';
       <div class="footer__share">
         <h3 class="footer__h">Teile das Abenteuer</h3>
         <p class="footer__lead">Hilf mit, dass möglichst viele die Daumen drücken.</p>
-        <div class="footer__share-btns" data-share>
-          <button type="button" class="share-btn" data-share-native hidden>Teilen</button>
-          <a class="share-btn" data-share-wa target="_blank" rel="noopener" href="#">WhatsApp</a>
-          <a class="share-btn" data-share-fb target="_blank" rel="noopener" href="#">Facebook</a>
-          <button type="button" class="share-btn" data-share-copy>Link kopieren</button>
+        <div class="footer__social" data-share>
+          <a class="social-icon" data-share-wa target="_blank" rel="noopener" href="#" aria-label="Per WhatsApp teilen">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a class="social-icon" data-share-fb target="_blank" rel="noopener" href="#" aria-label="Auf Facebook teilen">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a class="social-icon" data-share-x target="_blank" rel="noopener" href="#" aria-label="Auf X teilen">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a class="social-icon" data-share-insta target="_blank" rel="noopener" href="https://www.instagram.com/" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <button type="button" class="social-icon" data-share-copy aria-label="Link kopieren">
+            <i class="fa-solid fa-link"></i>
+          </button>
         </div>
         <p class="footer__share-status" data-share-status aria-live="polite"></p>
       </div>
@@ -49,26 +60,23 @@ import Newsletter from './Newsletter.astro';
   if (root) {
     const url = window.location.origin + '/';
     const title = 'Road to Shanghai – drück mit die Daumen!';
-    const statusEl = root.querySelector('[data-share-status]');
+    const statusEl = document.querySelector('[data-share-status]');
 
     const wa = root.querySelector('[data-share-wa]');
     if (wa) wa.href = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+
     const fb = root.querySelector('[data-share-fb]');
     if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
 
-    const native = root.querySelector('[data-share-native]');
-    if (native && navigator.share) {
-      native.hidden = false;
-      native.addEventListener('click', () => {
-        navigator.share({ title, text: title, url }).catch(() => {});
-      });
-    }
+    const x = root.querySelector('[data-share-x]');
+    if (x) x.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
 
     const copy = root.querySelector('[data-share-copy]');
     copy?.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(url);
         if (statusEl) statusEl.textContent = 'Link kopiert! 🔗';
+        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
       } catch {
         if (statusEl) statusEl.textContent = url;
       }
@@ -91,23 +99,43 @@ import Newsletter from './Newsletter.astro';
   @media (min-width: 820px) {
     .footer__top { grid-template-columns: 1.2fr 1fr; align-items: start; }
   }
-  .footer__h { font-size: 1.6rem; color: var(--gold); }
-  .footer__lead { margin: 0.5rem 0 1.25rem; color: var(--ink-soft); }
+  .footer__h { font-size: 1.6rem; color: var(--gold); margin-bottom: 0.4rem; }
+  .footer__lead { margin: 0 0 1.4rem; color: var(--ink-soft); font-size: 0.93rem; line-height: 1.55; }
 
-  .footer__share-btns { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-  .share-btn {
-    padding: 0.65rem 1.2rem;
-    border-radius: 999px;
+  /* Social Icons */
+  .footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
     border: 1px solid rgba(201, 162, 75, 0.4);
     background: transparent;
-    color: var(--paper);
-    font: inherit;
-    font-size: 0.9rem;
+    color: var(--gold);
+    font-size: 1.05rem;
     cursor: pointer;
-    transition: background 0.25s, transform 0.18s var(--ease-out);
+    text-decoration: none;
+    transition: background 0.22s ease, border-color 0.22s ease, transform 0.18s var(--ease-out);
   }
-  .share-btn:hover { background: rgba(201, 162, 75, 0.14); transform: translateY(-2px); }
-  .footer__share-status { margin-top: 0.75rem; font-size: 0.85rem; color: var(--jade-lt); min-height: 1.1em; }
+  .social-icon:hover {
+    background: rgba(201, 162, 75, 0.16);
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    color: var(--gold);
+  }
+  .footer__share-status {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--jade-lt);
+    min-height: 1.1em;
+  }
 
   .footer__sponsors {
     margin-top: clamp(3rem, 7vh, 4.5rem);

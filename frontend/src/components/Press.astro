@@ -1,0 +1,202 @@
+---
+// Presse-Bereich (§A5) — Materialien für Redaktionen, Freie Presse, MDR etc.
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
+
+const facts = [
+  { label: 'Teilnehmer', value: 'Marc-Aurel Spalek & Lennard Weitzmann' },
+  { label: 'Unternehmen', value: 'Wirth & Wiener GmbH, Chemnitz' },
+  { label: 'Beruf', value: 'Stukkateure' },
+  { label: 'Wettkampf', value: 'WorldSkills 2026, Shanghai' },
+  { label: 'Datum', value: '22.–26. September 2026' },
+  { label: 'Teilnehmerländer', value: '80+ Nationen' },
+];
+---
+
+<section class="press" id="presse" aria-labelledby="press-title">
+  <div class="press__inner u-container">
+    <div class="press__header">
+      <p class="u-eyebrow">Für die Presse</p>
+      <h2 id="press-title" class="press__title">Pressematerial</h2>
+      <p class="press__lead">
+        Alle Infos und Materialien für Redaktionen – kostenlos zur Berichterstattung nutzbar.
+      </p>
+    </div>
+
+    <div class="press__grid">
+      <!-- Eckdaten -->
+      <div class="press__card">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i> Eckdaten
+        </h3>
+        <dl class="press__facts">
+          {facts.map(f => (
+            <>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </>
+          ))}
+        </dl>
+      </div>
+
+      <!-- Pressefotos -->
+      <div class="press__card">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-images" aria-hidden="true"></i> Pressefotos
+        </h3>
+        <p class="press__card-text">
+          Hochauflösende Fotos (300 dpi, JPG) zur redaktionellen Nutzung. Bitte Bildcredit: <em>© Wirth &amp; Wiener GmbH</em>.
+        </p>
+        <a href="#" class="press__dl-btn" aria-label="Pressefotos herunterladen (Platzhalter)">
+          <i class="fa-solid fa-download" aria-hidden="true"></i>
+          Pressefotos herunterladen
+          <span class="press__badge">ZIP · ca. 28 MB</span>
+        </a>
+      </div>
+
+      <!-- Pressemitteilung -->
+      <div class="press__card">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Pressemitteilung
+        </h3>
+        <p class="press__card-text">
+          Aktuelle Pressemitteilung zur Teilnahme von Marc-Aurel &amp; Lennard an den WorldSkills 2026 in Shanghai.
+        </p>
+        <a href="#" class="press__dl-btn" aria-label="Pressemitteilung herunterladen (Platzhalter)">
+          <i class="fa-solid fa-download" aria-hidden="true"></i>
+          Pressemitteilung (PDF)
+          <span class="press__badge">PDF · 320 KB</span>
+        </a>
+      </div>
+
+      <!-- Kontakt -->
+      <div class="press__card press__card--contact">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i> Pressekontakt
+        </h3>
+        <address class="press__contact">
+          <strong>Wirth &amp; Wiener GmbH</strong><br />
+          Presse- und Öffentlichkeitsarbeit<br />
+          <a href="mailto:presse@wirth-wiener.de">presse@wirth-wiener.de</a><br />
+          <a href="tel:+493712345678">+49 (0) 371 – Platzhalter</a>
+        </address>
+        <p class="press__contact-note">
+          Wir freuen uns über Anfragen und stellen auf Wunsch Interviewtermine bereit.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .press {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: clamp(4rem, 10vh, 7rem);
+    border-top: 1px solid rgba(201, 162, 75, 0.12);
+  }
+
+  .press__header {
+    text-align: center;
+    margin-bottom: clamp(2.5rem, 6vh, 4rem);
+  }
+  .press__title {
+    font-size: var(--fs-h2);
+    color: var(--gold);
+    margin: 0.4rem 0 0.7rem;
+  }
+  .press__lead {
+    color: var(--ink-soft);
+    max-width: 50ch;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  .press__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .press__grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .press__card {
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border-radius: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.18);
+    background: rgba(241, 232, 214, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .press__card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+  }
+  .press__card-title i { font-size: 0.95rem; opacity: 0.85; }
+
+  .press__card-text {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .press__facts {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 1.1rem;
+    font-size: 0.88rem;
+  }
+  .press__facts dt {
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .press__facts dd {
+    color: var(--paper);
+    margin: 0;
+  }
+
+  .press__dl-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0.65rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.4);
+    background: transparent;
+    color: var(--gold);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.22s ease, transform 0.18s var(--ease-out);
+  }
+  .press__dl-btn:hover { background: rgba(201, 162, 75, 0.12); transform: translateY(-2px); }
+  .press__badge {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+
+  .press__card--contact { border-color: rgba(201, 162, 75, 0.28); }
+  .press__contact {
+    font-style: normal;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--paper);
+  }
+  .press__contact a { color: var(--gold); text-decoration: underline; }
+  .press__contact-note {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-top: auto;
+  }
+</style>
