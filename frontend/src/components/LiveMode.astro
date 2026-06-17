@@ -23,15 +23,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </span>
     </header>
 
-    <!-- Vorfreude (vor dem Event): Zahl · Label · Datum als eine Einheit -->
+    <!-- Vorfreude (vor dem Event): Zahl · Label · Datum in einer zentrierten Zeile -->
     <div class="live__pre" data-live-pre>
-      <div class="live__cd">
+      <h2 id="live-title" class="live__cd">
         <span class="live__cd-num" data-live-days>–</span>
-        <span class="live__cd-meta">
-          <h2 id="live-title" class="live__cd-unit">Tage bis Shanghai</h2>
-          <span class="live__cd-date">22.–27. September 2026</span>
-        </span>
-      </div>
+        <span class="live__cd-unit">Tage bis Shanghai</span>
+        <span class="live__cd-sep" aria-hidden="true">·</span>
+        <span class="live__cd-date">22.–27. September 2026</span>
+      </h2>
       <p class="live__cd-text">
         bis zum ersten Bericht direkt aus dem National Exhibition and Convention Center.
       </p>
@@ -116,7 +115,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   .live__head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1rem;
   }
   .live__badge {
@@ -144,63 +143,64 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     100% { box-shadow: 0 0 0 0 rgba(168, 30, 46, 0); }
   }
 
-  /* ---------- Vorfreude-Block ---------- */
+  /* ---------- Vorfreude-Block (zentriert) ---------- */
   .live__pre {
-    margin-top: clamp(2rem, 5vh, 3rem);
+    margin-top: clamp(1.4rem, 3.5vh, 2.2rem);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1.1rem;
+    align-items: center;
+    text-align: center;
+    gap: 0.7rem;
   }
-  /* Zahl (groß) links, Label + Datum rechts gestapelt – eine Einheit */
+  /* Zahl · Label · Datum in EINER zentrierten Zeile (umbricht auf Schmal sauber) */
   .live__cd {
     display: flex;
-    align-items: center;
-    gap: clamp(1rem, 2.4vw, 1.8rem);
     flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.35rem 0.7rem;
+    margin: 0;
+    line-height: 1.1;
   }
   .live__cd-num {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(3.4rem, 9vw, 6rem);
-    line-height: 0.85;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    line-height: 0.9;
     color: var(--gold);
     font-variant-numeric: tabular-nums;
-    text-shadow: 0 6px 40px var(--gold-glow);
-  }
-  .live__cd-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
+    text-shadow: 0 4px 30px var(--gold-glow);
   }
   .live__cd-unit {
     font-family: var(--font-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(1.05rem, 2.2vw, 1.55rem);
-    line-height: 1.1;
+    font-size: clamp(1.1rem, 2.4vw, 1.7rem);
     color: var(--paper);
-    margin: 0;
     text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+  }
+  .live__cd-sep {
+    color: rgba(201, 162, 75, 0.6);
+    font-size: clamp(1rem, 2vw, 1.4rem);
   }
   .live__cd-date {
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: clamp(1.35rem, 3.1vw, 2.2rem);
-    line-height: 1.05;
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
     color: var(--gold);
     letter-spacing: 0.005em;
     text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
   }
   .live__cd-text {
-    max-width: 46ch;
+    max-width: 50ch;
+    margin: 0 auto;
     color: rgba(241, 232, 214, 0.82);
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
   }
 
   /* ---------- Was dich erwartet ---------- */
   .live__expect {
-    margin-top: clamp(2.5rem, 6vh, 4rem);
+    margin-top: clamp(1.5rem, 3.5vh, 2.4rem);
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr;
@@ -266,7 +266,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
 
   /* ---------- Instagram ---------- */
-  .live__insta { margin-top: clamp(3rem, 7vh, 4.5rem); }
+  .live__insta { margin-top: clamp(1.8rem, 4vh, 3rem); }
   .live__insta-label {
     font-size: var(--fs-label);
     letter-spacing: 0.16em;
