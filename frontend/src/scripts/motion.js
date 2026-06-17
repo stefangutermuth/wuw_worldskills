@@ -48,6 +48,20 @@ export function initMotion() {
   }
   window.addEventListener('load', refresh);
 
+  // WICHTIG: Solange der Preloader läuft, sperrt html.is-preloading das Scrollen
+  // (overflow: hidden). ScrollTrigger kalibriert dann gegen das gesperrte Layout →
+  // die Hero-Parallax (Koi, BG-Layer) sitzt falsch, bis der erste Scroll ein Update
+  // auslöst. Daher nach dem Preloader-Ende neu kalibrieren (doppeltes rAF, damit
+  // Scrollbar/Höhe sicher gesetzt sind).
+  const refreshAfterPreloader = () => {
+    requestAnimationFrame(() => requestAnimationFrame(refresh));
+  };
+  if (document.documentElement.classList.contains('is-preloading')) {
+    document.addEventListener('preloader:done', refreshAfterPreloader, { once: true });
+  } else {
+    refreshAfterPreloader(); // Preloader schon weg (reduced-motion / Cache)
+  }
+
   // ── Scroll-Snap: Nach dem Scrollen springt die Seite zur nächsten Rubrik.
   // Arbeitet mit lenis.scrollTo() statt CSS scroll-snap (Lenis v1 inkompatibel).
   // Logik: Wir ermitteln, zwischen welchen zwei Rubriken wir gerade stehen.
