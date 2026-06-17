@@ -55,7 +55,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <div class="live__insta">
       <p class="live__insta-label">#RoadToShanghai auf Instagram</p>
       <div class="live__insta-grid">
-        {[1, 2, 3, 4, 5, 6].map((n) => (
+        {[1, 2, 3, 4, 5].map((n) => (
           <figure class="live__insta-tile">
             <picture>
               <source srcset={asset(`/img/live/insta/insta-${n}.avif`)} type="image/avif" />
@@ -253,10 +253,13 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .live__insta-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 0.6rem;
+    overflow-x: auto;
   }
-  @media (min-width: 720px) { .live__insta-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) {
+    .live__insta-grid { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
+  }
 
   .live__insta-tile {
     position: relative;

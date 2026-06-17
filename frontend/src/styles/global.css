@@ -163,6 +163,35 @@ button {
   width: 100%;
 }
 
+/* Scroll-Snap: Sektionen füllen mindestens den Viewport (Hero hat es schon via min-height: 100svh).
+   Route hat eigenes Höhen-Management via ScrollTrigger-Pin. */
+#daumendruecken,
+#live,
+#presse {
+  min-height: 100svh;
+}
+
+/* Blur-Reveal: Blöcke starten unscharf, werden beim Einrollen scharf.
+   transition-delay kommt als Inline-Style von blur-reveal.js (Stagger). */
+.br-block {
+  filter: blur(18px);
+  opacity: 0.2;
+  transform: translateY(14px);
+  transition:
+    filter   0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity  0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: filter, opacity, transform;
+}
+.br-block.br-visible {
+  filter: blur(0px);
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .br-block { filter: none; opacity: 1; transform: none; transition: none; }
+}
+
 /* Gold-Lettering mit wanderndem Schimmer */
 .u-gold-sheen {
   background: linear-gradient(100deg, #9c7a2f 0%, #f4e3ad 38%, #c9a24b 55%, #b8863b 75%, #f4e3ad 100%);

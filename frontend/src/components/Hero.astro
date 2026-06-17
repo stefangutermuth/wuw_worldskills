@@ -72,8 +72,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
 <script>
   import { initMotion } from '../scripts/motion.js';
+  import { initBlurReveal } from '../scripts/blur-reveal.js';
 
   const { gsap, ScrollTrigger, prefersReduced } = initMotion();
+  if (!prefersReduced) initBlurReveal();
   const hero = document.querySelector('.hero');
 
   if (hero && !prefersReduced) {
