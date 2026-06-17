@@ -250,25 +250,28 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     background-repeat: no-repeat;
     background-position: center;
     will-change: transform, opacity;
+    /* Nebel kräftiger sichtbar machen: helleres/kontrastreicheres Bild → der
+       Screen-Blend zeichnet die Schwaden deutlicher. */
+    filter: brightness(1.5) contrast(1.12);
     /* weiche Kanten oben & unten – kein harter Schnitt */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 40%, #000 80%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, #000 40%, #000 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 32%, #000 84%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 32%, #000 84%, transparent 100%);
   }
   .fog-img--1 {
-    width: 120%; height: 58vh; left: -10%; bottom: 4vh;
+    width: 130%; height: 70vh; left: -15%; bottom: 0;
     animation: fog-drift-a 42s ease-in-out infinite alternate;
   }
   .fog-img--2 {
-    width: 130%; height: 46vh; left: -16%; bottom: 22vh;
+    width: 140%; height: 56vh; left: -20%; bottom: 18vh;
     animation: fog-drift-b 56s ease-in-out infinite alternate;
   }
   @keyframes fog-drift-a {
-    0%   { transform: translate3d(-3%, 0, 0) scale(1.05);  opacity: 0.5; }
-    100% { transform: translate3d(4%, -2%, 0) scale(1.16); opacity: 0.8; }
+    0%   { transform: translate3d(-3%, 0, 0) scale(1.05);  opacity: 0.78; }
+    100% { transform: translate3d(4%, -2%, 0) scale(1.16); opacity: 1; }
   }
   @keyframes fog-drift-b {
-    0%   { transform: translate3d(2%, 1%, 0) scaleX(-1) scale(1.1);  opacity: 0.35; }
-    100% { transform: translate3d(-5%, -1%, 0) scaleX(-1) scale(1.22); opacity: 0.6; }
+    0%   { transform: translate3d(2%, 1%, 0) scaleX(-1) scale(1.1);  opacity: 0.62; }
+    100% { transform: translate3d(-5%, -1%, 0) scaleX(-1) scale(1.22); opacity: 0.9; }
   }
 
   /* Atmosphäre-Layer: Scrim & Vignette hinter Text, Korn darüber */
