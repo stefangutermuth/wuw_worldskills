@@ -48,6 +48,30 @@ export function initLive(root) {
   // ---- Hintergrund-Zoom ----
   initBgParallax(root.querySelector('[data-live-bg]'));
 
+  // ---- Instagram-Feed (echte Posts der Haupt-WP via rts-backend) ----
+  const igGrid = root.querySelector('[data-insta-grid]');
+  if (igGrid) {
+    api
+      .getInstagram()
+      .then((data) => {
+        const items = (data && data.items) || [];
+        if (!items.length) return; // keine Daten → Platzhalter bleiben stehen
+        const esc = (s) => String(s == null ? '' : s).replace(/"/g, '&quot;');
+        igGrid.innerHTML = items
+          .slice(0, 5)
+          .map(
+            (p) => `
+        <a class="live__insta-tile" href="${esc(p.permalink || 'https://www.instagram.com/wirth_wiener_gmbh/')}" target="_blank" rel="noopener" aria-label="${esc(p.caption || 'Instagram-Beitrag von Wirth & Wiener')}">
+          <img src="${esc(p.image)}" alt="" loading="lazy" />
+        </a>`
+          )
+          .join('');
+      })
+      .catch(() => {
+        /* Fehler → Platzhalter bleiben stehen */
+      });
+  }
+
   // ---- Status + Dispatches ----
   const featured = root.querySelector('[data-live-featured]');
   const cards = root.querySelector('[data-live-cards]');

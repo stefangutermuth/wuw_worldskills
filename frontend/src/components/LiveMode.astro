@@ -94,7 +94,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <!-- Instagram-Feed-Vorschau (Stockbilder; später echter Feed übers Plugin) -->
     <div class="live__insta">
       <p class="live__insta-label">#RoadToShanghai auf Instagram</p>
-      <div class="live__insta-grid">
+      <div class="live__insta-grid" data-insta-grid>
         {[1, 2, 3, 4, 5].map((n) => (
           <figure class="live__insta-tile">
             <picture>
@@ -327,8 +327,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     .live__insta-grid { grid-template-columns: repeat(5, minmax(100px, 1fr)); }
   }
 
-  .live__insta-tile {
+  /* global, damit auch die per JS eingefügten echten Instagram-Kacheln greifen */
+  :global(.live__insta-tile) {
     position: relative;
+    display: block;
     margin: 0;
     aspect-ratio: 1;
     overflow: hidden;
@@ -342,15 +344,15 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     filter: saturate(0.95) brightness(0.96);
     transition: transform 0.55s var(--ease-out), filter 0.4s ease;
   }
-  .live__insta-tile::after {
+  :global(.live__insta-tile::after) {
     content: '';
     position: absolute; inset: 0;
     background: linear-gradient(180deg, transparent 50%, rgba(12, 22, 34, 0.5));
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  .live__insta-tile:hover :global(img) { transform: scale(1.08); filter: saturate(1.12) brightness(1.05); }
-  .live__insta-tile:hover::after { opacity: 1; }
+  :global(.live__insta-tile:hover img) { transform: scale(1.08); filter: saturate(1.12) brightness(1.05); }
+  :global(.live__insta-tile:hover::after) { opacity: 1; }
 
   .live__insta-note {
     margin-top: 1rem;

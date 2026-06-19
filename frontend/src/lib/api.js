@@ -33,6 +33,7 @@ export const api = {
   // Live aus Shanghai
   getDispatches: (signal) => request('/dispatches', { signal }),
   getStatus: (signal) => request('/status', { signal }),
+  getInstagram: (signal) => request('/instagram', { signal }),
 
   // Newsletter (Platzhalter – ESP noch nicht angebunden)
   postNewsletter: (data) => request('/newsletter', { method: 'POST', body: data }),

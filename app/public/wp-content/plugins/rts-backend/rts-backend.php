@@ -26,6 +26,7 @@ require_once RTS_PLUGIN_DIR . 'includes/class-rts-turnstile.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-wishes.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-dispatch.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-newsletter.php';
+require_once RTS_PLUGIN_DIR . 'includes/class-rts-instagram.php';
 
 // Aktivierung: Tabelle anlegen, Option initialisieren, CPTs registrieren + Rewrites flushen.
 register_activation_hook( __FILE__, array( 'RTS_DB', 'activate' ) );
@@ -37,6 +38,7 @@ add_action( 'rest_api_init', array( 'RTS_Cheer', 'register_routes' ) );
 add_action( 'rest_api_init', array( 'RTS_Wishes', 'register_routes' ) );
 add_action( 'rest_api_init', array( 'RTS_Dispatch', 'register_routes' ) );
 add_action( 'rest_api_init', array( 'RTS_Newsletter', 'register_routes' ) );
+add_action( 'rest_api_init', array( 'RTS_Instagram', 'register_routes' ) );
 
 // Admin-Komfort: Spalten für die Wunsch-Moderation.
 RTS_CPT::admin_hooks();
