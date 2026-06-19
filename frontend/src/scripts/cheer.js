@@ -73,7 +73,7 @@ export function initCheer(root) {
   const sharePanel = root.querySelector('[data-cheer-share]');
   const sharePanelText = root.querySelector('[data-cheer-share-text]');
   const shareBtn = root.querySelector('[data-cheer-share-btn]');
-  const GOAL = 2026;
+  const GOAL = 100;
 
   // E-Mail-Feld nur zeigen, wenn Newsletter angehakt ist
   if (newsletterInput && emailInput) {
