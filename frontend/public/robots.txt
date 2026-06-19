@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /countdown/
+
+Sitemap: https://shanghai.wirth-wiener.de/sitemap.xml

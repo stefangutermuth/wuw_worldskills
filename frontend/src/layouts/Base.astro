@@ -1,5 +1,5 @@
 ---
-// Basis-Layout — globale Styles, Meta, Fonts.
+// Basis-Layout — globale Styles, Meta, Fonts, SEO.
 import '../styles/tokens.css';
 import '../styles/global.css';
 import Preloader from '../components/Preloader.astro';
@@ -7,11 +7,13 @@ import Preloader from '../components/Preloader.astro';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = 'Road to Shanghai – WorldSkills 2026',
-  description = 'Marc-Aurel Spalek & Lennard Weitzmann auf dem Weg zur WorldSkills 2026 in Shanghai. Begleite das Abenteuer von Wirth & Wiener.',
+  description = 'Marc-Aurel Spalek & Lennard Weitzmann von Wirth & Wiener auf dem Weg zur WorldSkills 2026 – der Berufe-WM in Shanghai. Countdown, Live-Updates und Daumendrücken.',
+  noindex = false,
 } = Astro.props;
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
@@ -19,6 +21,50 @@ const _base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const _ogOrigin = _base ? 'https://stefangutermuth.github.io' : 'https://shanghai.wirth-wiener.de';
 const ogUrl = `${_ogOrigin}${_base}/`;
 const ogImage = `${_ogOrigin}${_base}/img/hero/hero-bg.jpg`;
+
+// Strukturierte Daten (JSON-LD): Organisation, Website, Event.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://wirth-wiener.de/#org',
+      name: 'Wirth & Wiener GmbH',
+      url: 'https://wirth-wiener.de',
+      logo: `${_ogOrigin}${_base}/img/logo-ww.svg`,
+      address: { '@type': 'PostalAddress', addressLocality: 'Chemnitz', addressCountry: 'DE' },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${ogUrl}#website`,
+      name: 'Road to Shanghai – WorldSkills 2026',
+      url: ogUrl,
+      inLanguage: 'de-DE',
+      publisher: { '@id': 'https://wirth-wiener.de/#org' },
+    },
+    {
+      '@type': 'Event',
+      name: 'WorldSkills 2026 Shanghai',
+      startDate: '2026-09-22',
+      endDate: '2026-09-27',
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: 'National Exhibition and Convention Center (NECC)',
+        address: { '@type': 'PostalAddress', addressLocality: 'Shanghai', addressCountry: 'CN' },
+      },
+      image: ogImage,
+      description:
+        'Berufe-Weltmeisterschaft WorldSkills 2026 in Shanghai – mit Marc-Aurel Spalek & Lennard Weitzmann von Wirth & Wiener.',
+      organizer: { '@type': 'Organization', name: 'WorldSkills International', url: 'https://worldskills.org' },
+      performer: [
+        { '@type': 'Person', name: 'Marc-Aurel Spalek' },
+        { '@type': 'Person', name: 'Lennard Weitzmann' },
+      ],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -28,13 +74,17 @@ const ogImage = `${_ogOrigin}${_base}/img/hero/hero-bg.jpg`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#16120F" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+    <link rel="canonical" href={ogUrl} />
     <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <link rel="sitemap" type="application/xml" href={asset('/sitemap.xml')} />
 
     <!-- Hero-Bild vorladen (LCP) -->
     <link rel="preload" as="image" href={asset('/img/hero/hero-bg.avif')} type="image/avif" />
 
     <!-- Open Graph (Teilen) -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Road to Shanghai" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="de_DE" />
@@ -51,6 +101,8 @@ const ogImage = `${_ogOrigin}${_base}/img/hero/hero-bg.jpg`;
 
     <!-- Font Awesome 6 (Brand-Icons für Social) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <Preloader />
