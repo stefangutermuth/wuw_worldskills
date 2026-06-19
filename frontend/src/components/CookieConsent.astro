@@ -75,6 +75,8 @@ const GA_ID = 'G-BN8VT9XD9R';
 </script>
 
 <style>
+  /* WICHTIG: display:flex überschreibt sonst das hidden-Attribut → Banner ginge nie weg */
+  .cc[hidden] { display: none !important; }
   .cc {
     position: fixed;
     left: 50%;
