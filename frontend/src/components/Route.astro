@@ -1,48 +1,24 @@
 ---
 // Sektion „Die Reise" (§A2) — gepinntes Horizontal-Scrollytelling.
-// Finale Kapiteltexte (§8: echte Namen, 2026, Deutscher Meister).
-// Jede Karte trägt ein Motiv + ausklappbaren Detail-Inhalt (Modal „Mehr erfahren").
-// HINWEIS: img/gallery sind vorerst Mustermotive aus vorhandenen Assets.
+// Nur Kapitel mit echtem, aktuellem Inhalt. Weitere Stationen (Aufbruch,
+// Shanghai, Finale) folgen, sobald sie passieren – mit echten Bildern.
+// img: null → „Foto folgt"-Platzhalter, bis echtes Bildmaterial geliefert wird.
 const chapters = [
   {
     num: '01', title: 'Der Sieg',
     text: 'Der Deutsche-Meister-Titel war erst der Anfang.',
-    img: '/img/live/live-featured',
+    img: null,
     alt: 'Marc-Aurel & Lennard nach dem Sieg bei der Deutschen Meisterschaft',
     long: 'Der nationale Titel war der Funke. In Chemnitz fiel die Entscheidung: Marc-Aurel Spalek und Lennard Weitzmann vertreten Deutschland im Landschaftsgartenbau bei den WorldSkills 2026 in Shanghai.',
-    gallery: ['/img/live/insta/insta-1', '/img/live/insta/insta-2'],
+    gallery: [],
   },
   {
     num: '02', title: 'Das Training',
     text: 'Harte Arbeit. Tägliches Training. Ein Team, ein Ziel.',
-    img: '/img/live/insta/insta-1',
+    img: null,
     alt: 'Training auf dem Übungsgelände',
-    long: 'Jeder Handgriff sitzt – tausendfach geübt. Pflasterverband, Holzbau, Bepflanzung: Unter Zeitdruck zählt Präzision auf den Millimeter. Trainer und Team feilen an jedem Detail.',
-    gallery: ['/img/live/insta/insta-3', '/img/live/insta/insta-4'],
-  },
-  {
-    num: '03', title: 'Der Aufbruch',
-    text: 'Ein neuer Kontinent. Eine neue Herausforderung.',
-    img: '/img/live/insta/insta-2',
-    alt: 'Aufbruch Richtung China',
-    long: 'Über 8.000 Kilometer liegen zwischen dem Erzgebirge und dem East China Sea. Koffer gepackt, Werkzeug verzollt – die Reise nach Osten beginnt.',
-    gallery: ['/img/live/insta/insta-5', '/img/live/insta/insta-6'],
-  },
-  {
-    num: '04', title: 'Shanghai',
-    text: 'Eine Stadt, die Tradition und Zukunft vereint.',
-    img: '/img/live/insta/insta-3',
-    alt: 'Skyline von Shanghai',
-    long: 'Wolkenkratzer und klassische Gärten Seite an Seite. Shanghai empfängt die besten Nachwuchskräfte der Welt – die Bühne für unseren Moment ist bereitet.',
-    gallery: ['/img/live/insta/insta-4', '/img/live/insta/insta-5'],
-  },
-  {
-    num: '05', title: 'Das Finale',
-    text: 'Die Weltbühne. Unser Moment.',
-    img: '/img/live/insta/insta-4',
-    alt: 'Wettkampfgelände der WorldSkills',
-    long: 'Vier Tage Wettkampf, eine Jury, die Weltspitze. Hier zählt alles, was über Monate erarbeitet wurde. Drückt mit – jeder Daumen zählt.',
-    gallery: ['/img/live/insta/insta-6', '/img/live/insta/insta-1'],
+    long: 'Jeder Handgriff sitzt – tausendfach geübt. Pflasterverband, Holzbau, Bepflanzung: Unter Zeitdruck zählt Präzision auf den Millimeter. Zuletzt als Generalprobe beim Landschaftsgärtner-Cup in Pillnitz – bewusst unter erschwerten Bedingungen.',
+    gallery: [],
   },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
@@ -71,11 +47,15 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
           <span class="route__spot" data-reveal aria-hidden="true"></span>
           <div class="route__card" data-reveal data-card data-title={`${c.num} · ${c.title}`}>
             <figure class="route__media">
-              <picture>
-                <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
-                <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
-                <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
-              </picture>
+              {c.img ? (
+                <picture>
+                  <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
+                  <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
+                  <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
+                </picture>
+              ) : (
+                <span class="route__media-ph">Foto folgt</span>
+              )}
             </figure>
             <div class="route__card-body">
               <span class="route__num">{c.num}</span>
@@ -93,24 +73,28 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
             <div class="route__detail" data-detail hidden>
               <p class="route__dlg-kicker">{c.num}</p>
               <h3 class="route__dlg-title">{c.title}</h3>
-              <figure class="route__dlg-hero">
-                <picture>
-                  <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
-                  <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
-                  <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
-                </picture>
-              </figure>
+              {c.img && (
+                <figure class="route__dlg-hero">
+                  <picture>
+                    <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
+                    <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
+                    <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
+                  </picture>
+                </figure>
+              )}
               <p class="route__dlg-lead">{c.text}</p>
               <p class="route__dlg-text">{c.long}</p>
-              <div class="route__dlg-gallery">
-                {c.gallery.map((g) => (
-                  <picture>
-                    <source srcset={asset(`${g}.avif`)} type="image/avif" />
-                    <source srcset={asset(`${g}.webp`)} type="image/webp" />
-                    <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" />
-                  </picture>
-                ))}
-              </div>
+              {c.gallery.length > 0 && (
+                <div class="route__dlg-gallery">
+                  {c.gallery.map((g) => (
+                    <picture>
+                      <source srcset={asset(`${g}.avif`)} type="image/avif" />
+                      <source srcset={asset(`${g}.webp`)} type="image/webp" />
+                      <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" />
+                    </picture>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </article>
@@ -314,6 +298,22 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s var(--ease-out);
+  }
+  .route__media-ph {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background:
+      repeating-linear-gradient(45deg, rgba(201,162,75,0.05) 0 12px, transparent 12px 24px),
+      rgba(20, 16, 13, 0.7);
+    border-bottom: 1px solid rgba(201, 162, 75, 0.18);
+    color: rgba(201, 162, 75, 0.85);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .route__card:hover .route__media img {
     transform: scale(1.05);

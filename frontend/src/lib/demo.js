@@ -8,7 +8,7 @@
  *   - DEMO_FALLBACK  = false  → Grüße & Daumendrücken zeigen wieder nur echte Daten
  *   - DEMO_DISPATCHES_ON = true → Live-Sektion in den Reportage-Modus mit Demo-Berichten
  */
-export const DEMO_FALLBACK = true;
+export const DEMO_FALLBACK = false;
 export const DEMO_DISPATCHES_ON = false;
 
 /* ---------- Wunschbaum: Grüße ---------- */
