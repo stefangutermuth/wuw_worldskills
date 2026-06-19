@@ -18,6 +18,7 @@
 # --- Local DB-Dump & Logs / Runtime ---
 /app/sql/
 /logs/
+/app/.envrc
 
 # --- OS / Editor ---
 .DS_Store
