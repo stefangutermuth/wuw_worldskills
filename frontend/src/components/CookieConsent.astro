@@ -54,16 +54,24 @@ const GA_ID = 'G-BN8VT9XD9R';
     else show();
   }
 
-  // Robust: Delegation auf document (Capture-Phase) + Touch – greift unabhängig
-  // von Timing/Re-Render und vor evtl. abfangenden Handlern.
+  // Robust: Delegation auf document (Capture-Phase). pointerdown feuert garantiert
+  // beim Antippen – bevor ein Scroll-/Touch-Handler (z. B. Lenis) den Klick
+  // verwerfen kann. click bleibt als Fallback (Maus/Tastatur).
+  let lastAct = 0;
   function onAct(e) {
     const el = e.target && e.target.closest ? e.target.closest('[data-cc-accept],[data-cc-decline]') : null;
     if (!el) return;
+    const now = Date.now();
+    if (now - lastAct < 400) return; // Doppel-Auslösung (pointerdown + click) vermeiden
+    lastAct = now;
     e.preventDefault();
     decide(el.hasAttribute('data-cc-accept') ? 'granted' : 'denied');
   }
+  document.addEventListener('pointerdown', onAct, true);
   document.addEventListener('click', onAct, true);
-  document.addEventListener('touchend', onAct, true);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') onAct(e);
+  }, true);
 </script>
 
 <style>
