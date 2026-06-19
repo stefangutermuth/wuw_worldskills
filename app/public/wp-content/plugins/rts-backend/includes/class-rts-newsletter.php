@@ -51,10 +51,24 @@ class RTS_Newsletter {
 			return new WP_REST_Response( array( 'error' => 'consent_required' ), 422 );
 		}
 
-		$api_key  = trim( (string) get_option( 'rts_esp_key', '' ) );
-		$list_id  = (int) get_option( 'rts_brevo_list_id', 0 );
-		$tpl_id   = (int) get_option( 'rts_brevo_doi_template', 0 );
-		$redirect = trim( (string) get_option( 'rts_brevo_redirect', '' ) );
+		// Konfiguration bevorzugt aus wp-config-Konstanten (Key bleibt außerhalb der DB),
+		// sonst aus WP-Optionen (lokal/Dev).
+		$api_key  = ( defined( 'WUW_BREVO_API_KEY' ) && WUW_BREVO_API_KEY )
+			? (string) WUW_BREVO_API_KEY
+			: trim( (string) get_option( 'rts_esp_key', '' ) );
+		$list_id  = defined( 'WUW_BREVO_LIST_ID' )
+			? (int) WUW_BREVO_LIST_ID
+			: (int) get_option( 'rts_brevo_list_id', 0 );
+		$tpl_id   = defined( 'WUW_BREVO_DOI_TEMPLATE' )
+			? (int) WUW_BREVO_DOI_TEMPLATE
+			: (int) get_option( 'rts_brevo_doi_template', 0 );
+		$redirect = ( defined( 'WUW_BREVO_REDIRECT' ) && WUW_BREVO_REDIRECT )
+			? (string) WUW_BREVO_REDIRECT
+			: trim( (string) get_option( 'rts_brevo_redirect', '' ) );
+		// DOI braucht eine Weiterleitungs-URL; sinnvoller Default = Microsite-Start.
+		if ( '' === $redirect ) {
+			$redirect = 'https://shanghai.wirth-wiener.de/';
+		}
 
 		// Hook bleibt erhalten (z. B. fürs Logging/CRM), unabhängig vom ESP.
 		do_action( 'rts_newsletter_signup', $email, $params );
