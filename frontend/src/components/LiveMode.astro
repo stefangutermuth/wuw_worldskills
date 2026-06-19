@@ -7,6 +7,13 @@ const expect = [
   { ic: '📸', title: 'Live-Fotos', text: 'Eindrücke vom Aufbau, vom Team und vom Schaugarten.' },
   { ic: '🏅', title: 'Ergebnisse', text: 'Wie schlagen sich die Jungs auf der Weltbühne?' },
 ];
+// Programm-Woche in Shanghai (Quelle: WorldSkills-Germany-Presseinfo).
+const programm = [
+  { date: '17. Sep', label: 'Anreise nach Shanghai' },
+  { date: '22. Sep', label: 'Eröffnungsfeier' },
+  { date: '23.–26. Sep', label: '4 Tage Wettkampf' },
+  { date: '27. Sep', label: 'Siegerehrung & Abschluss' },
+];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
@@ -47,6 +54,30 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       ))}
     </div>
 
+    <!-- Programm-Woche in Shanghai -->
+    <div class="live__programm">
+      <h3 class="live__sub">Das Programm in Shanghai</h3>
+      <ol class="live__timeline">
+        {programm.map((p) => (
+          <li class="live__tl-item">
+            <span class="live__tl-date">{p.date}</span>
+            <span class="live__tl-label">{p.label}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="live__notes">
+        <p class="live__note">
+          <i class="fa-solid fa-ticket-simple" aria-hidden="true"></i>
+          Du reist mit nach Shanghai? <a href="https://worldskills2026.com/" target="_blank" rel="noopener">Tickets für Eröffnung &amp; Siegerehrung</a> gibt es über die offizielle Event-Seite.
+        </p>
+        <p class="live__note">
+          <span class="mascot-dot mascot-dot--blue" aria-hidden="true"></span>
+          <span class="mascot-dot mascot-dot--red" aria-hidden="true"></span>
+          Die Maskottchen 2026: <strong>Neng Neng</strong> &amp; <strong>Qiao Qiao</strong> – Motto „Master Skills, Change Your Future".
+        </p>
+      </div>
+    </div>
+
     <!-- Reportage (erscheint, sobald Berichte da sind) -->
     <div class="live__featured" data-live-featured hidden></div>
     <div class="live__cards" data-live-cards></div>
@@ -66,6 +97,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
         ))}
       </div>
       <p class="live__insta-note">Eindrücke von der Reise – bald mit echten Posts vom Wettkampf.</p>
+      <p class="live__hashtags">#WorldSkillsShanghai · #maximalzusammen · #teamgermany2026</p>
     </div>
   </div>
 </section>
@@ -315,4 +347,80 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     color: var(--ink-soft);
     font-style: italic;
   }
+  .live__hashtags {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--gold);
+  }
+
+  /* ---------- Programm-Woche ---------- */
+  .live__programm { margin-top: clamp(2.5rem, 6vh, 4rem); }
+  .live__sub {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--paper);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .live__timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) {
+    .live__timeline { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  }
+  .live__tl-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.22);
+    background: rgba(9, 15, 24, 0.6);
+    backdrop-filter: blur(8px);
+  }
+  .live__tl-item::before {
+    content: '';
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px var(--gold-glow);
+    margin-bottom: 0.35rem;
+  }
+  .live__tl-date {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--gold);
+  }
+  .live__tl-label { font-size: 0.9rem; color: rgba(241, 232, 214, 0.86); }
+
+  .live__notes {
+    margin-top: 1.4rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .live__note {
+    font-size: 0.92rem;
+    color: rgba(241, 232, 214, 0.82);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .live__note i { color: var(--gold); }
+  .live__note strong { color: var(--paper); }
+  .live__note a { color: var(--gold); text-decoration: underline; }
+  .mascot-dot {
+    display: inline-block;
+    width: 10px; height: 10px; border-radius: 50%;
+    transform: translateY(1px);
+  }
+  .mascot-dot--blue { background: #3aa0e0; box-shadow: 0 0 8px rgba(58, 160, 224, 0.6); }
+  .mascot-dot--red { background: #e0533a; box-shadow: 0 0 8px rgba(224, 83, 58, 0.6); margin-left: -0.3rem; }
 </style>
