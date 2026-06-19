@@ -4,12 +4,13 @@ PRODID:-//Road to Shanghai//WorldSkills 2026//DE
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
+UID:worldskills-2026-shanghai@shanghai.wirth-wiener.de
 DTSTART;VALUE=DATE:20260922
-DTEND;VALUE=DATE:20260926
+DTEND;VALUE=DATE:20260928
 SUMMARY:WorldSkills 2026 – Chemnitz kämpft in Shanghai
-DESCRIPTION:Marc-Aurel Spalek & Lennard Weitzmann von Wirth & Wiener treten bei den WorldSkills 2026 in Shanghai an – drück die Daumen!\n\nhttps://stefangutermuth.github.io/wuw_worldskills/
-URL:https://stefangutermuth.github.io/wuw_worldskills/
-LOCATION:Shanghai\, China
+DESCRIPTION:Marc-Aurel Spalek & Lennard Weitzmann von Wirth & Wiener treten als Landschaftsgärtner bei den 48. WorldSkills 2026 in Shanghai an – drück die Daumen!\n\nhttps://shanghai.wirth-wiener.de/
+URL:https://shanghai.wirth-wiener.de/
+LOCATION:National Exhibition and Convention Center\, Shanghai\, China
 STATUS:CONFIRMED
 TRANSP:TRANSPARENT
 END:VEVENT

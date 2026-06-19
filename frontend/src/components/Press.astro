@@ -5,10 +5,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 const facts = [
   { label: 'Teilnehmer', value: 'Marc-Aurel Spalek & Lennard Weitzmann' },
   { label: 'Unternehmen', value: 'Wirth & Wiener GmbH, Chemnitz' },
-  { label: 'Beruf', value: 'Stukkateure' },
-  { label: 'Wettkampf', value: 'WorldSkills 2026, Shanghai' },
-  { label: 'Datum', value: '22.–26. September 2026' },
-  { label: 'Teilnehmerländer', value: '80+ Nationen' },
+  { label: 'Disziplin', value: 'Landschaftsgärtner (Landscape Gardening)' },
+  { label: 'Bundesland', value: 'Sachsen' },
+  { label: 'Wettkampf', value: '48. WorldSkills, Shanghai' },
+  { label: 'Datum', value: '22.–27. September 2026' },
+  { label: 'Ort', value: 'National Exhibition and Convention Center' },
+  { label: 'Teilnehmende', value: 'über 1.400 aus 70+ Ländern' },
+  { label: 'Disziplinen', value: '64 Berufe · Team Germany: 36 in 31' },
+  { label: 'Schirmherr', value: 'Bundeskanzler Friedrich Merz' },
 ];
 ---
 
@@ -44,12 +48,12 @@ const facts = [
           <i class="fa-solid fa-images" aria-hidden="true"></i> Pressefotos
         </h3>
         <p class="press__card-text">
-          Hochauflösende Fotos (300 dpi, JPG) zur redaktionellen Nutzung. Bitte Bildcredit: <em>© Wirth &amp; Wiener GmbH</em>.
+          Eigene Fotos von Marc-Aurel &amp; Lennard zur redaktionellen Nutzung (Bildcredit: <em>© Wirth &amp; Wiener GmbH</em>). Offizielle Wettkampf-Fotos &amp; -Videos stellt WorldSkills Germany während der WM frei bereit.
         </p>
-        <a href="#" class="press__dl-btn" aria-label="Pressefotos herunterladen (Platzhalter)">
-          <i class="fa-solid fa-download" aria-hidden="true"></i>
-          Pressefotos herunterladen
-          <span class="press__badge">ZIP · ca. 28 MB</span>
+        <a href="https://www.flickr.com/photos/worldskills-germany/albums" target="_blank" rel="noopener" class="press__dl-btn">
+          <i class="fa-brands fa-flickr" aria-hidden="true"></i>
+          Offizielle Fotos (Flickr)
+          <span class="press__badge">WorldSkills Germany</span>
         </a>
       </div>
 
@@ -82,6 +86,23 @@ const facts = [
         <p class="press__contact-note">
           Wir freuen uns über Anfragen und stellen auf Wunsch Interviewtermine bereit.
         </p>
+      </div>
+
+      <!-- Offizielle Quellen & Hashtags -->
+      <div class="press__card">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-link" aria-hidden="true"></i> Offizielle Quellen
+        </h3>
+        <dl class="press__facts">
+          <dt>Event</dt>
+          <dd><a href="https://worldskills2026.com/" target="_blank" rel="noopener">worldskills2026.com</a></dd>
+          <dt>Motto</dt>
+          <dd>„Maximal zusammen!"</dd>
+          <dt>Hashtags</dt>
+          <dd>#WorldSkillsShanghai · #maximalzusammen · #teamgermany2026</dd>
+          <dt>Veranstalter</dt>
+          <dd>WorldSkills Germany e.&nbsp;V.<br /><a href="mailto:gradinger@worldskillsgermany.com">gradinger@worldskillsgermany.com</a></dd>
+        </dl>
       </div>
     </div>
   </div>
@@ -160,6 +181,7 @@ const facts = [
     color: var(--paper);
     margin: 0;
   }
+  .press__facts a { color: var(--gold); text-decoration: underline; }
 
   .press__dl-btn {
     display: inline-flex;
