@@ -3,7 +3,7 @@
  * Plugin Name:       RTS Backend – Road to Shanghai
  * Description:        Headless-Backend für die Road-to-Shanghai-Microsite: Zähler („Daumendrücken"), Wünsche, Live-Dispatches, REST-API & CORS. Öffentliches Frontend = Astro.
  * Version:           0.1.0
- * Requires PHP:      8.0
+ * Requires PHP:      7.4
  * Author:            Wirth & Wiener GmbH / GUMU Agentur
  * Text Domain:       rts-backend
  *
