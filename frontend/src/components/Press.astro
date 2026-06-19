@@ -57,19 +57,18 @@ const facts = [
         </a>
       </div>
 
-      <!-- Pressemitteilung -->
-      <div class="press__card">
+      <!-- Pressemitteilung (aktuell keine verfügbar → ausgegraut) -->
+      <div class="press__card press__card--soon">
         <h3 class="press__card-title">
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Pressemitteilung
         </h3>
         <p class="press__card-text">
-          Aktuelle Pressemitteilung zur Teilnahme von Marc-Aurel &amp; Lennard an den WorldSkills 2026 in Shanghai.
+          Aktuell ist keine Pressemitteilung verfügbar – folgt in Kürze.
         </p>
-        <a href="#" class="press__dl-btn" aria-label="Pressemitteilung herunterladen (Platzhalter)">
-          <i class="fa-solid fa-download" aria-hidden="true"></i>
-          Pressemitteilung (PDF)
-          <span class="press__badge">PDF · 320 KB</span>
-        </a>
+        <span class="press__dl-btn press__dl-btn--disabled" aria-disabled="true">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          In Vorbereitung
+        </span>
       </div>
 
       <!-- Kontakt -->
@@ -200,6 +199,16 @@ const facts = [
     transition: background 0.22s ease, transform 0.18s var(--ease-out);
   }
   .press__dl-btn:hover { background: rgba(201, 162, 75, 0.12); transform: translateY(-2px); }
+
+  /* „Noch nicht verfügbar" – ausgegraut, nicht klickbar */
+  .press__card--soon { opacity: 0.62; }
+  .press__dl-btn--disabled {
+    border-color: rgba(241, 232, 214, 0.18);
+    color: var(--ink-soft);
+    cursor: default;
+    pointer-events: none;
+  }
+  .press__dl-btn--disabled:hover { background: transparent; transform: none; }
   .press__badge {
     font-size: 0.72rem;
     font-weight: 400;
