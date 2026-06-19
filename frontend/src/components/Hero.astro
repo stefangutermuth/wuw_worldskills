@@ -91,6 +91,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       // Listener lösen
       if (lenis && typeof lenis.off === 'function') lenis.off('scroll', onFirstScroll);
       window.removeEventListener('scroll', onFirstScroll);
+      // Scroll-Hinweis ausblenden, sobald gescrollt wird
+      hero.querySelector('.hero__scroll')?.classList.add('is-hidden');
       gsap.to('.hero__koi', {
         autoAlpha: 1,
         yPercent: 0,
@@ -304,11 +306,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     background-position: center;
     filter: drop-shadow(0 0 22px var(--gold-glow));
     will-change: transform;
-    animation: koi-bob 5s ease-in-out infinite;
+    animation: koi-bob 4.2s ease-in-out infinite;
   }
   @keyframes koi-bob {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50%      { transform: translateY(-14px) rotate(2deg); }
+    0%   { transform: translate(0, 0) rotate(-4deg); }
+    22%  { transform: translate(7px, -10px) rotate(3deg); }
+    45%  { transform: translate(-3px, -18px) rotate(6deg); }
+    68%  { transform: translate(6px, -8px) rotate(0deg); }
+    100% { transform: translate(0, 0) rotate(-4deg); }
   }
 
   /* Schwebende Laternen (echte Bilder) */
@@ -453,6 +458,12 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     text-transform: uppercase;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
     animation: hero-scroll-bob 2.4s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+  }
+  /* Sobald gescrollt wird: Hinweis ausblenden */
+  .hero__scroll.is-hidden {
+    opacity: 0;
+    pointer-events: none;
   }
   .hero__scroll-chevrons {
     display: flex;
