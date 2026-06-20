@@ -15,10 +15,25 @@ const chapters = [
   {
     num: '02', title: 'Das Training',
     text: 'Harte Arbeit. Tägliches Training. Ein Team, ein Ziel.',
-    img: null,
-    alt: 'Training auf dem Übungsgelände',
+    img: '/img/route/training/training-01',
+    alt: 'Marc-Aurel & Lennard beim Landschaftsgärtner-Cup in Pillnitz',
     long: 'Jeder Handgriff sitzt – tausendfach geübt. Pflasterverband, Holzbau, Bepflanzung: Unter Zeitdruck zählt Präzision auf den Millimeter. Zuletzt als Generalprobe beim Landschaftsgärtner-Cup in Pillnitz – bewusst unter erschwerten Bedingungen.',
-    gallery: [],
+    gallery: [
+      '/img/route/training/training-01',
+      '/img/route/training/training-02',
+      '/img/route/training/training-03',
+      '/img/route/training/training-04',
+      '/img/route/training/training-05',
+      '/img/route/training/training-06',
+      '/img/route/training/training-07',
+      '/img/route/training/training-08',
+      '/img/route/training/training-09',
+      '/img/route/training/training-10',
+    ],
+    video: {
+      src: '/img/route/training/training-video.mp4',
+      poster: '/img/route/training/training-video.jpg',
+    },
     link: {
       url: 'https://www.tag24.de/anzeige/dresden-landschaftsgaertnercup-pillnitz-ab-freitag-19-06-2026-landesmeisterschaft-gartenbau-pflanzen-3506328',
       label: 'Im Bericht: Generalprobe in Pillnitz (TAG24)',
@@ -53,7 +68,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
             <figure class="route__media">
               {c.img ? (
                 <picture>
-                  <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
                   <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
                   <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
                 </picture>
@@ -80,7 +94,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               {c.img && (
                 <figure class="route__dlg-hero">
                   <picture>
-                    <source srcset={asset(`${c.img}.avif`)} type="image/avif" />
                     <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
                     <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
                   </picture>
@@ -88,6 +101,11 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               )}
               <p class="route__dlg-lead">{c.text}</p>
               <p class="route__dlg-text">{c.long}</p>
+              {c.video && (
+                <video class="route__dlg-video" controls preload="none" playsinline poster={asset(c.video.poster)}>
+                  <source src={asset(c.video.src)} type="video/mp4" />
+                </video>
+              )}
               {c.link && (
                 <a class="route__dlg-link" href={c.link.url} target="_blank" rel="noopener">
                   {c.link.label}
@@ -100,7 +118,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
                 <div class="route__dlg-gallery">
                   {c.gallery.map((g) => (
                     <picture>
-                      <source srcset={asset(`${g}.avif`)} type="image/avif" />
                       <source srcset={asset(`${g}.webp`)} type="image/webp" />
                       <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" />
                     </picture>
@@ -512,6 +529,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     border-color: rgba(168, 30, 46, 0.6);
     transform: translateY(-1px);
   }
+  .route__dlg-video {
+    width: 100%;
+    display: block;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    background: #000;
+    aspect-ratio: 16 / 9;
+  }
   .route__dlg-gallery {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -519,9 +544,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .route__dlg-gallery img {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: 8px;
+    cursor: pointer;
   }
 
   /* -------------------- Mobile -------------------- */
