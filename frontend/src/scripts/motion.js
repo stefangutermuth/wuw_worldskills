@@ -62,56 +62,9 @@ export function initMotion() {
     refreshAfterPreloader(); // Preloader schon weg (reduced-motion / Cache)
   }
 
-  // ── Scroll-Snap: Nach dem Scrollen springt die Seite zur nächsten Rubrik.
-  // Arbeitet mit lenis.scrollTo() statt CSS scroll-snap (Lenis v1 inkompatibel).
-  // Logik: Wir ermitteln, zwischen welchen zwei Rubriken wir gerade stehen.
-  // Sind wir über 50 % des Abstands → snap zur nächsten, sonst zurück zur aktuellen.
-  // Lange Lücken (Route-Pinning > 2,5× Viewport) werden ausgelassen – kein Rücksprung
-  // mitten in der Scrollytelling-Animation.
-  const _snapEls = ['#hero', '#route', '#daumendruecken', '#live', '#presse', 'footer']
-    .map((s) => document.querySelector(s))
-    .filter(Boolean);
-
-  if (_snapEls.length) {
-    let _snapTimer = null;
-    let _snapping = false;
-
-    lenis.on('scroll', ({ scroll }) => {
-      if (_snapping) return;
-      clearTimeout(_snapTimer);
-      _snapTimer = setTimeout(() => {
-        const vh = window.innerHeight;
-
-        // Finde, in welcher Rubrik wir gerade sind (letzte mit offsetTop ≤ scroll)
-        let inIdx = 0;
-        for (let i = 0; i < _snapEls.length; i++) {
-          if (_snapEls[i].offsetTop <= scroll) inIdx = i;
-          else break;
-        }
-
-        const cur = _snapEls[inIdx];
-        const next = _snapEls[inIdx + 1];
-        const distFromCur = scroll - cur.offsetTop;
-
-        if (distFromCur < 2 || !next) return; // bereits ganz oben oder letzte Rubrik
-
-        const gap = next.offsetTop - cur.offsetTop;
-
-        // Lange Lücken (z. B. Route-Pinning) auslassen – sonst Rücksprung mitten im Scrollytelling
-        if (gap > vh * 2.5) return;
-
-        const target = (distFromCur / gap) >= 0.5 ? next : cur;
-        if (Math.abs(target.offsetTop - scroll) < 2) return;
-
-        _snapping = true;
-        lenis.scrollTo(target, {
-          duration: 0.9,
-          easing: (t) => 1 - Math.pow(1 - t, 3),
-          onComplete: () => { _snapping = false; },
-        });
-      }, 180);
-    });
-  }
+  // (Scroll-Snap entfernt: rastete immer am Sektionsanfang ein – bei Sektionen,
+  //  die höher als der Viewport sind (z. B. „Live"), blieb das untere Ende verdeckt.
+  //  Jetzt scrollt die Seite frei, alles ist erreichbar.)
 
   return { lenis, gsap, ScrollTrigger, prefersReduced };
 }
