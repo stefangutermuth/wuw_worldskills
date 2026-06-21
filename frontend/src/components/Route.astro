@@ -19,10 +19,9 @@ const chapters = [
     alt: 'Marc-Aurel Spalek & Lennard Weitzmann stellen sich vor',
     long: 'Wer sind die zwei, die für Deutschland nach Shanghai fahren? In ihrem Video stellen sich Marc-Aurel Spalek und Lennard Weitzmann selbst vor – mit allem, was sie antreibt.',
     gallery: [],
-    video: {
-      src: '/img/route/vorstellung/vorstellung-video.mp4',
-      poster: '/img/route/vorstellung/vorstellung-video.jpg',
-    },
+    videos: [
+      { src: '/img/route/vorstellung/vorstellung-video.mp4', poster: '/img/route/vorstellung/vorstellung-video.jpg' },
+    ],
   },
   {
     num: '03', title: 'Das Training',
@@ -42,11 +41,23 @@ const chapters = [
       '/img/route/training/training-09',
       '/img/route/training/training-10',
       '/img/route/training/training-11',
+      '/img/route/training/training-12',
+      '/img/route/training/training-13',
+      '/img/route/training/training-14',
+      '/img/route/training/training-15',
+      '/img/route/training/training-16',
+      '/img/route/training/training-17',
+      '/img/route/training/training-18',
+      '/img/route/training/training-19',
+      '/img/route/training/training-20',
+      '/img/route/training/training-21',
     ],
-    video: {
-      src: '/img/route/training/training-video.mp4',
-      poster: '/img/route/training/training-video.jpg',
-    },
+    videos: [
+      { src: '/img/route/training/training-video.mp4', poster: '/img/route/training/training-video.jpg' },
+      { src: '/img/route/training/training-video-2.mp4', poster: '/img/route/training/training-video-2.jpg' },
+      { src: '/img/route/training/training-video-3.mp4', poster: '/img/route/training/training-video-3.jpg' },
+      { src: '/img/route/training/training-video-4.mp4', poster: '/img/route/training/training-video-4.jpg' },
+    ],
     link: {
       url: 'https://www.tag24.de/anzeige/dresden-landschaftsgaertnercup-pillnitz-ab-freitag-19-06-2026-landesmeisterschaft-gartenbau-pflanzen-3506328',
       label: 'Im Bericht: Generalprobe in Pillnitz (TAG24)',
@@ -114,10 +125,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               )}
               <p class="route__dlg-lead">{c.text}</p>
               <p class="route__dlg-text">{c.long}</p>
-              {c.video && (
-                <video class="route__dlg-video" controls preload="none" playsinline poster={asset(c.video.poster)}>
-                  <source src={asset(c.video.src)} type="video/mp4" />
-                </video>
+              {c.videos && c.videos.length > 0 && (
+                <div class={c.videos.length > 1 ? 'route__dlg-videos' : ''}>
+                  {c.videos.map((v) => (
+                    <video class="route__dlg-video" controls preload="none" playsinline poster={asset(v.poster)}>
+                      <source src={asset(v.src)} type="video/mp4" />
+                    </video>
+                  ))}
+                </div>
               )}
               {c.link && (
                 <a class="route__dlg-link" href={c.link.url} target="_blank" rel="noopener">
@@ -549,6 +564,17 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     border-radius: 10px;
     background: #000;
     aspect-ratio: 16 / 9;
+  }
+  /* Mehrere Videos: 2-spaltiges Raster (spart Höhe) */
+  .route__dlg-videos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .route__dlg-videos .route__dlg-video { margin-bottom: 0; }
+  @media (max-width: 520px) {
+    .route__dlg-videos { grid-template-columns: 1fr; }
   }
   .route__dlg-gallery {
     display: grid;
