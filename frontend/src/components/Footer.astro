@@ -41,8 +41,12 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <div class="footer__sponsors">
       <p class="footer__sponsors-label">Unterstützt von</p>
       <div class="footer__sponsors-grid">
-        <img class="sponsor__logo" src={asset('/img/logo-ww.svg')} alt="Wirth & Wiener GmbH" width="200" height="32" />
-        <img class="sponsor__logo sponsor__logo--galabau" src={asset('/img/logo-galabau.png')} alt="Ihre Experten für Garten & Landschaft – Garten- und Landschaftsbau Sachsen" width="190" height="60" />
+        <a class="sponsor__link" href="https://wirth-wiener.de" target="_blank" rel="noopener" aria-label="Wirth & Wiener GmbH – zur Website">
+          <img class="sponsor__logo" src={asset('/img/logo-ww.svg')} alt="Wirth & Wiener GmbH" width="200" height="32" />
+        </a>
+        <a class="sponsor__link" href="https://www.galabau-sachsen.de" target="_blank" rel="noopener" aria-label="Verband Garten-, Landschafts- und Sportplatzbau Sachsen – zur Website">
+          <img class="sponsor__logo sponsor__logo--galabau" src={asset('/img/logo-galabau.png')} alt="Ihre Experten für Garten & Landschaft – Garten- und Landschaftsbau Sachsen" width="190" height="60" />
+        </a>
       </div>
     </div>
 
@@ -165,6 +169,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     align-items: center;
     gap: 1.25rem 2.75rem;
   }
+  .sponsor__link { display: inline-flex; align-items: center; }
   /* Logos weiß auf dunklem Footer */
   .sponsor__logo {
     height: clamp(26px, 4vh, 34px);
