@@ -51,13 +51,42 @@ function initRouteCards(section) {
     if (lastFocus) lastFocus.focus();
   }
 
+  // ---- Bild-Lightbox: Galerie-/Titelbilder im Dialog groß anzeigen ----
+  const lightbox = section.querySelector('[data-route-lightbox]');
+  let closeLightbox = () => {};
+  if (lightbox) {
+    if (lightbox.parentElement !== document.body) document.body.appendChild(lightbox);
+    const lbImg = lightbox.querySelector('[data-lightbox-img]');
+
+    const openLightbox = (img) => {
+      lbImg.src = img.currentSrc || img.src; // bereits geladene Auflösung wiederverwenden
+      lbImg.alt = img.alt || '';
+      lightbox.hidden = false;
+      requestAnimationFrame(() => lightbox.classList.add('is-open'));
+    };
+    closeLightbox = () => {
+      lightbox.classList.remove('is-open');
+      setTimeout(() => { lightbox.hidden = true; lbImg.src = ''; }, 240);
+    };
+
+    // Klick auf ein Bild im Dialog-Inhalt → Lightbox öffnen
+    body.addEventListener('click', (e) => {
+      const img = e.target.closest('img');
+      if (img && body.contains(img)) openLightbox(img);
+    });
+    // Klick irgendwo auf die Lightbox (Overlay, Bild, ×) → schließen
+    lightbox.addEventListener('click', closeLightbox);
+  }
+
   section.querySelectorAll('[data-card]').forEach((el) => {
     el.addEventListener('click', () => openCard(el));
   });
   closeBtn.addEventListener('click', close);
   dialog.addEventListener('click', (e) => { if (e.target === dialog) close(); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !dialog.hidden) close();
+    if (e.key !== 'Escape') return;
+    if (lightbox && !lightbox.hidden) { closeLightbox(); return; } // erst Lightbox
+    if (!dialog.hidden) close();
   });
 }
 
