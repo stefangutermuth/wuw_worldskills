@@ -93,6 +93,15 @@ class RTS_Instagram {
 			return array();
 		}
 
+		// Bilder lokal spiegeln → first-party (sonst blockiert Tracking-Schutz
+		// im Browser die cdninstagram.com-Domain; außerdem laufen die CDN-URLs ab).
+		$upload  = wp_upload_dir();
+		$dir     = trailingslashit( $upload['basedir'] ) . 'rts-instagram';
+		$baseurl = trailingslashit( $upload['baseurl'] ) . 'rts-instagram';
+		if ( ! is_dir( $dir ) ) {
+			wp_mkdir_p( $dir );
+		}
+
 		$items = array();
 		foreach ( $data['data'] as $m ) {
 			$type = isset( $m['media_type'] ) ? $m['media_type'] : 'IMAGE';
@@ -102,8 +111,27 @@ class RTS_Instagram {
 			if ( ! $img ) {
 				continue;
 			}
+
+			$id        = isset( $m['id'] ) ? preg_replace( '/[^0-9A-Za-z_]/', '', $m['id'] ) : md5( $img );
+			$file      = $dir . '/' . $id . '.jpg';
+			$image_url = esc_url_raw( $img ); // Fallback: Original-CDN-URL
+
+			if ( is_dir( $dir ) ) {
+				if ( file_exists( $file ) && filesize( $file ) > 500 ) {
+					$image_url = $baseurl . '/' . $id . '.jpg';
+				} else {
+					$dl = wp_remote_get( $img, array( 'timeout' => 20 ) );
+					if ( ! is_wp_error( $dl ) && 200 === (int) wp_remote_retrieve_response_code( $dl ) ) {
+						$body = wp_remote_retrieve_body( $dl );
+						if ( $body && strlen( $body ) > 500 && false !== @file_put_contents( $file, $body ) ) { // phpcs:ignore
+							$image_url = $baseurl . '/' . $id . '.jpg';
+						}
+					}
+				}
+			}
+
 			$items[] = array(
-				'image'     => esc_url_raw( $img ),
+				'image'     => $image_url,
 				'permalink' => isset( $m['permalink'] ) ? esc_url_raw( $m['permalink'] ) : '',
 				'caption'   => isset( $m['caption'] ) ? wp_strip_all_tags( mb_substr( $m['caption'], 0, 140 ) ) : '',
 				'type'      => $type,
