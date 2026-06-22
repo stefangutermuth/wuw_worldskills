@@ -37,6 +37,31 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </div>
     </div>
 
+    <!-- Spendenaufruf -->
+    <div class="footer__donate">
+      <div class="footer__donate-intro">
+        <h3 class="footer__h"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Unterstütze die Reise</h3>
+        <p class="footer__lead">
+          Trainingslager, Anreise, Coaching – die Vorbereitung auf Shanghai kostet. Jeder Beitrag hilft Marc-Aurel &amp; Lennard. Die Spenden sammelt der Verband Garten-, Landschafts- und Sportplatzbau Sachsen.
+        </p>
+      </div>
+      <dl class="footer__bank">
+        <dt>Kontoinhaber</dt>
+        <dd>Verband Garten-, Landschafts- und Sportplatzbau Sachsen e.&nbsp;V.</dd>
+        <dt>Bank</dt>
+        <dd>BW Bank</dd>
+        <dt>IBAN</dt>
+        <dd class="footer__iban">
+          <span data-iban>DE08 6005 0101 7472 5007 39</span>
+          <button type="button" class="footer__iban-copy" data-iban-copy aria-label="IBAN kopieren">
+            <i class="fa-solid fa-copy" aria-hidden="true"></i>
+          </button>
+        </dd>
+        <dt>Verwendungszweck</dt>
+        <dd>WorldSkills 2026</dd>
+      </dl>
+    </div>
+
     <!-- Sponsoren -->
     <div class="footer__sponsors">
       <p class="footer__sponsors-label">Unterstützt von</p>
@@ -87,6 +112,20 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       }
     });
   }
+
+  // IBAN kopieren
+  const ibanBtn = document.querySelector('[data-iban-copy]');
+  const ibanEl = document.querySelector('[data-iban]');
+  ibanBtn?.addEventListener('click', async () => {
+    const iban = (ibanEl?.textContent || '').replace(/\s+/g, '');
+    try {
+      await navigator.clipboard.writeText(iban);
+      const orig = ibanBtn.innerHTML;
+      ibanBtn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i>';
+      ibanBtn.classList.add('is-copied');
+      setTimeout(() => { ibanBtn.innerHTML = orig; ibanBtn.classList.remove('is-copied'); }, 1600);
+    } catch {}
+  });
 </script>
 
 <style>
@@ -106,6 +145,54 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .footer__h { font-size: 1.6rem; color: var(--gold); margin-bottom: 0.4rem; }
   .footer__lead { margin: 0 0 1.4rem; color: var(--ink-soft); font-size: 0.93rem; line-height: 1.55; }
+
+  /* Spendenaufruf */
+  .footer__donate {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    padding: clamp(1.4rem, 3vw, 2rem);
+    border: 1px solid rgba(201, 162, 75, 0.28);
+    border-radius: var(--radius);
+    background: rgba(201, 162, 75, 0.05);
+    display: grid;
+    gap: 1.2rem 2.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 720px) {
+    .footer__donate { grid-template-columns: 1.1fr 1fr; align-items: center; }
+  }
+  .footer__donate .footer__h i { font-size: 1.1rem; margin-right: 0.3rem; }
+  .footer__donate .footer__lead { margin: 0; }
+  .footer__bank {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 1rem;
+    font-size: 0.9rem;
+  }
+  .footer__bank dt { color: var(--ink-soft); white-space: nowrap; }
+  .footer__bank dd { margin: 0; color: var(--paper); }
+  .footer__iban {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+  .footer__iban-copy {
+    background: transparent;
+    border: 1px solid rgba(201, 162, 75, 0.4);
+    color: var(--gold);
+    border-radius: 6px;
+    width: 28px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .footer__iban-copy:hover { background: rgba(201, 162, 75, 0.14); }
+  .footer__iban-copy.is-copied { color: var(--jade-lt, #7fd1b0); border-color: currentColor; }
 
   /* Social Icons */
   .footer__social {
