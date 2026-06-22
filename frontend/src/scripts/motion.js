@@ -66,6 +66,19 @@ export function initMotion() {
   //  die höher als der Viewport sind (z. B. „Live"), blieb das untere Ende verdeckt.
   //  Jetzt scrollt die Seite frei, alles ist erreichbar.)
 
+  // Anker-Links (#…) smooth scrollen. Ohne das überschreibt Lenis den nativen
+  // Sprung und nichts passiert. Versatz für den fixen Header.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href');
+    if (!id || id === '#') return;
+    const target = document.querySelector(id);
+    if (!target) return; // unbekannter Anker (z. B. #impressum-Platzhalter) → normal lassen
+    e.preventDefault();
+    lenis.scrollTo(target, { offset: -90, duration: 1.1 });
+  });
+
   return { lenis, gsap, ScrollTrigger, prefersReduced };
 }
 
