@@ -9,7 +9,7 @@
 const TARGET = new Date('2026-09-22T00:00:00+08:00').getTime();
 
 const FIELDS = [
-  { key: 'days', label: 'Tage', digits: 3 },
+  { key: 'days', label: 'Tage', digits: 2 },
   { key: 'hours', label: 'Stunden', digits: 2 },
   { key: 'minutes', label: 'Minuten', digits: 2 },
   { key: 'seconds', label: 'Sekunden', digits: 2 },
@@ -117,7 +117,7 @@ export function initCountdown(root) {
     const totalSec = Math.floor(clamped / 1000);
 
     const values = {
-      days: pad(Math.floor(totalSec / 86400), 3),
+      days: pad(Math.floor(totalSec / 86400), 2),
       hours: pad(Math.floor((totalSec % 86400) / 3600), 2),
       minutes: pad(Math.floor((totalSec % 3600) / 60), 2),
       seconds: pad(totalSec % 60, 2),
