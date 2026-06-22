@@ -591,6 +591,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   /* -------------------- Mobile -------------------- */
   @media (max-width: 767px) {
+    /* Parallax-Überstand des BG (inset:-6% + scale) horizontal abschneiden,
+       sonst seitlicher Überlauf auf dem Handy. Vertikal bleibt sichtbar. */
+    .route { overflow-x: clip; }
     .route__viewport { overflow: visible; }
     .route__track {
       flex-direction: column;

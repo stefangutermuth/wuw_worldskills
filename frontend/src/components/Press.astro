@@ -168,7 +168,7 @@ const facts = [
 
   .press__facts {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
     gap: 0.35rem 1.1rem;
     font-size: 0.88rem;
   }
@@ -179,6 +179,8 @@ const facts = [
   .press__facts dd {
     color: var(--paper);
     margin: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .press__facts a { color: var(--gold); text-decoration: underline; }
 
