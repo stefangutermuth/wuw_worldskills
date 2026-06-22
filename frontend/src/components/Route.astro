@@ -3,6 +3,7 @@
 // Nur Kapitel mit echtem, aktuellem Inhalt. Weitere Stationen (Aufbruch,
 // Shanghai, Finale) folgen, sobald sie passieren – mit echten Bildern.
 // img: null → „Foto folgt"-Platzhalter, bis echtes Bildmaterial geliefert wird.
+import { LAND_PATH } from '../lib/land-path.js';
 const chapters = [
   {
     num: '01', title: 'Der Sieg',
@@ -97,41 +98,45 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
           <svg class="route__globe-svg" viewBox="0 0 200 200" aria-hidden="true">
             <defs>
               <clipPath id="route-globe-clip"><circle cx="100" cy="100" r="60" /></clipPath>
-              <radialGradient id="route-globe-ocean" cx="38%" cy="30%" r="82%">
-                <stop offset="0%" stop-color="#bfe2ec" />
-                <stop offset="48%" stop-color="#5aa0b3" />
-                <stop offset="100%" stop-color="#28586a" />
+              <radialGradient id="route-globe-ocean" cx="38%" cy="32%" r="80%">
+                <stop offset="0%" stop-color="#cdeaf6" />
+                <stop offset="45%" stop-color="#4f9ec4" />
+                <stop offset="100%" stop-color="#1c5a82" />
+              </radialGradient>
+              <radialGradient id="route-globe-shade" cx="50%" cy="50%" r="50%">
+                <stop offset="55%" stop-color="rgba(7,18,38,0)" />
+                <stop offset="86%" stop-color="rgba(7,18,38,0.16)" />
+                <stop offset="100%" stop-color="rgba(7,18,38,0.52)" />
               </radialGradient>
               <radialGradient id="route-globe-gloss" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                <stop offset="0%" stop-color="rgba(255,255,255,0.65)" />
                 <stop offset="100%" stop-color="rgba(255,255,255,0)" />
               </radialGradient>
+              <filter id="route-globe-glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="2.6" />
+              </filter>
+              <path id="route-globe-land" d={LAND_PATH} />
               <path id="route-globe-textpath" d="M100,100 m0,-80 a80,80 0 1,1 0,160 a80,80 0 1,1 0,-160" />
             </defs>
+
+            <!-- Atmosphären-Schimmer -->
+            <circle cx="100" cy="100" r="61" fill="none" stroke="#a9dcf0" stroke-width="4" opacity="0.5" filter="url(#route-globe-glow)" />
 
             <!-- Kugel (Ozean) -->
             <circle cx="100" cy="100" r="60" fill="url(#route-globe-ocean)" />
 
-            <!-- rotierende Kontinente (zwei identische Kacheln für nahtlose Schleife) -->
+            <!-- rotierende Kontinente: echte Natural-Earth-Umrisse, äquirektangulär,
+                 zweifach nebeneinander (Welt-Breite 240) für nahtlose Endlosschleife -->
             <g clip-path="url(#route-globe-clip)">
               <g class="route__globe-spin">
-                <g fill="#5e9a4e">
-                  <path d="M96,52 C84,56 80,66 86,74 C78,80 80,92 90,94 C100,96 104,88 102,80 C114,78 120,66 110,58 C106,52 100,50 96,52 Z" />
-                  <path d="M88,98 C82,104 84,118 92,124 C98,128 106,122 104,114 C110,108 106,98 98,96 C94,95 90,96 88,98 Z" />
-                  <path d="M58,70 C52,80 56,92 62,98 C60,110 66,120 72,116 C76,112 72,104 70,98 C76,90 74,76 66,70 C63,67 60,67 58,70 Z" />
-                  <path d="M126,104 C122,108 124,116 130,116 C136,116 138,108 134,104 C131,101 128,101 126,104 Z" />
-                </g>
-                <g fill="#5e9a4e" transform="translate(120,0)">
-                  <path d="M96,52 C84,56 80,66 86,74 C78,80 80,92 90,94 C100,96 104,88 102,80 C114,78 120,66 110,58 C106,52 100,50 96,52 Z" />
-                  <path d="M88,98 C82,104 84,118 92,124 C98,128 106,122 104,114 C110,108 106,98 98,96 C94,95 90,96 88,98 Z" />
-                  <path d="M58,70 C52,80 56,92 62,98 C60,110 66,120 72,116 C76,112 72,104 70,98 C76,90 74,76 66,70 C63,67 60,67 58,70 Z" />
-                  <path d="M126,104 C122,108 124,116 130,116 C136,116 138,108 134,104 C131,101 128,101 126,104 Z" />
-                </g>
+                <use href="#route-globe-land" fill="#6aa55a" />
+                <use href="#route-globe-land" fill="#6aa55a" transform="translate(240,0)" />
               </g>
             </g>
 
-            <!-- Glanzlicht + Ränder -->
-            <ellipse cx="80" cy="76" rx="30" ry="20" fill="url(#route-globe-gloss)" />
+            <!-- Kugel-Schattierung (Rand abdunkeln) + Glanzlicht + Goldrand -->
+            <circle cx="100" cy="100" r="60" fill="url(#route-globe-shade)" />
+            <ellipse cx="80" cy="74" rx="30" ry="19" fill="url(#route-globe-gloss)" />
             <circle cx="100" cy="100" r="60" fill="none" stroke="var(--gold)" stroke-width="2.5" />
 
             <!-- gravierter Schriftring (dreht langsam) -->
@@ -358,9 +363,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     letter-spacing: 5.7px;
     fill: var(--china-red);
   }
-  /* Kontinente wandern horizontal → Kugel dreht sich; Kachelbreite = 120 (siehe SVG) */
+  /* Kontinente wandern horizontal → Kugel dreht sich; Welt-Breite = 240 (siehe SVG) */
   .route__globe-spin {
-    animation: route-globe-rotate 20s linear infinite;
+    animation: route-globe-rotate 38s linear infinite;
   }
   /* Schriftring dreht langsam um den Mittelpunkt */
   .route__globe-textspin {
@@ -369,7 +374,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     animation: route-globe-ring 34s linear infinite;
   }
   @keyframes route-globe-rotate {
-    to { transform: translateX(-120px); }
+    to { transform: translateX(-240px); }
   }
   @keyframes route-globe-ring {
     to { transform: rotate(360deg); }
