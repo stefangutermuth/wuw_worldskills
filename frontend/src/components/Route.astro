@@ -93,7 +93,57 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
           Über 8.000 Kilometer von Chemnitz bis ans East China Sea –
           Marc-Aurel Spalek &amp; Lennard Weitzmann auf dem Weg zu den WorldSkills 2026.
         </p>
-        <span class="route__seal" data-reveal>8.000&nbsp;km</span>
+        <div class="route__globe" data-reveal role="img" aria-label="8000 Kilometer von Sachsen bis Shanghai">
+          <svg class="route__globe-svg" viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <clipPath id="route-globe-clip"><circle cx="100" cy="100" r="60" /></clipPath>
+              <radialGradient id="route-globe-ocean" cx="38%" cy="30%" r="82%">
+                <stop offset="0%" stop-color="#bfe2ec" />
+                <stop offset="48%" stop-color="#5aa0b3" />
+                <stop offset="100%" stop-color="#28586a" />
+              </radialGradient>
+              <radialGradient id="route-globe-gloss" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+              </radialGradient>
+              <path id="route-globe-textpath" d="M100,100 m0,-80 a80,80 0 1,1 0,160 a80,80 0 1,1 0,-160" />
+            </defs>
+
+            <!-- Kugel (Ozean) -->
+            <circle cx="100" cy="100" r="60" fill="url(#route-globe-ocean)" />
+
+            <!-- rotierende Kontinente (zwei identische Kacheln für nahtlose Schleife) -->
+            <g clip-path="url(#route-globe-clip)">
+              <g class="route__globe-spin">
+                <g fill="#5e9a4e">
+                  <path d="M96,52 C84,56 80,66 86,74 C78,80 80,92 90,94 C100,96 104,88 102,80 C114,78 120,66 110,58 C106,52 100,50 96,52 Z" />
+                  <path d="M88,98 C82,104 84,118 92,124 C98,128 106,122 104,114 C110,108 106,98 98,96 C94,95 90,96 88,98 Z" />
+                  <path d="M58,70 C52,80 56,92 62,98 C60,110 66,120 72,116 C76,112 72,104 70,98 C76,90 74,76 66,70 C63,67 60,67 58,70 Z" />
+                  <path d="M126,104 C122,108 124,116 130,116 C136,116 138,108 134,104 C131,101 128,101 126,104 Z" />
+                </g>
+                <g fill="#5e9a4e" transform="translate(120,0)">
+                  <path d="M96,52 C84,56 80,66 86,74 C78,80 80,92 90,94 C100,96 104,88 102,80 C114,78 120,66 110,58 C106,52 100,50 96,52 Z" />
+                  <path d="M88,98 C82,104 84,118 92,124 C98,128 106,122 104,114 C110,108 106,98 98,96 C94,95 90,96 88,98 Z" />
+                  <path d="M58,70 C52,80 56,92 62,98 C60,110 66,120 72,116 C76,112 72,104 70,98 C76,90 74,76 66,70 C63,67 60,67 58,70 Z" />
+                  <path d="M126,104 C122,108 124,116 130,116 C136,116 138,108 134,104 C131,101 128,101 126,104 Z" />
+                </g>
+              </g>
+            </g>
+
+            <!-- Glanzlicht + Ränder -->
+            <ellipse cx="80" cy="76" rx="30" ry="20" fill="url(#route-globe-gloss)" />
+            <circle cx="100" cy="100" r="60" fill="none" stroke="var(--gold)" stroke-width="2.5" />
+
+            <!-- gravierter Schriftring (dreht langsam) -->
+            <g class="route__globe-textspin">
+              <circle cx="100" cy="100" r="71" fill="none" stroke="rgba(201,162,75,0.45)" stroke-width="0.75" />
+              <circle cx="100" cy="100" r="89" fill="none" stroke="rgba(201,162,75,0.45)" stroke-width="0.75" />
+              <text class="route__globe-text">
+                <textPath href="#route-globe-textpath" startOffset="0">8000 KM · VON SACHSEN BIS SHANGHAI · 8000 KM · VON SACHSEN BIS SHANGHAI ·</textPath>
+              </text>
+            </g>
+          </svg>
+        </div>
       </div>
 
       <!-- Kapitel -->
@@ -292,22 +342,43 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     color: #2f2922;
     line-height: 1.65;
   }
-  .route__seal {
-    display: inline-grid;
-    place-items: center;
-    margin-top: 1.75rem;
-    width: 7.5rem;
-    height: 7.5rem;
-    border-radius: 50%;
-    border: 2px solid var(--gold);
-    background: radial-gradient(circle at 50% 45%, rgba(255, 253, 248, 0.92), rgba(247, 240, 227, 0.7));
-    color: var(--china-red);
+  .route__globe {
+    margin-top: 1.5rem;
+    width: clamp(8.5rem, 23vw, 10.5rem);
+    aspect-ratio: 1;
+  }
+  .route__globe-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 10px 22px rgba(45, 38, 28, 0.22));
+  }
+  .route__globe-text {
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.04em;
-    rotate: -8deg;
-    box-shadow: inset 0 0 0 4px rgba(201, 162, 75, 0.18), 0 8px 22px rgba(45, 38, 28, 0.18);
+    letter-spacing: 0.5px;
+    fill: var(--china-red);
+  }
+  /* Kontinente wandern horizontal → Kugel dreht sich; Kachelbreite = 120 (siehe SVG) */
+  .route__globe-spin {
+    animation: route-globe-rotate 20s linear infinite;
+  }
+  /* Schriftring dreht langsam um den Mittelpunkt */
+  .route__globe-textspin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: route-globe-ring 34s linear infinite;
+  }
+  @keyframes route-globe-rotate {
+    to { transform: translateX(-120px); }
+  }
+  @keyframes route-globe-ring {
+    to { transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .route__globe-spin,
+    .route__globe-textspin { animation: none; }
   }
 
   /* Kapitel */
