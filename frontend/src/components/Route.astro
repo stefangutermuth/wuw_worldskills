@@ -69,7 +69,37 @@ const chapters = [
     },
   },
   {
-    num: '04', title: 'Team Germany',
+    num: '04', title: 'Sachsen Cup',
+    text: 'WM-Vorbereitung unter vollen Wettkampf-Bedingungen.',
+    img: '/img/route/sachsencup/sachsencup-01',
+    alt: 'Marc-Aurel Spalek & Lennard Weitzmann beim Sachsen Cup',
+    long: 'Volle Wettkampf-Bedingungen zur WM-Vorbereitung: Beim Sachsen Cup gestalten Marc-Aurel und Lennard in begrenzter Zeit einen kompletten Schaugarten – Natursteinmauern, Pflaster, Holzdeck und Bepflanzung, alles auf den Millimeter. Pflasterverband, Nivelliergerät, Akkuschrauber: Hier wird jeder Handgriff für Shanghai geschliffen.',
+    credit: '© Verband Garten-, Landschafts- und Sportplatzbau Sachsen e. V.',
+    gallery: [
+      '/img/route/sachsencup/sachsencup-01',
+      '/img/route/sachsencup/sachsencup-02',
+      '/img/route/sachsencup/sachsencup-03',
+      '/img/route/sachsencup/sachsencup-04',
+      '/img/route/sachsencup/sachsencup-05',
+      '/img/route/sachsencup/sachsencup-06',
+      '/img/route/sachsencup/sachsencup-07',
+      '/img/route/sachsencup/sachsencup-08',
+      '/img/route/sachsencup/sachsencup-09',
+      '/img/route/sachsencup/sachsencup-10',
+      '/img/route/sachsencup/sachsencup-11',
+      '/img/route/sachsencup/sachsencup-12',
+      '/img/route/sachsencup/sachsencup-13',
+      '/img/route/sachsencup/sachsencup-14',
+      '/img/route/sachsencup/sachsencup-15',
+      '/img/route/sachsencup/sachsencup-16',
+      '/img/route/sachsencup/sachsencup-17',
+      '/img/route/sachsencup/sachsencup-18',
+      '/img/route/sachsencup/sachsencup-19',
+      '/img/route/sachsencup/sachsencup-20',
+    ],
+  },
+  {
+    num: '05', title: 'Team Germany',
     text: 'Esslingen: erstmals mit der ganzen Nationalmannschaft.',
     img: null,
     alt: 'Vorbereitungstreffen von Team Germany in Esslingen',
@@ -184,7 +214,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
                 <figure class="route__dlg-hero">
                   <picture>
                     <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
-                    <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" />
+                    <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" data-credit={c.credit || undefined} />
                   </picture>
                 </figure>
               )}
@@ -212,10 +242,13 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
                   {c.gallery.map((g) => (
                     <picture>
                       <source srcset={asset(`${g}.webp`)} type="image/webp" />
-                      <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" />
+                      <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" data-credit={c.credit || undefined} />
                     </picture>
                   ))}
                 </div>
+              )}
+              {c.credit && c.gallery.length > 0 && (
+                <p class="route__dlg-credit">Fotos: {c.credit}</p>
               )}
             </div>
           </div>
@@ -261,7 +294,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   <!-- Bild-Lightbox — JS verschiebt sie nach <body>; öffnet Galerie-/Titelbilder groß -->
   <div class="route__lightbox" data-route-lightbox role="dialog" aria-modal="true" aria-label="Bildansicht" hidden>
     <button class="route__lightbox-close" data-lightbox-close type="button" aria-label="Schließen">&times;</button>
-    <img data-lightbox-img src="" alt="" />
+    <figure class="route__lightbox-fig">
+      <img data-lightbox-img src="" alt="" />
+      <figcaption class="route__lightbox-credit" data-lightbox-credit hidden></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -730,6 +766,28 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     transition: opacity 0.2s;
   }
   .route__lightbox-close:hover { opacity: 1; }
+  .route__lightbox-fig {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .route__lightbox-credit {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-align: center;
+    max-width: 90vw;
+  }
+
+  /* Quellen-/Credit-Hinweis unter der Galerie */
+  .route__dlg-credit {
+    margin: 0.7rem 0 0;
+    font-size: 0.78rem;
+    font-style: italic;
+    color: #6b6256;
+  }
 
   /* -------------------- Mobile -------------------- */
   @media (max-width: 767px) {

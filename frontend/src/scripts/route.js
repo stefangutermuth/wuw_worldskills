@@ -57,10 +57,16 @@ function initRouteCards(section) {
   if (lightbox) {
     if (lightbox.parentElement !== document.body) document.body.appendChild(lightbox);
     const lbImg = lightbox.querySelector('[data-lightbox-img]');
+    const lbCredit = lightbox.querySelector('[data-lightbox-credit]');
 
     const openLightbox = (img) => {
       lbImg.src = img.currentSrc || img.src; // bereits geladene Auflösung wiederverwenden
       lbImg.alt = img.alt || '';
+      const credit = img.dataset.credit;     // Quellenhinweis (z. B. Verband) mitführen
+      if (lbCredit) {
+        lbCredit.textContent = credit ? `Foto: ${credit}` : '';
+        lbCredit.hidden = !credit;
+      }
       lightbox.hidden = false;
       requestAnimationFrame(() => lightbox.classList.add('is-open'));
     };
