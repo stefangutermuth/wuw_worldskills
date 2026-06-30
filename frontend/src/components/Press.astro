@@ -57,18 +57,18 @@ const facts = [
         </a>
       </div>
 
-      <!-- Pressemitteilung (aktuell keine verfügbar → ausgegraut) -->
-      <div class="press__card press__card--soon">
+      <!-- Pressemitteilung -->
+      <div class="press__card">
         <h3 class="press__card-title">
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Pressemitteilung
         </h3>
         <p class="press__card-text">
-          Aktuell ist keine Pressemitteilung verfügbar – folgt in Kürze.
+          <strong>Aus Chemnitz nach Shanghai</strong> – Marc-Aurel &amp; Lennard mit Team Germany bei den WorldSkills 2026 (Stand: 30.&nbsp;Juni 2026).
         </p>
-        <span class="press__dl-btn press__dl-btn--disabled" aria-disabled="true">
-          <i class="fa-regular fa-clock" aria-hidden="true"></i>
-          In Vorbereitung
-        </span>
+        <a href="#pressetext" class="press__dl-btn">
+          <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+          Pressemitteilung lesen
+        </a>
       </div>
 
       <!-- Kontakt -->
@@ -103,6 +103,46 @@ const facts = [
         </dl>
       </div>
     </div>
+
+    <!-- Pressemitteilung (Volltext) -->
+    <article class="press__release" id="pressetext" aria-labelledby="pressetext-title">
+      <p class="u-eyebrow">Pressemitteilung · 30. Juni 2026</p>
+      <h3 id="pressetext-title" class="press__release-title">
+        Aus Chemnitz nach Shanghai: Wirth &amp; Wiener stellt zwei Landschaftsgärtner für Team Germany
+      </h3>
+      <p>
+        <strong>Chemnitz, 30. Juni 2026</strong> – Zwei Landschaftsgärtner der Wirth &amp; Wiener GmbH aus Chemnitz,
+        Marc-Aurel Spalek und Lennard Weitzmann, gehören zur Deutschen Berufe-Nationalmannschaft („Team Germany"),
+        die vom 22. bis 27. September 2026 bei den WorldSkills in Shanghai antritt – der Weltmeisterschaft der Berufe.
+        Beim Vorbereitungstreffen vom 25. bis 27. Juni im Neo Hotel Linde in Esslingen kam die Mannschaft erstmals komplett zusammen.
+      </p>
+      <p>
+        Unter dem Motto „Maximal zusammen!" stimmten sich 36 Spitzenfachkräfte aus 31 Disziplinen fachlich, mental und
+        persönlich auf die WM ein – mit Workshops, mentalem Training, Media Training und gemeinsamen Foto-Sessions.
+        „Das Vorbereitungstreffen ist ein wichtiger Meilenstein auf dem Weg nach Shanghai. Hier wachsen die Teilnehmenden
+        als Team zusammen", sagt Hubert Romer, Geschäftsführer von WorldSkills Germany.
+      </p>
+      <p>
+        Ihr Ticket nach Shanghai lösten Spalek und Weitzmann mit dem Sieg beim bundesweiten Landschaftsgärtner-Cup 2025
+        in Berlin. Seitdem trainieren die beiden bei Wirth &amp; Wiener in Chemnitz unter Wettkampf-Bedingungen, zuletzt
+        bei der Landesmeisterschaft Sachsen in Dresden-Pillnitz. In Shanghai treten sie im Skill „Landscape Gardening" an,
+        wenn Spitzenfachkräfte aus über 70 Ländern in 64 Disziplinen gegeneinander antreten.
+      </p>
+      <h4 class="press__release-sub">Über Wirth &amp; Wiener</h4>
+      <p>
+        Die Wirth &amp; Wiener GmbH aus Chemnitz ist spezialisiert auf Garten- und Landschaftsbau sowie Teich- und
+        Schwimmteichbau. Das Unternehmen bildet aus und begleitet Marc-Aurel Spalek und Lennard Weitzmann auf ihrem Weg
+        zur Berufs-Weltmeisterschaft.
+      </p>
+      <h4 class="press__release-sub">Bildmaterial</h4>
+      <p>
+        Offizielle Fotos von Team Germany (Mannschaftsfoto, Porträts) stellt WorldSkills Germany kostenlos bereit
+        (© WorldSkills Germany / Frank Erpinar). Fotos von Marc-Aurel und Lennard auf Anfrage.
+      </p>
+      <p class="press__release-contact">
+        <strong>Pressekontakt:</strong> GUMU Agentur · <a href="mailto:info@gumu-agentur.de">info@gumu-agentur.de</a>
+      </p>
+    </article>
   </div>
 </section>
 
@@ -216,6 +256,35 @@ const facts = [
     color: var(--ink-soft);
     letter-spacing: 0.04em;
   }
+
+  /* Pressemitteilung Volltext */
+  .press__release {
+    max-width: 70ch;
+    margin: clamp(2rem, 5vh, 3.5rem) auto 0;
+    padding-top: clamp(1.5rem, 4vh, 2.5rem);
+    border-top: 1px solid rgba(201, 162, 75, 0.18);
+    scroll-margin-top: 90px;
+  }
+  .press__release-title {
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    color: var(--gold);
+    line-height: 1.25;
+    margin: 0.4rem 0 1.1rem;
+  }
+  .press__release p {
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .press__release p strong { color: var(--paper); }
+  .press__release-sub {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-size: 1.02rem;
+    margin: 1.4rem 0 0.4rem;
+  }
+  .press__release a { color: var(--gold); text-decoration: underline; }
+  .press__release-contact { margin-top: 1.4rem; }
 
   .press__card--contact { border-color: rgba(201, 162, 75, 0.28); }
   .press__contact {

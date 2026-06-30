@@ -101,10 +101,16 @@ const chapters = [
   {
     num: '05', title: 'Team Germany',
     text: 'Esslingen: erstmals mit der ganzen Nationalmannschaft.',
-    img: null,
-    alt: 'Vorbereitungstreffen von Team Germany in Esslingen',
-    long: 'Vom 25. bis 27. Juni kommt die Deutsche Berufe-Nationalmannschaft erstmals zusammen – im Neo Hotel Linde in Esslingen. Teambuilding, Medientraining und sportpsychologische Vorbereitung: Hier wächst Team Germany unter dem Motto „Maximal zusammen!“ zur Einheit, die Deutschland in Shanghai vertritt.',
-    gallery: [],
+    img: '/img/route/teamgermany/teamgermany-01',
+    imgCredit: 'WorldSkills Germany / Frank Erpinar',
+    alt: 'Team Germany – die Deutsche Berufe-Nationalmannschaft beim Vorbereitungstreffen in Esslingen',
+    long: 'Vom 25. bis 27. Juni 2026 kam die Deutsche Berufe-Nationalmannschaft erstmals komplett zusammen – im Neo Hotel Linde in Esslingen. 36 Spitzenfachkräfte in 31 Disziplinen, mittendrin Marc-Aurel und Lennard. Auf dem Programm: Workshops, mentales Training, Media Training und gemeinsame Foto-Sessions. „Das Vorbereitungstreffen ist ein wichtiger Meilenstein auf dem Weg nach Shanghai“, sagt Hubert Romer, Geschäftsführer von WorldSkills Germany. Unter dem Motto „Maximal zusammen!“ wächst Team Germany zur Einheit – ausgestattet von Mewa, gefördert vom Bund.',
+    credit: 'WorldSkills Germany / Frank Erpinar',
+    creditNote: 'Mannschaftsfoto: WorldSkills Germany / Frank Erpinar · Einkleidung: Wirth & Wiener',
+    gallery: [
+      '/img/route/teamgermany/teamgermany-01',
+      { src: '/img/route/teamgermany/teamgermany-02', credit: 'Wirth & Wiener GmbH' },
+    ],
   },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
@@ -214,7 +220,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
                 <figure class="route__dlg-hero">
                   <picture>
                     <source srcset={asset(`${c.img}.webp`)} type="image/webp" />
-                    <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" data-credit={c.credit || undefined} />
+                    <img src={asset(`${c.img}.jpg`)} alt={c.alt} loading="lazy" decoding="async" data-credit={c.imgCredit || c.credit || undefined} />
                   </picture>
                 </figure>
               )}
@@ -239,16 +245,20 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               )}
               {c.gallery.length > 0 && (
                 <div class="route__dlg-gallery">
-                  {c.gallery.map((g) => (
-                    <picture>
-                      <source srcset={asset(`${g}.webp`)} type="image/webp" />
-                      <img src={asset(`${g}.jpg`)} alt="" loading="lazy" decoding="async" data-credit={c.credit || undefined} />
-                    </picture>
-                  ))}
+                  {c.gallery.map((g) => {
+                    const src = typeof g === 'string' ? g : g.src;
+                    const cr = (typeof g === 'object' && g.credit) ? g.credit : c.credit;
+                    return (
+                      <picture>
+                        <source srcset={asset(`${src}.webp`)} type="image/webp" />
+                        <img src={asset(`${src}.jpg`)} alt="" loading="lazy" decoding="async" data-credit={cr || undefined} />
+                      </picture>
+                    );
+                  })}
                 </div>
               )}
-              {c.credit && c.gallery.length > 0 && (
-                <p class="route__dlg-credit">Fotos: {c.credit}</p>
+              {(c.creditNote || c.credit) && c.gallery.length > 0 && (
+                <p class="route__dlg-credit">{c.creditNote || `Fotos: ${c.credit}`}</p>
               )}
             </div>
           </div>
