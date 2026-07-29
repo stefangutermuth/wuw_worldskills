@@ -11,6 +11,28 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/** Kleines Flaschen-Icon (Inline-SVG, erbt die Textfarbe). */
+function wuw_limo_icon(): string {
+    return '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+        . '<path d="M10 2h4M10.5 2v3c0 2-2 3-2 6v8a2.5 2.5 0 0 0 2.5 2.5h2a2.5 2.5 0 0 0 2.5-2.5v-8c0-3-2-4-2-6V2"/>'
+        . '<path d="M8.7 13.5h6.6"/>'
+        . '</svg>';
+}
+
+/* Nav-Link „Limonade" – Desktop (Slot in header.php nach „Kontakt") */
+add_action('wuw_nav_limo', function () {
+    ?>
+                <li><a href="<?php echo esc_url(home_url('/#limonade')); ?>" class="flex items-center gap-1.5 py-2 text-sm font-semibold tracking-wide text-[var(--color-primary)] transition-colors hover:text-[var(--color-primary-dark)]" title="Landschaftsgärtner-Limonade – 5 € pro Kasten für die WorldSkills-Vorbereitung"><?php echo wuw_limo_icon(); ?>Limonade</a></li>
+    <?php
+});
+
+/* Nav-Link „Limonade" – Mobile (Slot in header.php vor „Kontakt") */
+add_action('wuw_nav_limo_mobile', function () {
+    ?>
+            <li class="border-b border-[var(--color-line)]"><a href="<?php echo esc_url(home_url('/#limonade')); ?>" class="flex items-center gap-1.5 py-3 text-base font-medium text-[var(--color-primary)]"><?php echo wuw_limo_icon(); ?>Limonade</a></li>
+    <?php
+});
+
 add_action('wuw_home_limo', function () {
     $img_webp = plugins_url('assets/limo-square.webp', __FILE__);
     $img_jpg  = plugins_url('assets/limo-square.jpg', __FILE__);
@@ -23,7 +45,7 @@ add_action('wuw_home_limo', function () {
     ?>
 <section class="wuw-limo" id="limonade" aria-labelledby="wuw-limo-title">
   <style>
-    .wuw-limo{background:linear-gradient(180deg,#f6faf1,#eef4e6);padding:5rem 0;}
+    .wuw-limo{background:linear-gradient(180deg,#f6faf1,#eef4e6);padding:5rem 0;scroll-margin-top:6rem;}
     .wuw-limo__inner{max-width:72rem;margin:0 auto;padding:0 1.25rem;display:grid;gap:2.5rem;align-items:center;}
     @media(min-width:900px){.wuw-limo__inner{grid-template-columns:minmax(0,420px) 1fr;gap:4rem;}}
     .wuw-limo__media{border-radius:1.5rem;overflow:hidden;box-shadow:0 24px 50px rgba(31,45,24,.18);line-height:0;max-width:420px;margin-inline:auto;}
