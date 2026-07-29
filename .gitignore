@@ -29,3 +29,4 @@ Thumbs.db
 
 # Roh-/Originalfotos (nicht veröffentlichen – enthalten z.T. private Kontaktdaten)
 _originale/
+!/app/public/wp-content/plugins/wuw-limo-hinweis/
