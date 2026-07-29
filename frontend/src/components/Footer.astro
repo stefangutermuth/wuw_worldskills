@@ -7,12 +7,12 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 // Bestell-Mail für die Landschaftsgärtner-Limonade (Bestellungen gehen direkt an W&W)
 const limoBody = `Hallo Team Wirth & Wiener,
 
-ich möchte folgende Kästen der Landschaftsgärtner-Limonade „Gurke-Zitrone" bestellen:
+ich möchte folgende Kästen der Landschaftsgärtner-Limonade „Gurke-Zitrone" bestellen (Abholung bei Ihnen in Chemnitz):
 
 Anzahl Kästen:
 Name:
-Lieferadresse:
 Telefon:
+Wunschtermin zur Abholung:
 
 Vielen Dank!`;
 const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Bestellung Landschaftsgärtner-Limonade')}&body=${encodeURIComponent(limoBody)}`;
@@ -72,11 +72,12 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
             <li>1 Kasten = 20 Flaschen à 0,33&nbsp;l</li>
             <li><strong>20,00&nbsp;€</strong> <span>zzgl. 4,50&nbsp;€ Pfand + 19&nbsp;% MwSt.</span></li>
             <li>5,00&nbsp;€ pro Kasten für Marc-Aurel &amp; Lennard</li>
+            <li>Abholung bei Wirth &amp; Wiener: Am Erlenwald&nbsp;4, 09128&nbsp;Chemnitz</li>
           </ul>
           <a class="footer__limo-btn" href={limoHref}>
-            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Kasten bestellen
+            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Kasten reservieren
           </a>
-          <p class="footer__limo-note">oder telefonisch: 0371&nbsp;77440-0</p>
+          <p class="footer__limo-note">oder telefonisch: 0371&nbsp;77440-0 · keine Lieferung, nur Abholung</p>
         </div>
       </div>
 
