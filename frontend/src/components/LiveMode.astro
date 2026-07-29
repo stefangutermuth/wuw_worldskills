@@ -87,6 +87,20 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </div>
     </div>
 
+    <!-- Live dabei sein: offizieller WorldSkills-Livestream -->
+    <div class="live__watch">
+      <div class="live__watch-text">
+        <h3 class="live__sub"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Live dabei sein</h3>
+        <p>
+          Eröffnung und Siegerehrung überträgt WorldSkills live – dazu laufen an den Wettkampftagen
+          tägliche Streams direkt aus der Halle. So bist du dabei, wenn Marc &amp; Lennard in Shanghai antreten.
+        </p>
+      </div>
+      <a class="live__watch-btn" href="https://www.youtube.com/user/WorldSkillsTV" target="_blank" rel="noopener">
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Zum WorldSkills-Livestream
+      </a>
+    </div>
+
     <!-- Reportage (erscheint, sobald Berichte da sind) -->
     <div class="live__featured" data-live-featured hidden></div>
     <div class="live__cards" data-live-cards></div>
@@ -449,6 +463,50 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     font-size: 0.82rem;
     color: var(--ink-soft);
   }
+
+  /* ---------- Live dabei sein (Livestream) ---------- */
+  .live__watch {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.6rem;
+    padding: 1.4rem 1.6rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    background: rgba(9, 15, 24, 0.82);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+  }
+  .live__watch-text { flex: 1 1 320px; }
+  .live__watch-text .live__sub {
+    text-align: left;
+    font-size: 1.15rem;
+    margin-bottom: 0.45rem;
+  }
+  .live__watch-text .live__sub i { color: #ff4d4d; }
+  .live__watch-text p {
+    color: rgba(241, 232, 214, 0.9);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+  .live__watch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    background: var(--china-red);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.18s var(--ease-out);
+  }
+  .live__watch-btn:hover { background: var(--china-red-dk); transform: translateY(-2px); }
+  .live__watch-btn i { font-size: 1.1rem; }
 
   /* ---------- Programm-Woche ---------- */
   .live__programm { margin-top: clamp(2.5rem, 6vh, 4rem); }
