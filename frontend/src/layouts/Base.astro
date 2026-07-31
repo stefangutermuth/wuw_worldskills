@@ -64,6 +64,15 @@ const jsonLd = {
         { '@type': 'Person', name: 'Marc-Aurel Spalek' },
         { '@type': 'Person', name: 'Lennard Weitzmann' },
       ],
+      // GSC-Hinweis „Feld offers fehlt". Besucher-Registrierung ist offiziell
+      // „Coming Soon" (worldskills2026.com/ticketing) → PreOrder, ohne Preis.
+      // TODO: Preis/availability aktualisieren, sobald das Ticketing live ist.
+      offers: {
+        '@type': 'Offer',
+        url: 'https://worldskills2026.com/ticketing',
+        availability: 'https://schema.org/PreOrder',
+        validFrom: '2026-07-01',
+      },
     },
   ],
 };
