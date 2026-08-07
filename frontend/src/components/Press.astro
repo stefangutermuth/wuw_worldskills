@@ -2,6 +2,24 @@
 // Presse-Bereich (§A5) — Materialien für Redaktionen, Freie Presse, MDR etc.
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 
+// Pressestimmen – Berichte über Marc-Aurel & Lennard. Neue Artikel einfach oben ergänzen.
+const clips = [
+  {
+    title: '„Es wird knallhart“: Erzgebirger fahren zur Berufe-WM nach China',
+    source: 'Freie Presse',
+    date: '7. August 2026',
+    url: 'https://www.freiepresse.de/erzgebirge/marienberg/es-wird-knallhart-erzgebirger-fahren-zur-berufe-wm-nach-china-artikel14354394',
+    paywall: true,
+  },
+  {
+    title: 'Landschaftsgärtner-Cup in Pillnitz: Landesmeisterschaft im Gartenbau',
+    source: 'TAG24',
+    date: 'Juni 2026',
+    url: 'https://www.tag24.de/anzeige/dresden-landschaftsgaertnercup-pillnitz-ab-freitag-19-06-2026-landesmeisterschaft-gartenbau-pflanzen-3506328',
+    paywall: false,
+  },
+];
+
 const facts = [
   { label: 'Teilnehmer', value: 'Marc-Aurel Spalek & Lennard Weitzmann' },
   { label: 'Unternehmen', value: 'Wirth & Wiener GmbH, Chemnitz' },
@@ -69,6 +87,24 @@ const facts = [
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
           Pressemitteilung lesen
         </a>
+      </div>
+
+      <!-- Pressestimmen -->
+      <div class="press__card">
+        <h3 class="press__card-title">
+          <i class="fa-solid fa-newspaper" aria-hidden="true"></i> Pressestimmen
+        </h3>
+        <ul class="press__clips">
+          {clips.map(c => (
+            <li class="press__clip">
+              <a href={c.url} target="_blank" rel="noopener">{c.title}</a>
+              <span class="press__clip-meta">
+                {c.source} · {c.date}
+                {c.paywall && <span class="press__clip-pay">Bezahlartikel</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <!-- Kontakt -->
@@ -263,6 +299,41 @@ const facts = [
     font-weight: 400;
     color: var(--ink-soft);
     letter-spacing: 0.04em;
+  }
+
+  /* Pressestimmen */
+  .press__clips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .press__clip a {
+    display: block;
+    color: var(--paper);
+    font-size: 0.92rem;
+    line-height: 1.45;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .press__clip a:hover { color: var(--gold); text-decoration: underline; }
+  .press__clip-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  .press__clip-pay {
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.35);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--gold);
   }
 
   /* Pressemitteilung Volltext */
