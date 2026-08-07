@@ -22,7 +22,7 @@ const chapters = [
     text: 'Marc-Aurel & Lennard – lernt die beiden kennen.',
     img: '/img/route/vorstellung/vorstellung-card',
     alt: 'Marc-Aurel Spalek & Lennard Weitzmann stellen sich vor',
-    long: 'Wer sind die zwei, die für Deutschland nach Shanghai fahren? In ihrem Video stellen sich Marc-Aurel Spalek und Lennard Weitzmann selbst vor – mit allem, was sie antreibt.',
+    long: 'Wer sind die zwei, die für Deutschland nach Shanghai fahren? Marc-Aurel Spalek (22) aus Zschopau und Lennard Weitzmann (20) aus Olbernhau – beide aus dem Erzgebirge, beide Landschaftsgärtner bei Wirth & Wiener in Chemnitz. In ihrem Video stellen sie sich selbst vor, mit allem, was sie antreibt.',
     gallery: [],
     videos: [
       { src: '/img/route/vorstellung/vorstellung-video.mp4', poster: '/img/route/vorstellung/vorstellung-video.jpg' },
@@ -226,10 +226,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               )}
               <p class="route__dlg-lead">{c.text}</p>
               <p class="route__dlg-text">{c.long}</p>
+              <!-- Videos: poster steckt in data-poster, nicht in poster. Sonst lädt der
+                   Browser alle Vorschaubilder schon beim Seitenaufruf, obwohl die Videos
+                   im versteckten Detail liegen (~1,2 MB umsonst). route.js setzt das
+                   echte poster-Attribut erst beim Öffnen der Karte. -->
               {c.videos && c.videos.length > 0 && (
                 <div class={c.videos.length > 1 ? 'route__dlg-videos' : ''}>
                   {c.videos.map((v) => (
-                    <video class="route__dlg-video" controls preload="none" playsinline poster={asset(v.poster)}>
+                    <video class="route__dlg-video" controls preload="none" playsinline data-poster={asset(v.poster)}>
                       <source src={asset(v.src)} type="video/mp4" />
                     </video>
                   ))}

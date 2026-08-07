@@ -30,13 +30,15 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </span>
     </header>
 
-    <!-- AKTUELL (temporär – nach dem 20.06.2026 entfernen): Landschaftsgärtner-Cup Pillnitz -->
+    <!-- AKTUELL: jeweils die neueste Meldung. Zum Austauschen einfach Badge, Text und Meta ersetzen. -->
     <aside class="live__update">
-      <span class="live__update-badge">Aktuell · 19.–20. Juni</span>
+      <span class="live__update-badge">Aktuell · 7. August</span>
       <p class="live__update-text">
-        <strong>Generalprobe in Pillnitz:</strong> Als amtierende Deutsche Meister treten Marc-Aurel &amp; Lennard beim <strong>Landschaftsgärtner-Cup Sachsen</strong> in Dresden-Pillnitz an – freiwillig und außerhalb der Wertung. Unter erschwerten Bedingungen (eine Stunde weniger Zeit, Baupläne erst am Wettkampftag) ist es die perfekte Vorbereitung auf Shanghai. 🌿
+        <strong>„Es wird knallhart":</strong> Die <strong>Freie Presse</strong> hat Marc-Aurel &amp; Lennard kurz vor der WM getroffen. Die beiden Erzgebirger – aus Zschopau und Olbernhau – greifen in Shanghai nach dem Titel. Jetzt zählt jede Trainingsstunde. 🌿
       </p>
-      <p class="live__update-meta">Lohmener Str. 10, Dresden-Pillnitz · Eintritt frei · Sa zusätzlich Pillnitzer Gartentag</p>
+      <p class="live__update-meta">
+        <a href="https://www.freiepresse.de/erzgebirge/marienberg/es-wird-knallhart-erzgebirger-fahren-zur-berufe-wm-nach-china-artikel14354394" target="_blank" rel="noopener">Zum Artikel in der Freien Presse</a> · Bezahlartikel
+      </p>
     </aside>
 
     <!-- Vorfreude (vor dem Event): Zahl · Label · Datum in einer zentrierten Zeile -->
@@ -463,6 +465,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     font-size: 0.82rem;
     color: var(--ink-soft);
   }
+  .live__update-meta a { color: var(--gold); text-decoration: underline; }
 
   /* ---------- Live dabei sein (Livestream) ---------- */
   .live__watch {

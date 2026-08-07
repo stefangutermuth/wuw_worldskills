@@ -36,6 +36,10 @@ function initRouteCards(section) {
     const detail = el.querySelector('[data-detail]');
     if (!detail) return;
     body.innerHTML = detail.innerHTML;
+    // Vorschaubilder der Videos erst jetzt setzen (s. Route.astro: data-poster).
+    body.querySelectorAll('video[data-poster]').forEach((v) => {
+      v.poster = v.dataset.poster;
+    });
     card.setAttribute('aria-label', el.dataset.title || 'Kapitel-Details');
     lastFocus = document.activeElement;
     dialog.hidden = false;

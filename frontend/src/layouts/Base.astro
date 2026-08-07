@@ -113,8 +113,11 @@ const jsonLd = {
 
     <title>{title}</title>
 
-    <!-- Font Awesome 6 (Brand-Icons für Social) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome 6.7.2 – selbst gehostetes Subset mit genau den 20 genutzten Icons.
+         Statt 293 KB Icon-Schriften + 74 KB CSS vom fremden CDN nur noch ~4 KB – und
+         kein Drittanbieter-Request mehr (die Besucher-IP verlässt die Seite nicht).
+         Neues Icon nötig? frontend/public/fonts/fontawesome-subset.css ergänzen. -->
+    <link rel="stylesheet" href={asset('/fonts/fontawesome-subset.css')} />
 
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
