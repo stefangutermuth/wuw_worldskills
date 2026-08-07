@@ -184,9 +184,15 @@ button {
   will-change: filter, opacity, transform;
 }
 .br-block.br-visible {
-  filter: blur(0px);
+  /* WICHTIG (Firefox-Performance): 'none' statt 'blur(0px)'. Ein Filter-Wert –
+     auch mit Radius 0 – hält das Element dauerhaft in der Filter-Pipeline und
+     zwingt Firefox bei jedem Repaint zum Neu-Rastern. 'none' beendet das.
+     will-change ebenfalls zurücksetzen, sonst bleibt die GPU-Ebene für immer
+     reserviert (MDN warnt ausdrücklich vor dauerhaftem will-change). */
+  filter: none;
   opacity: 1;
   transform: none;
+  will-change: auto;
 }
 @media (prefers-reduced-motion: reduce) {
   .br-block { filter: none; opacity: 1; transform: none; transition: none; }
