@@ -215,7 +215,11 @@ export function initCheer(root) {
     if (dlgStatus) { dlgStatus.textContent = ''; dlgStatus.dataset.kind = ''; }
     if (sharePanel) sharePanel.hidden = true;
     dialog.hidden = false;
-    requestAnimationFrame(() => dialog.classList.add('is-open'));
+    // Kein rAF: bei verzögertem Rückruf (Renderpipeline unter Last, Hintergrund-Tab)
+    // bliebe sonst ein unsichtbares Vollbild-Overlay (opacity:0) liegen und würde
+    // alle Klicks schlucken. Erzwungener Reflow + synchrones Setzen der Klasse.
+    void dialog.offsetWidth;
+    dialog.classList.add('is-open');
     setTimeout(() => nameInput && nameInput.focus(), 120);
   }
   function closeDialog() {

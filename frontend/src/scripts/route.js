@@ -39,7 +39,13 @@ function initRouteCards(section) {
     card.setAttribute('aria-label', el.dataset.title || 'Kapitel-Details');
     lastFocus = document.activeElement;
     dialog.hidden = false;
-    requestAnimationFrame(() => dialog.classList.add('is-open'));
+    // WICHTIG: NICHT über requestAnimationFrame einblenden. Kommt der rAF-Rückruf
+    // verzögert (ausgelastete Renderpipeline, Hintergrund-Tab, Firefox unter Last),
+    // liegt sonst ein unsichtbares Vollbild-Overlay (opacity:0) über der Seite und
+    // schluckt jeden Klick – die Karte wirkt dann „kaputt". Ein erzwungener Reflow
+    // schreibt den Startzustand fest, danach startet die Transition auch synchron.
+    void dialog.offsetWidth;
+    dialog.classList.add('is-open');
     if (lenis) lenis.stop();            // Hintergrund-Scroll einfrieren
     closeBtn.focus();
   }
@@ -68,7 +74,8 @@ function initRouteCards(section) {
         lbCredit.hidden = !credit;
       }
       lightbox.hidden = false;
-      requestAnimationFrame(() => lightbox.classList.add('is-open'));
+      void lightbox.offsetWidth; // s. openCard(): kein rAF, sonst unsichtbares Overlay
+      lightbox.classList.add('is-open');
     };
     closeLightbox = () => {
       lightbox.classList.remove('is-open');
