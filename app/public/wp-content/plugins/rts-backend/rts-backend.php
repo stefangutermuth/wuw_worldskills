@@ -28,6 +28,7 @@ require_once RTS_PLUGIN_DIR . 'includes/class-rts-dispatch.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-newsletter.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-instagram.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-signup-log.php';
+require_once RTS_PLUGIN_DIR . 'includes/class-rts-signup-admin.php';
 
 // Aktivierung: Tabelle anlegen, Option initialisieren, CPTs registrieren + Rewrites flushen.
 register_activation_hook( __FILE__, array( 'RTS_DB', 'activate' ) );
@@ -42,6 +43,7 @@ add_action( 'rest_api_init', array( 'RTS_Newsletter', 'register_routes' ) );
 add_action( 'rest_api_init', array( 'RTS_Instagram', 'register_routes' ) );
 // Newsletter-Anmeldungen zusaetzlich lokal sichern (unabhaengig von Brevo).
 RTS_Signup_Log::init();
+RTS_Signup_Admin::init();
 
 // Admin-Komfort: Spalten für die Wunsch-Moderation.
 RTS_CPT::admin_hooks();
