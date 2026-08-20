@@ -204,12 +204,133 @@ export function initRoute(section) {
       })
     );
 
+    /* ---------- Bedienung: Pfeile, Ziehen, Hinweis, Fortschritt ----------
+     * Die Reise wird von der SEITEN-Scrollposition getrieben. Klick und Ziehen
+     * duerfen daher NICHT die x-Position des Tracks setzen (dagegen wuerde
+     * ScrollTrigger sofort zurueckrechnen), sondern muessen die Scrollposition
+     * aendern. Praktisch: Weil end = start + distance und x von 0 bis -distance
+     * laeuft, ist die Zuordnung 1:1 -> scrollY = start + horizontaler Versatz.
+     */
+    const nav = section.querySelector('[data-route-nav]');
+    const prevBtn = section.querySelector('[data-route-prev]');
+    const nextBtn = section.querySelector('[data-route-next]');
+    const progress = section.querySelector('[data-route-progress]');
+    const progressBar = section.querySelector('[data-route-progress-bar]');
+    const hint = section.querySelector('[data-route-hint]');
+
+    [nav, progress, hint].forEach((el) => { if (el) el.hidden = false; });
+    if (viewport) viewport.classList.add('is-draggable');
+
+    const startY = () => (horizontal.scrollTrigger ? horizontal.scrollTrigger.start : 0);
+    const currentX = () => -(gsap.getProperty(track, 'x') || 0);
+    const clampX = (x) => Math.max(0, Math.min(distance(), x));
+
+    // Zielpositionen: jedes Kapitel buendig hinter dem linken Track-Rand.
+    const stops = () => {
+      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      return items.map((el) => clampX(el.offsetLeft - pad));
+    };
+
+    const goToX = (x, smooth = true) => {
+      const y = startY() + clampX(x);
+      if (lenis) lenis.scrollTo(y, smooth ? { duration: 0.9 } : { immediate: true });
+      else window.scrollTo({ top: y, behavior: smooth ? 'smooth' : 'auto' });
+    };
+
+    const step = (dir) => {
+      const list = stops();
+      const now = currentX();
+      const next = dir > 0
+        ? list.find((t) => t > now + 12)
+        : [...list].reverse().find((t) => t < now - 12);
+      goToX(next !== undefined ? next : (dir > 0 ? distance() : 0));
+    };
+
+    const onPrev = () => step(-1);
+    const onNext = () => step(1);
+    if (prevBtn) prevBtn.addEventListener('click', onPrev);
+    if (nextBtn) nextBtn.addEventListener('click', onNext);
+
+    // Ziehen mit Maus/Stift. Touch bleibt aus: dort ist Wischen = Seitenscroll.
+    let dragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let moved = 0;
+
+    const onDown = (e) => {
+      if (e.pointerType === 'touch' || e.button !== 0) return;
+      if (e.target.closest('[data-route-nav], a, button, video')) return;
+      dragging = true;
+      moved = 0;
+      dragStartX = e.clientX;
+      dragStartY = startY() + currentX();
+      viewport.classList.add('is-dragging');
+      viewport.setPointerCapture && viewport.setPointerCapture(e.pointerId);
+    };
+    const onMove = (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - dragStartX;
+      moved = Math.max(moved, Math.abs(dx));
+      const y = Math.max(startY(), Math.min(startY() + distance(), dragStartY - dx));
+      if (lenis) lenis.scrollTo(y, { immediate: true });
+      else window.scrollTo({ top: y });
+    };
+    const onUp = (e) => {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      viewport.releasePointerCapture && e.pointerId !== undefined
+        && viewport.hasPointerCapture && viewport.hasPointerCapture(e.pointerId)
+        && viewport.releasePointerCapture(e.pointerId);
+      // Nach echtem Ziehen den folgenden Klick auf einer Karte unterdruecken.
+      if (moved > 6) {
+        const swallow = (ev) => { ev.stopPropagation(); ev.preventDefault(); };
+        viewport.addEventListener('click', swallow, { capture: true, once: true });
+        setTimeout(() => viewport.removeEventListener('click', swallow, true), 60);
+      }
+    };
+
+    if (viewport) {
+      viewport.addEventListener('pointerdown', onDown);
+      viewport.addEventListener('pointermove', onMove);
+      viewport.addEventListener('pointerup', onUp);
+      viewport.addEventListener('pointercancel', onUp);
+    }
+
+    // Fortschritt, Hinweis und Pfeil-Zustaende mitfuehren
+    const uiST = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: () => '+=' + distance(),
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const p = self.progress;
+        if (progressBar) progressBar.style.width = (p * 100).toFixed(1) + '%';
+        if (hint) hint.classList.toggle('is-gone', p > 0.02);
+        if (prevBtn) prevBtn.disabled = p <= 0.002;
+        if (nextBtn) nextBtn.disabled = p >= 0.998;
+      },
+    });
+    if (prevBtn) prevBtn.disabled = true;
+
     return () => {
       horizontal.scrollTrigger && horizontal.scrollTrigger.kill();
       horizontal.kill();
       if (vineST) vineST.kill();
       introTween.scrollTrigger && introTween.scrollTrigger.kill();
       chapterTweens.forEach((t) => t.scrollTrigger && t.scrollTrigger.kill());
+      uiST.kill();
+      if (prevBtn) prevBtn.removeEventListener('click', onPrev);
+      if (nextBtn) nextBtn.removeEventListener('click', onNext);
+      if (viewport) {
+        viewport.removeEventListener('pointerdown', onDown);
+        viewport.removeEventListener('pointermove', onMove);
+        viewport.removeEventListener('pointerup', onUp);
+        viewport.removeEventListener('pointercancel', onUp);
+        viewport.classList.remove('is-draggable', 'is-dragging');
+      }
+      [nav, progress, hint].forEach((el) => { if (el) el.hidden = true; });
     };
   });
 
