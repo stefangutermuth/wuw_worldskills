@@ -95,6 +95,24 @@ function initRouteCards(section) {
     lightbox.addEventListener('click', closeLightbox);
   }
 
+  // ---- Fremd-Player (ARD Mediathek) erst auf Klick nachladen ----
+  // Zwei-Klick-Lösung: Vor dem Klick steht nur ein Button im Dialog, es geht kein
+  // Request an ardmediathek.de raus. Bewusst ohne <img> im Button – sonst würde
+  // der Klick oben in der Lightbox-Delegation landen.
+  body.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-embed-src]');
+    if (!btn || !body.contains(btn)) return;
+    const frame = document.createElement('iframe');
+    frame.src = btn.dataset.embedSrc;
+    frame.title = btn.dataset.embedTitle || 'Video';
+    frame.className = 'route__dlg-embed-frame';
+    frame.setAttribute('allow', 'fullscreen; autoplay; encrypted-media; picture-in-picture');
+    frame.setAttribute('allowfullscreen', '');
+    frame.setAttribute('loading', 'lazy');
+    frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    btn.replaceWith(frame);
+  });
+
   section.querySelectorAll('[data-card]').forEach((el) => {
     el.addEventListener('click', () => openCard(el));
   });

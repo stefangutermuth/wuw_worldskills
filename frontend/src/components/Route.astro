@@ -127,6 +127,28 @@ const chapters = [
       '/img/route/landtag/landtag-04',
     ],
   },
+  {
+    num: '07', title: 'Im MDR',
+    text: 'Der Sachsenspiegel war beim Training dabei.',
+    // Titelbild: eigener Ausschnitt vom Training (kein Sendungsbild – das
+    // Material des MDR liegt beim Sender). Bei Fotos vom Drehtag ersetzen.
+    img: '/img/route/mdr/mdr-01',
+    alt: 'Marc-Aurel Spalek beim Pflastern im Training – Thema des MDR-Beitrags',
+    long: 'Zwei Wochen vor dem Abflug kam das Fernsehen: Der MDR SACHSENSPIEGEL hat Marc-Aurel und Lennard beim Training besucht und daraus einen Beitrag gemacht – „Landschaftsgärtner aus dem Erzgebirge wollen Weltmeistertitel“, gesendet am 9. September 2026. Drei Minuten über Millimeterarbeit, Ehrgeiz und zwei junge Handwerker, die für Deutschland nach Shanghai fahren. Den ganzen Beitrag gibt es hier direkt zum Ansehen.',
+    imgCredit: '© Verband Garten-, Landschafts- und Sportplatzbau Sachsen e. V.',
+    embed: {
+      url: 'https://www.ardmediathek.de/embed/Y3JpZDovL21kci5kZS9iZWl0cmFnL2Ntcy9mNmVlOGZkMy0wZmQzLTQ4MTQtYTliNi01MWZmMzJiMWJmMzM',
+      title: 'MDR Sachsenspiegel: Landschaftsgärtner aus dem Erzgebirge wollen Weltmeistertitel',
+      label: 'Beitrag ansehen',
+      meta: 'MDR Sachsenspiegel · 9. September 2026 · 3 Min.',
+      note: 'Klick startet den Player der ARD Mediathek – dabei wird eine Verbindung zu ardmediathek.de aufgebaut.',
+    },
+    link: {
+      url: 'https://www.ardmediathek.de/video/mdr-sachsenspiegel/landschaftsgaertner-aus-dem-erzgebirge-wollen-weltmeistertitel/mdr/Y3JpZDovL21kci5kZS9iZWl0cmFnL2Ntcy9mNmVlOGZkMy0wZmQzLTQ4MTQtYTliNi01MWZmMzJiMWJmMzM',
+      label: 'In der ARD Mediathek öffnen (abrufbar bis 9. September 2027)',
+    },
+    gallery: [],
+  },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
@@ -252,6 +274,26 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
                       <source src={asset(v.src)} type="video/mp4" />
                     </video>
                   ))}
+                </div>
+              )}
+              <!-- Fremd-Player (ARD Mediathek) erst auf Klick laden: solange der
+                   Platzhalter steht, geht kein Request an ardmediathek.de raus.
+                   route.js tauscht den Button gegen das iframe. -->
+              {c.embed && (
+                <div class="route__dlg-embed">
+                  <button
+                    type="button"
+                    class="route__dlg-embed-btn"
+                    data-embed-src={c.embed.url}
+                    data-embed-title={c.embed.title}
+                  >
+                    <span class="route__dlg-embed-play" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                    </span>
+                    <span class="route__dlg-embed-label">{c.embed.label}</span>
+                    <span class="route__dlg-embed-meta">{c.embed.meta}</span>
+                    <span class="route__dlg-embed-note">{c.embed.note}</span>
+                  </button>
                 </div>
               )}
               {c.link && (
@@ -828,6 +870,70 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     border-color: rgba(168, 30, 46, 0.6);
     transform: translateY(-1px);
   }
+  /* Fremd-Player (ARD Mediathek): Platzhalter + eingesetztes iframe */
+  .route__dlg-embed {
+    margin: 1.2rem 0 0;
+  }
+  .route__dlg-embed-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 1rem 1.4rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.35);
+    background:
+      radial-gradient(circle at 50% 38%, rgba(168, 30, 46, 0.32), transparent 62%),
+      linear-gradient(160deg, rgba(22, 18, 15, 0.96), rgba(9, 15, 24, 0.96));
+    color: var(--paper);
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .route__dlg-embed-btn:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .route__dlg-embed-play {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 0.3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 162, 75, 0.5);
+    background: rgba(168, 30, 46, 0.85);
+    color: var(--paper);
+  }
+  .route__dlg-embed-label {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+  }
+  .route__dlg-embed-meta {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .route__dlg-embed-note {
+    max-width: 42ch;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: rgba(241, 232, 214, 0.55);
+  }
+  .route__dlg-embed-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 1.2rem 0 0;
+    border: 0;
+    border-radius: var(--radius);
+    background: #000;
+  }
+
   .route__dlg-video {
     width: 100%;
     display: block;
