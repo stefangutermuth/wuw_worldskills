@@ -799,6 +799,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     transform: translateY(18px) scale(0.97);
     transition: transform 0.26s var(--ease-out);
   }
+  /* Kapitel mit eingebettetem Player bekommen mehr Breite – ein 16:9-Video
+     wirkt in der normalen Lesebreite von 780 px zu klein. */
+  .route__dialog-card.is-wide { width: min(1040px, 100%); }
   .route__dialog.is-open .route__dialog-card { transform: translateY(0) scale(1); }
   .route__dialog-close {
     position: absolute;
@@ -924,7 +927,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     line-height: 1.45;
     color: rgba(241, 232, 214, 0.55);
   }
-  .route__dlg-embed-frame {
+  /* :global(), weil route.js dieses iframe per JS erzeugt – ein solches Element
+     bekommt Astros data-astro-cid-Attribut nicht, scoped CSS würde nicht greifen
+     und der Browser bliebe bei seiner Standardgröße von 300 × 150 px. */
+  :global(.route__dlg-embed-frame) {
     display: block;
     width: 100%;
     aspect-ratio: 16 / 9;

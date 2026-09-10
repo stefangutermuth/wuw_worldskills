@@ -41,6 +41,8 @@ function initRouteCards(section) {
       v.poster = v.dataset.poster;
     });
     card.setAttribute('aria-label', el.dataset.title || 'Kapitel-Details');
+    // Kapitel mit eingebettetem Player breiter zeigen (s. .is-wide in Route.astro).
+    card.classList.toggle('is-wide', !!detail.querySelector('[data-embed-src]'));
     lastFocus = document.activeElement;
     dialog.hidden = false;
     // WICHTIG: NICHT über requestAnimationFrame einblenden. Kommt der rAF-Rückruf
