@@ -5,6 +5,16 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 // Pressestimmen – Berichte über Marc-Aurel & Lennard. Neue Artikel einfach oben ergänzen.
 const clips = [
   {
+    title: 'Landschaftsgärtner aus dem Erzgebirge wollen Weltmeistertitel',
+    source: 'MDR Sachsenspiegel',
+    date: '9. September 2026',
+    url: 'https://www.ardmediathek.de/video/mdr-sachsenspiegel/landschaftsgaertner-aus-dem-erzgebirge-wollen-weltmeistertitel/mdr/Y3JpZDovL21kci5kZS9iZWl0cmFnL2Ntcy9mNmVlOGZkMy0wZmQzLTQ4MTQtYTliNi01MWZmMzJiMWJmMzM',
+    paywall: false,
+    video: true,
+    // ARD-Mediathek-Beiträge laufen nach einem Jahr ab – danach den Eintrag entfernen.
+    note: 'ARD Mediathek · 3 Min. · abrufbar bis 9. September 2027',
+  },
+  {
     title: '„Es wird knallhart“: Erzgebirger fahren zur Berufe-WM nach China',
     source: 'Freie Presse',
     date: '7. August 2026',
@@ -100,8 +110,10 @@ const facts = [
               <a href={c.url} target="_blank" rel="noopener">{c.title}</a>
               <span class="press__clip-meta">
                 {c.source} · {c.date}
+                {c.video && <span class="press__clip-vid">Video</span>}
                 {c.paywall && <span class="press__clip-pay">Bezahlartikel</span>}
               </span>
+              {c.note && <span class="press__clip-note">{c.note}</span>}
             </li>
           ))}
         </ul>
@@ -334,6 +346,21 @@ const facts = [
     font-size: 0.7rem;
     letter-spacing: 0.03em;
     color: var(--gold);
+  }
+  .press__clip-vid {
+    padding: 0.05rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(168, 30, 46, 0.55);
+    background: rgba(168, 30, 46, 0.16);
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: #ff9a8a;
+  }
+  .press__clip-note {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.74rem;
+    color: var(--ink-soft);
   }
 
   /* Pressemitteilung Volltext */
