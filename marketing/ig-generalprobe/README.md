@@ -34,6 +34,11 @@ Mondtore, spiegelnde Wasserflächen. Nie zeigt sich der ganze Garten auf einen B
 „Ich versuche, mich da hineinzudenken, schaue YouTube-Videos, und in unserer Firma
 gibt es mittlerweile auch Bücher über chinesische Gärten", sagt Marc-Aurel.
 
+Beim Training war auch der MDR dabei. Der Sachsenspiegel hat einen Beitrag über die
+beiden gemacht – „Landschaftsgärtner aus dem Erzgebirge wollen Weltmeistertitel".
+Drei Minuten, noch ein Jahr lang in der ARD Mediathek abrufbar. Auf unserer
+Shanghai-Seite könnt ihr ihn direkt ansehen. 📺
+
 Und noch eine Zahl von diesem Tag: 7.000 Euro. Übergeben vom Verband Garten-,
 Landschafts- und Sportplatzbau Sachsen – zusammengekommen aus rund 10.000
 verkauften Flaschen Landschaftsgärtner-Limonade und 1.500 Euro vom Freistaat
@@ -68,6 +73,9 @@ Fotos: Petra Reidel
   „Berufe-Weltmeisterschaft", „WorldSkills 2026", „Shanghai" stehen ausgeschrieben
   in der Caption – Instagram indexiert Captions über Suchbegriffe, seit Juli 2025
   erscheinen öffentliche Beiträge auch bei Google.
+- **Der MDR-Absatz ist auch ein Wegweiser.** Auf Instagram lässt sich nicht verlinken –
+  deshalb zeigt der Satz nicht in die ARD Mediathek, sondern auf die eigene Seite, wo
+  der Beitrag eingebettet ist. Ein Grund mehr, dort hinzugehen.
 - **Markierungen statt Reichweitenhoffnung.** Bei Accounts unter 2.000 Followern
   bringen Markierungen im Schnitt +108 % Reichweite. @galabau_sachsen und
   @die_landschaftsgaertner sind die beiden, die wirklich teilen können.
