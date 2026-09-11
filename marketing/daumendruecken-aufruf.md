@@ -6,6 +6,11 @@ nicht mehr bis zum Abflug. Bleiben 16 Tage statt 6.
 **Annahme:** @wirth_wiener_gmbh liegt unter 2.000 Followern (Klasse „Tiny").
 Falls deutlich mehr – sag Bescheid, dann ändern sich zwei der Empfehlungen.
 
+> **Reihenfolge:** Zuerst läuft das Karussell „Die Generalprobe"
+> (`ig-generalprobe/` – Bilder liegen fertig dort). Dieser Aufruf hier funktioniert
+> danach besser als Story mit Link-Sticker und als zweiter Post kurz vor dem
+> Wettkampfstart am 22.09.
+
 ---
 
 ## Warum Karussell und nicht Einzelbild
