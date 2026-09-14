@@ -89,18 +89,38 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </div>
     </div>
 
-    <!-- Live dabei sein: offizieller WorldSkills-Livestream -->
+    <!-- So bist du dabei. WICHTIG: Aus Shanghai gibt es KEINEN Livestream – Info von
+         WorldSkills Germany vom 11.09.2026 nach Rücksprache mit WorldSkills Shanghai.
+         Deshalb hier die Kanäle, die täglich berichten, statt eines Stream-Buttons. -->
     <div class="live__watch">
       <div class="live__watch-text">
-        <h3 class="live__sub"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Live dabei sein</h3>
+        <h3 class="live__sub"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> So bist du dabei</h3>
         <p>
-          Eröffnung und Siegerehrung überträgt WorldSkills live – dazu laufen an den Wettkampftagen
-          tägliche Streams direkt aus der Halle. So bist du dabei, wenn Marc &amp; Lennard in Shanghai antreten.
+          Einen Livestream gibt es aus Shanghai nicht – damit die Teams während der Wettkämpfe ungestört
+          arbeiten können. Die Bilder kommen trotzdem: Team Germany berichtet täglich auf Social Media, die
+          Landschaftsgärtner zeigen den Baufortschritt, und hier auf der Seite erscheinen die Berichte von
+          Marc-Aurel &amp; Lennard.
         </p>
       </div>
-      <a class="live__watch-btn" href="https://www.youtube.com/user/WorldSkillsTV" target="_blank" rel="noopener">
-        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Zum WorldSkills-Livestream
-      </a>
+      <div class="live__follow">
+        <div class="live__follow-group">
+          <span class="live__follow-label">Team Germany</span>
+          <div class="live__follow-links">
+            <a href="https://www.instagram.com/worldskills_germany/" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>
+            <a href="https://www.facebook.com/WorldSkillsGermany/" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a>
+            <a href="https://www.linkedin.com/company/worldskills-germany" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn</a>
+          </div>
+        </div>
+        <div class="live__follow-group">
+          <span class="live__follow-label">Die Landschaftsgärtner · Baufortschritt</span>
+          <div class="live__follow-links">
+            <a href="https://www.instagram.com/die_landschaftsgaertner/" target="_blank" rel="noopener" aria-label="Die Landschaftsgärtner auf Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>
+            <a href="https://www.facebook.com/dielandschaftsgaertner" target="_blank" rel="noopener" aria-label="Die Landschaftsgärtner auf Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a>
+            <a href="https://www.tiktok.com/@ausbildung_galabau" target="_blank" rel="noopener" aria-label="Ausbildung GaLaBau auf TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i> TikTok</a>
+            <a href="https://www.youtube.com/@Ausbildung_galabau" target="_blank" rel="noopener" aria-label="Ausbildung GaLaBau auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Reportage (erscheint, sobald Berichte da sind) -->
@@ -467,14 +487,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .live__update-meta a { color: var(--gold); text-decoration: underline; }
 
-  /* ---------- Live dabei sein (Livestream) ---------- */
+  /* ---------- So bist du dabei (kein Livestream, Social-Kanäle) ---------- */
   .live__watch {
     margin-top: clamp(2.5rem, 6vh, 4rem);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem 1.6rem;
+    gap: 1.2rem 2rem;
     padding: 1.4rem 1.6rem;
     border-radius: var(--radius);
     border: 1px solid rgba(201, 162, 75, 0.3);
@@ -488,28 +508,50 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     font-size: 1.15rem;
     margin-bottom: 0.45rem;
   }
-  .live__watch-text .live__sub i { color: #ff4d4d; }
+  .live__watch-text .live__sub i { color: var(--gold); }
   .live__watch-text p {
     color: rgba(241, 232, 214, 0.9);
     line-height: 1.6;
     font-size: 0.95rem;
   }
-  .live__watch-btn {
+  .live__follow {
+    flex: 1 1 300px;
+    display: grid;
+    gap: 0.9rem;
+  }
+  .live__follow-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .live__follow-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .live__follow-links a {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.75rem 1.4rem;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
     border-radius: 999px;
-    background: var(--china-red);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
+    border: 1px solid rgba(201, 162, 75, 0.35);
+    color: var(--paper);
+    font-size: 0.86rem;
+    font-weight: 600;
     text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.2s ease, transform 0.18s var(--ease-out);
+    transition: border-color 0.2s ease, color 0.2s ease, transform 0.18s var(--ease-out);
   }
-  .live__watch-btn:hover { background: var(--china-red-dk); transform: translateY(-2px); }
-  .live__watch-btn i { font-size: 1.1rem; }
+  .live__follow-links a:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .live__follow-links i { font-size: 0.95rem; }
 
   /* ---------- Programm-Woche ---------- */
   .live__programm { margin-top: clamp(2.5rem, 6vh, 4rem); }

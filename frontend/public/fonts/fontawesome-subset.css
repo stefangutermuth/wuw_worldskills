@@ -1,4 +1,4 @@
-/* Font Awesome 6.7.2 – Subset mit genau den 20 auf dieser Seite genutzten Icons.
+/* Font Awesome 6.7.2 – Subset mit genau den 22 auf dieser Seite genutzten Icons.
    Selbst gehostet statt CDN: spart ~250 KB und vermeidet einen Drittanbieter-Request. */
 @font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:block;src:url("fa-solid-900.woff2") format("woff2")}
 @font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url("fa-regular-400.woff2") format("woff2")}
@@ -25,6 +25,8 @@
 .fa-facebook-f{--fa:"\f39e"}
 .fa-flickr{--fa:"\f16e"}
 .fa-instagram{--fa:"\f16d"}
+.fa-linkedin-in{--fa:"\f0e1"}
+.fa-tiktok{--fa:"\e07b"}
 .fa-whatsapp{--fa:"\f232"}
 .fa-x-twitter{--fa:"\e61b"}
 .fa-youtube{--fa:"\f167"}
