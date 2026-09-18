@@ -183,9 +183,9 @@ const facts = [
             <a href="https://www.instagram.com/galabau_sachsen/" target="_blank" rel="noopener">Instagram</a>
           </dd>
           <dt>AuGaLa</dt>
-          <dd><a href="https://www.landschaftsgaertner.com" target="_blank" rel="noopener">landschaftsgaertner.com</a> (Rubrik „Events")</dd>
+          <dd><a href="https://www.landschaftsgaertner.com" target="_blank" rel="noopener">landschaftsgaertner.com</a> (Rubrik „Events“)</dd>
           <dt>Motto</dt>
-          <dd>„Maximal zusammen!"</dd>
+          <dd>„Maximal zusammen!“</dd>
           <dt>Hashtags</dt>
           <dd>#WorldSkillsShanghai · #maximalzusammen · #teamgermany2026</dd>
           <dt>Veranstalter</dt>
@@ -202,12 +202,12 @@ const facts = [
       </h3>
       <p>
         <strong>Chemnitz, 30. Juni 2026</strong> – Zwei Landschaftsgärtner der Wirth &amp; Wiener GmbH aus Chemnitz,
-        Marc-Aurel Spalek und Lennard Weitzmann, gehören zur Deutschen Berufe-Nationalmannschaft („Team Germany"),
+        Marc-Aurel Spalek und Lennard Weitzmann, gehören zur Deutschen Berufe-Nationalmannschaft („Team Germany“),
         die vom 22. bis 27. September 2026 bei den WorldSkills in Shanghai antritt – der Weltmeisterschaft der Berufe.
         Beim Vorbereitungstreffen vom 25. bis 27. Juni im Neo Hotel Linde in Esslingen kam die Mannschaft erstmals komplett zusammen.
       </p>
       <p>
-        Unter dem Motto „Maximal zusammen!" stimmten sich 36 Spitzenfachkräfte aus 31 Disziplinen fachlich, mental und
+        Unter dem Motto „Maximal zusammen!“ stimmten sich 36 Spitzenfachkräfte aus 31 Disziplinen fachlich, mental und
         persönlich auf die WM ein – mit Workshops, mentalem Training, Media Training und gemeinsamen Foto-Sessions.
         „Das Vorbereitungstreffen ist ein wichtiger Meilenstein auf dem Weg nach Shanghai. Hier wachsen die Teilnehmenden
         als Team zusammen", sagt Hubert Romer, Geschäftsführer von WorldSkills Germany.
@@ -215,7 +215,7 @@ const facts = [
       <p>
         Ihr Ticket nach Shanghai lösten Spalek und Weitzmann mit dem Sieg beim bundesweiten Landschaftsgärtner-Cup 2025
         in Berlin. Seitdem trainieren die beiden bei Wirth &amp; Wiener in Chemnitz unter Wettkampf-Bedingungen, zuletzt
-        bei der Landesmeisterschaft Sachsen in Dresden-Pillnitz. In Shanghai treten sie im Skill „Landscape Gardening" an,
+        bei der Landesmeisterschaft Sachsen in Dresden-Pillnitz. In Shanghai treten sie im Skill „Landscape Gardening“ an,
         wenn Spitzenfachkräfte aus über 70 Ländern in 64 Disziplinen gegeneinander antreten.
       </p>
       <h4 class="press__release-sub">Über Wirth &amp; Wiener</h4>
@@ -312,6 +312,20 @@ const facts = [
     overflow-wrap: anywhere;
   }
   .press__facts a { color: var(--gold); text-decoration: underline; }
+  /* Handy: Bezeichnung über dem Wert statt daneben – lange Werte (Links, E-Mail)
+     brechen sonst über viele Zeilen oder mitten im Wort */
+  @media (max-width: 480px) {
+    .press__facts { grid-template-columns: 1fr; gap: 0; }
+    .press__facts dt {
+      margin-top: 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .press__facts dt:first-of-type { margin-top: 0; }
+    .press__facts dd { font-size: 0.92rem; }
+    .press__badge { display: none; }
+  }
 
   .press__dl-btn {
     display: inline-flex;

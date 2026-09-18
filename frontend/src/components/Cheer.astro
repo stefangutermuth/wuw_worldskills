@@ -62,7 +62,7 @@
   <div class="cheer__tip" data-cheer-tip role="status"></div>
 
   <!-- Dialog: Name angeben? -->
-  <div class="cheer__dialog" data-cheer-dialog hidden>
+  <div class="cheer__dialog" data-cheer-dialog data-lenis-prevent hidden>
     <div class="cheer__dialog-card" role="dialog" aria-modal="true" aria-labelledby="cheer-dlg-title">
       <button class="cheer__dialog-close" data-cheer-close type="button" aria-label="Schließen">&times;</button>
       <span class="cheer__dialog-emoji" aria-hidden="true">🤞</span>
@@ -100,6 +100,7 @@
   .cheer {
     position: relative;
     overflow: hidden;
+    overflow: clip; /* nicht intern scrollbar */
     color: var(--paper);
     padding-block: clamp(4rem, 12vh, 8rem);
     isolation: isolate;
@@ -342,6 +343,11 @@
   .cheer__dialog-card {
     position: relative;
     width: min(30rem, 100%);
+    /* Auf kleinen Handys / bei offener Tastatur höher als der Bildschirm → scrollbar */
+    max-height: calc(100vh - 2.5rem);
+    max-height: calc(100dvh - 2.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     text-align: center;
     padding: clamp(1.6rem, 4vw, 2.4rem);
     border-radius: 16px;
@@ -354,10 +360,10 @@
   .cheer__dialog.is-open .cheer__dialog-card { transform: translateY(0) scale(1); }
   .cheer__dialog-close {
     position: absolute;
-    top: 0.5rem;
-    right: 0.8rem;
-    width: 2rem;
-    height: 2rem;
+    top: 0.3rem;
+    right: 0.4rem;
+    width: 44px;
+    height: 44px;
     border: 0;
     background: transparent;
     color: var(--ink-soft);
@@ -437,7 +443,8 @@
   .cheer__dialog-confirm:hover { transform: translateY(-2px); }
   .cheer__dialog-confirm:disabled { opacity: 0.6; cursor: default; transform: none; }
   .cheer__dialog-anon {
-    margin-top: 0.7rem;
+    margin-top: 0.4rem;
+    padding: 0.7rem 1rem;
     background: transparent;
     border: 0;
     color: var(--ink-soft);
@@ -447,6 +454,7 @@
     cursor: pointer;
   }
   .cheer__dialog-anon:hover { color: var(--paper); }
+  .cheer__dialog-consent input[type="checkbox"] { width: 20px; height: 20px; flex: none; accent-color: var(--gold); }
   .cheer__dialog-status { margin-top: 0.7rem; min-height: 1.1em; font-size: 0.85rem; }
   .cheer__dialog-status[data-kind='err'] { color: #ffc7b0; }
 

@@ -10,7 +10,7 @@ const chapters = [
     text: 'Gold beim Landschaftsgärtner-Cup 2025 in Berlin – das Ticket nach Shanghai.',
     img: '/img/route/sieg/sieg-01',
     alt: 'Marc-Aurel Spalek & Lennard Weitzmann nach ihrem Sieg beim Landschaftsgärtner-Cup 2025 in Berlin',
-    long: 'Beim Landschaftsgärtner-Cup 2025 – dem bundesweiten Berufswettbewerb – holten Marc-Aurel Spalek und Lennard Weitzmann am 9. und 10. September 2025 im Berliner Britzer Garten den Titel. Gegen elf weitere Azubi-Teams aus ganz Deutschland gestalteten die beiden in 15 Stunden auf 4 × 4 Metern einen „kleinen, grünen Berliner Hinterhof" – mit Natursteinpflaster, einer Trockenmauer als Sitzbank, Holzpodest, Findlingen, Baum und üppiger Bepflanzung. Der Sieg ist zugleich das Ticket: Als bestes deutsches Team vertreten sie Deutschland 2026 bei den WorldSkills in Shanghai.',
+    long: 'Beim Landschaftsgärtner-Cup 2025 – dem bundesweiten Berufswettbewerb – holten Marc-Aurel Spalek und Lennard Weitzmann am 9. und 10. September 2025 im Berliner Britzer Garten den Titel. Gegen elf weitere Azubi-Teams aus ganz Deutschland gestalteten die beiden in 15 Stunden auf 4 × 4 Metern einen „kleinen, grünen Berliner Hinterhof“ – mit Natursteinpflaster, einer Trockenmauer als Sitzbank, Holzpodest, Findlingen, Baum und üppiger Bepflanzung. Der Sieg ist zugleich das Ticket: Als bestes deutsches Team vertreten sie Deutschland 2026 bei den WorldSkills in Shanghai.',
     gallery: [
       '/img/route/sieg/sieg-01',
       '/img/route/sieg/sieg-02',
@@ -154,7 +154,7 @@ const chapters = [
     text: 'Letztes Training vor dem Abflug – und 7.000 Euro Rückenwind.',
     img: '/img/route/pressegespraech/pg-card',
     alt: 'Der fertige Übungsgarten nach chinesischem Vorbild mit hölzernem Torbogen',
-    long: 'Eine Woche vor dem Abflug steht das letzte Training – und diesmal geht es um Qualität und Tempo zugleich. 22 Stunden haben die Bundestrainer Johannes Gaugel und Georg Kahsnitz angesetzt, exakt so viel Zeit wie später auf der Wettbewerbsbaustelle in Shanghai. Entstanden ist ein Garten nach chinesischem Vorbild: ein hölzernes Tor, geschwungene Wege, Natursteinpflaster, gesetzte Findlinge und ein Teich mit Holzbrücke. Genau darum wird es auch im Wettbewerb gehen – historische chinesische Gartenkunst, modern interpretiert. „Ich versuche, mich da hineinzudenken, schaue YouTube-Videos, und in unserer Firma gibt es mittlerweile auch Bücher über chinesische Gärten“, erzählt Marc-Aurel. Am selben Tag übergab Axel Keul, Geschäftsführer des Verbands Garten-, Landschafts- und Sportplatzbau Sachsen, einen Scheck über 7.000 Euro an Wirth & Wiener: zusammengekommen aus rund 10.000 verkauften Flaschen Landschaftsgärtner-Limonade und 1.500 Euro vom Freistaat Sachsen. Am 17. September geht es ab Frankfurt nach Shanghai.',
+    long: 'Eine Woche vor dem Abflug steht das letzte Training – und diesmal geht es um Qualität und Tempo zugleich. 22 Stunden haben die Bundestrainer Johannes Gaugel und Georg Kahsnitz angesetzt, exakt so viel Zeit wie später auf der Wettbewerbsbaustelle in Shanghai. Entstanden ist ein Garten nach chinesischem Vorbild: ein hölzernes Tor, geschwungene Wege, Natursteinpflaster, gesetzte Findlinge und ein Teich mit Holzbrücke. Genau darum wird es auch im Wettbewerb gehen – historische chinesische Gartenkunst, modern interpretiert. „Ich versuche, mich da hineinzudenken, schaue YouTube-Videos, und in unserer Firma gibt es mittlerweile auch Bücher über chinesische Gärten“, erzählt Marc-Aurel. Am selben Tag übergab Axel Keul, Geschäftsführer des Verbands Garten-, Landschafts- und Sportplatzbau Sachsen, einen Scheck über 7.000 Euro an Wirth & Wiener: zusammengekommen aus rund 10.000 verkauften Flaschen Landschaftsgärtner-Limonade und 1.500 Euro vom Freistaat Sachsen. Für den 17. September war der Abflug ab Frankfurt angesetzt.',
     credit: 'Petra Reidel',
     gallery: [
       '/img/route/pressegespraech/pg-01',
@@ -411,9 +411,16 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   <!-- Bild-Lightbox — JS verschiebt sie nach <body>; öffnet Galerie-/Titelbilder groß -->
   <div class="route__lightbox" data-route-lightbox role="dialog" aria-modal="true" aria-label="Bildansicht" hidden>
     <button class="route__lightbox-close" data-lightbox-close type="button" aria-label="Schließen">&times;</button>
+    <button class="route__lightbox-nav route__lightbox-nav--prev" data-lightbox-prev type="button" aria-label="Vorheriges Bild">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+    </button>
+    <button class="route__lightbox-nav route__lightbox-nav--next" data-lightbox-next type="button" aria-label="Nächstes Bild">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+    </button>
     <figure class="route__lightbox-fig">
       <img data-lightbox-img src="" alt="" />
       <figcaption class="route__lightbox-credit" data-lightbox-credit hidden></figcaption>
+      <p class="route__lightbox-count" data-lightbox-count hidden></p>
     </figure>
   </div>
 </section>
@@ -1040,8 +1047,14 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   .route__lightbox.is-open img { transform: scale(1); }
   .route__lightbox-close {
     position: absolute;
-    top: 0.8rem;
-    right: 1.2rem;
+    top: 0.5rem;
+    right: 0.6rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
     background: none;
     border: none;
     font-size: 2.6rem;
@@ -1059,6 +1072,35 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     align-items: center;
     gap: 0.6rem;
   }
+  .route__lightbox-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .route__lightbox-nav:hover { background: rgba(0, 0, 0, 0.7); }
+  .route__lightbox-nav--prev { left: clamp(0.4rem, 2vw, 1.5rem); }
+  .route__lightbox-nav--next { right: clamp(0.4rem, 2vw, 1.5rem); }
+  .route__lightbox-nav[hidden] { display: none; }
+  /* Auf dem Handy wird gewischt – die Pfeile würden nur das Bild verdecken */
+  @media (hover: none) { .route__lightbox-nav { display: none; } }
+  .route__lightbox-count {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+  }
   .route__lightbox-credit {
     color: rgba(255, 255, 255, 0.82);
     font-size: 0.8rem;
@@ -1075,8 +1117,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     color: #6b6256;
   }
 
-  /* -------------------- Mobile -------------------- */
-  @media (max-width: 767px) {
+  /* -------------------- Mobile (auch Querformat-Handys, s. route.js) -------------------- */
+  @media (max-width: 767px), (max-height: 599px) {
     /* Parallax-Überstand des BG (inset:-6% + scale) horizontal abschneiden,
        sonst seitlicher Überlauf auf dem Handy. Vertikal bleibt sichtbar. */
     /* WICHTIG: beide Achsen clippen. .route__bg hat inset:-6% – auf dem Handy ist die
@@ -1115,5 +1157,11 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     .route__spot { width: 118%; height: 126%; }
     .route__chapter.is-in [data-reveal],
     .route__intro.is-in [data-reveal] { opacity: 1; }
+  }
+  /* Querformat-Handys: gestapelt, aber nicht über die volle Breite – sonst füllt
+     schon das Kartenfoto den ganzen (niedrigen) Bildschirm */
+  @media (max-height: 599px) and (min-width: 768px) {
+    .route__intro,
+    .route__chapter { max-width: 36rem; }
   }
 </style>

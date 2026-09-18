@@ -7,7 +7,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 // Bestell-Mail für die Landschaftsgärtner-Limonade (Bestellungen gehen direkt an W&W)
 const limoBody = `Hallo Team Wirth & Wiener,
 
-ich möchte folgende Kästen der Landschaftsgärtner-Limonade „Gurke-Zitrone" bestellen (Abholung bei Ihnen in Chemnitz):
+ich möchte folgende Kästen der Landschaftsgärtner-Limonade „Gurke-Zitrone“ bestellen (Abholung bei Ihnen in Chemnitz):
 
 Anzahl Kästen:
 Name:
@@ -66,7 +66,7 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
         <div class="footer__limo-body">
           <h3 class="footer__h"><i class="fa-solid fa-bottle-droplet" aria-hidden="true"></i> Trinken. Unterstützen. Mitfiebern.</h3>
           <p class="footer__lead">
-            Die neue <strong>Landschaftsgärtner-Limonade „Gurke-Zitrone"</strong> ist ab sofort erhältlich. Von jedem verkauften Kasten fließen <strong>5,00&nbsp;€</strong> direkt in die Trainings- und Wettkampfvorbereitung.
+            Die neue <strong>Landschaftsgärtner-Limonade „Gurke-Zitrone“</strong> ist ab sofort erhältlich. Von jedem verkauften Kasten fließen <strong>5,00&nbsp;€</strong> direkt in die Trainings- und Wettkampfvorbereitung.
           </p>
           <ul class="footer__limo-facts">
             <li>1 Kasten = 20 Flaschen à 0,33&nbsp;l</li>
@@ -224,6 +224,7 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
   }
   .footer__limo-media {
     display: block;
+    width: 100%; /* sonst 0 px breit, bis das (lazy) Bild geladen ist → Layoutsprung */
     max-width: 340px;
     margin-inline: auto;
     border-radius: var(--radius);
@@ -275,6 +276,7 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
   .footer__bank dt { color: var(--ink-soft); white-space: nowrap; }
   .footer__bank dd { margin: 0; color: var(--paper); }
   .footer__iban {
+    white-space: nowrap;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -285,9 +287,10 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
     background: transparent;
     border: 1px solid rgba(201, 162, 75, 0.4);
     color: var(--gold);
-    border-radius: 6px;
-    width: 28px;
-    height: 24px;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    flex: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -393,5 +396,12 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
     color: var(--ink-soft);
   }
   .footer__legal { display: flex; gap: 1.5rem; }
+  .footer__legal a { padding-block: 0.6rem; }
+  @media (max-width: 480px) {
+    .footer__bank { grid-template-columns: 1fr; gap: 0; }
+    .footer__bank dt { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .footer__bank dt:first-of-type { margin-top: 0; }
+    .footer__iban-copy { width: 44px; height: 44px; font-size: 0.9rem; }
+  }
   .footer__legal a:hover { color: var(--gold); }
 </style>

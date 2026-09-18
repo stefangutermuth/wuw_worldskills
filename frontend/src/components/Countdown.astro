@@ -143,6 +143,10 @@
   }
 
   /* Sekundenfeld auf kleinen Screens optional ausblenden? -> sichtbar lassen, aber kompakter */
+  /* Schmale Handys: die Beschriftungen (v. a. „SEKUNDEN") bestimmen die Breite */
+  @media (max-width: 400px) {
+    :global(.cd-label) { font-size: 0.62rem; letter-spacing: 0.1em; }
+  }
   @media (max-width: 420px) {
     :global(.cd-cards) { gap: 0.12em; }
     .cd-track { gap: 0.5rem; }

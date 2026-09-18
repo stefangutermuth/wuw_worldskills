@@ -70,15 +70,41 @@ function initRouteCards(section) {
     if (lightbox.parentElement !== document.body) document.body.appendChild(lightbox);
     const lbImg = lightbox.querySelector('[data-lightbox-img]');
     const lbCredit = lightbox.querySelector('[data-lightbox-credit]');
+    const lbCount = lightbox.querySelector('[data-lightbox-count]');
+    const lbPrev = lightbox.querySelector('[data-lightbox-prev]');
+    const lbNext = lightbox.querySelector('[data-lightbox-next]');
+    let lbList = [];
+    let lbIndex = 0;
 
-    const openLightbox = (img) => {
-      lbImg.src = img.currentSrc || img.src; // bereits geladene Auflösung wiederverwenden
+    // Beste verfügbare Quelle: schon geladen → currentSrc, sonst WebP aus <picture>
+    // (Galeriebilder sind lazy und evtl. noch nicht geladen), zuletzt das JPG.
+    const srcOf = (im) =>
+      im.currentSrc || im.closest('picture')?.querySelector('source[type="image/webp"]')?.srcset || im.src;
+
+    const show = (i) => {
+      lbIndex = (i + lbList.length) % lbList.length;
+      const img = lbList[lbIndex];
+      lbImg.src = srcOf(img);
       lbImg.alt = img.alt || '';
       const credit = img.dataset.credit;     // Quellenhinweis (z. B. Verband) mitführen
       if (lbCredit) {
         lbCredit.textContent = credit ? `Foto: ${credit}` : '';
         lbCredit.hidden = !credit;
       }
+      const many = lbList.length > 1;
+      if (lbCount) { lbCount.textContent = many ? `${lbIndex + 1} / ${lbList.length}` : ''; lbCount.hidden = !many; }
+      if (lbPrev) lbPrev.hidden = !many;
+      if (lbNext) lbNext.hidden = !many;
+      // Nachbarn vorladen, damit das Wischen ohne Wartezeit läuft
+      if (many) [1, -1].forEach((d) => { new Image().src = srcOf(lbList[(lbIndex + d + lbList.length) % lbList.length]); });
+    };
+
+    const openLightbox = (img) => {
+      // Geblättert wird durch die Galerie des Kapitels. Das Titelbild ist oft eine eigene
+      // Kartenversion desselben Fotos – es kommt nur dazu, wenn man es selbst antippt.
+      const gallery = [...body.querySelectorAll('.route__dlg-gallery img')];
+      lbList = gallery.includes(img) ? gallery : [img, ...gallery];
+      show(Math.max(0, lbList.indexOf(img)));
       lightbox.hidden = false;
       void lightbox.offsetWidth; // s. openCard(): kein rAF, sonst unsichtbares Overlay
       lightbox.classList.add('is-open');
@@ -87,14 +113,40 @@ function initRouteCards(section) {
       lightbox.classList.remove('is-open');
       setTimeout(() => { lightbox.hidden = true; lbImg.src = ''; }, 240);
     };
+    const step = (d) => { if (lbList.length > 1) show(lbIndex + d); };
 
     // Klick auf ein Bild im Dialog-Inhalt → Lightbox öffnen
     body.addEventListener('click', (e) => {
       const img = e.target.closest('img');
       if (img && body.contains(img)) openLightbox(img);
     });
-    // Klick irgendwo auf die Lightbox (Overlay, Bild, ×) → schließen
-    lightbox.addEventListener('click', closeLightbox);
+
+    // Pfeile blättern (ohne dass der Klick die Lightbox schließt)
+    lbPrev?.addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
+    lbNext?.addEventListener('click', (e) => { e.stopPropagation(); step(1); });
+
+    // Wischen auf dem Handy: waagerecht > 45 px blättert, ein Tipp schließt weiter
+    let tx = 0, ty = 0, swiped = false;
+    lightbox.addEventListener('touchstart', (e) => {
+      const t = e.touches[0]; tx = t.clientX; ty = t.clientY; swiped = false;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - tx, dy = t.clientY - ty;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) { swiped = true; step(dx < 0 ? 1 : -1); }
+    }, { passive: true });
+
+    // Klick irgendwo sonst auf die Lightbox (Overlay, Bild, ×) → schließen
+    lightbox.addEventListener('click', () => {
+      if (swiped) { swiped = false; return; } // der Klick nach einem Wischer schließt nicht
+      closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.hidden) return;
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    });
   }
 
   // ---- Fremd-Player (ARD Mediathek) erst auf Klick nachladen ----
@@ -161,7 +213,9 @@ export function initRoute(section) {
   const mm = gsap.matchMedia();
 
   /* ---------------- Desktop: Pin + Horizontal (robustes containerAnimation-Muster) ---------------- */
-  mm.add('(min-width: 768px)', () => {
+  // Querformat-Handys (breit, aber < 600 px hoch) bekommen den senkrechten Stapel:
+  // gepinnt wären die ~570 px hohen Karten unten abgeschnitten und nicht erreichbar.
+  mm.add('(min-width: 768px) and (min-height: 600px)', () => {
     const distance = () => Math.max(0, track.scrollWidth - viewport.offsetWidth);
 
     // Horizontale Haupt-Tween (treibt Pin + Scrub). distance() ist funktionsbasiert
@@ -355,7 +409,7 @@ export function initRoute(section) {
   });
 
   /* ---------------- Mobile: vertikaler Stapel ---------------- */
-  mm.add('(max-width: 767px)', () => {
+  mm.add('(max-width: 767px), (max-height: 599px)', () => {
     let vineTween = null;
     if (vline) {
       vineTween = gsap.fromTo(

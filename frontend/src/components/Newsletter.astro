@@ -120,7 +120,7 @@ const { compact = false } = Astro.props;
     background: transparent;
     color: var(--paper);
     font: inherit;
-    font-size: 0.93rem;
+    font-size: 1rem; /* ≥ 16 px: sonst zoomt iOS beim Antippen hinein */
     outline: none;
   }
   .nl__row input::placeholder { color: rgba(241, 232, 214, 0.38); }
@@ -152,7 +152,7 @@ const { compact = false } = Astro.props;
     line-height: 1.45;
     color: var(--ink-soft);
   }
-  .nl__consent input { margin-top: 0.2rem; flex-shrink: 0; }
+  .nl__consent input { margin-top: 0.1rem; flex-shrink: 0; width: 20px; height: 20px; accent-color: var(--gold); }
   .nl__consent a { color: var(--gold); text-decoration: underline; }
   .nl__status { font-size: 0.9rem; min-height: 1.2em; }
   .nl__status[data-kind='ok'] { color: #bfe6cd; }

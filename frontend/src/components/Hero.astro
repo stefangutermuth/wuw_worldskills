@@ -191,6 +191,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     display: grid;
     place-items: center;
     overflow: hidden;
+    overflow: clip;
     background: var(--ink);
     isolation: isolate;
     /* Platz für fixierten Header (oben) und Scroll-Hinweis (unten) reservieren,
@@ -373,6 +374,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   /* Text-Layer */
   .hero__content {
+    min-width: 0; /* sonst erzwingt der Countdown auf 360-px-Handys Überbreite */
     position: relative;
     z-index: var(--z-text);
     text-align: center;
@@ -450,6 +452,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       drop-shadow(0 2px 20px rgba(0, 0, 0, 0.55))
       drop-shadow(0 0 3px rgba(0, 0, 0, 0.45));
   }
+  /* 360-px-Geräte: die Mindestgröße 6rem wäre breiter als der Bildschirm. Muss NACH der
+     Grundregel stehen (gleiche Spezifität). */
+  @media (max-width: 380px) { .hero__title-script { font-size: min(22vw, 26vh); } }
 
   .hero__subline {
     margin-top: 0.25rem;
