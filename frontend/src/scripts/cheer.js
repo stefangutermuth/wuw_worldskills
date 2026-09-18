@@ -263,7 +263,7 @@ export function initCheer(root) {
       if (nachricht) payload.nachricht = nachricht;
     }
     let successMsg = nachricht ? 'Dein Gruß ist unterwegs! 🤞' : 'Daumen sind gedrückt! 🤞';
-    if (wantsNewsletter) successMsg += ' Infos kommen per Mail.';
+    if (wantsNewsletter) successMsg += ' Bitte bestätige noch den Link in deiner E-Mail (auch im Spam-Ordner schauen).';
 
     // Newsletter separat anstoßen (Double-Opt-in übernimmt der ESP); fehlertolerant.
     const signupNewsletter = async () => {

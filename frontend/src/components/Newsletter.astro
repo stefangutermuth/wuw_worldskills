@@ -36,6 +36,31 @@ const { compact = false } = Astro.props;
 </div>
 
 <script>
+  // Rückkehr aus der Bestätigungsmail (Plugin „Newsletter" leitet mit
+  // ?newsletter=bestaetigt hierher zurück): kurze Bestätigung, dann URL aufräumen.
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('newsletter') !== 'bestaetigt' || document.querySelector('.nl-toast')) return;
+    const toast = document.createElement('div');
+    toast.className = 'nl-toast';
+    toast.setAttribute('role', 'status');
+    toast.textContent = 'Danke! Deine Newsletter-Anmeldung ist bestätigt. 🎉';
+    // Erst nach dem Ladebildschirm zeigen, sonst läuft die Meldung ungesehen ab.
+    let shown = false;
+    const show = () => {
+      if (shown) return;
+      shown = true;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('is-hiding'), 7000);
+      setTimeout(() => toast.remove(), 7600);
+    };
+    document.addEventListener('preloader:done', show, { once: true });
+    setTimeout(show, 5000); // Rückfall, falls es keinen Ladebildschirm gibt
+    params.delete('newsletter');
+    const q = params.toString();
+    history.replaceState(null, '', window.location.pathname + (q ? '?' + q : '') + window.location.hash);
+  })();
+
   import { api } from '../lib/api.js';
 
   const form = document.querySelector('[data-nl-form]');
@@ -71,8 +96,10 @@ const { compact = false } = Astro.props;
       form.reset();
       if (res && res.placeholder) {
         setStatus('Notiert! Der Newsletter wird gerade eingerichtet – wir melden uns. 🙌', 'ok');
+      } else if (res && res.already) {
+        setStatus('Du bist schon angemeldet – danke! 🙌', 'ok');
       } else {
-        setStatus('Fast geschafft – bitte bestätige den Link in deiner E-Mail. 📩', 'ok');
+        setStatus('Fast geschafft – bitte bestätige den Link in deiner E-Mail. Nichts da? Schau im Spam-Ordner nach. 📩', 'ok');
       }
     } catch (err) {
       console.warn('[newsletter]', err);
@@ -157,4 +184,24 @@ const { compact = false } = Astro.props;
   .nl__status { font-size: 0.9rem; min-height: 1.2em; }
   .nl__status[data-kind='ok'] { color: #bfe6cd; }
   .nl__status[data-kind='err'] { color: #ffc7b0; }
+
+  /* Bestätigungs-Hinweis nach dem Klick in der Double-Opt-in-Mail */
+  :global(.nl-toast) {
+    position: fixed;
+    left: 50%;
+    bottom: max(1.2rem, env(safe-area-inset-bottom));
+    z-index: 1200;
+    transform: translateX(-50%);
+    width: min(26rem, calc(100vw - 2rem));
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+    border: 1px solid rgba(201, 162, 75, 0.45);
+    background: rgba(12, 18, 15, 0.95);
+    color: var(--paper);
+    font-size: 0.95rem;
+    text-align: center;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    transition: opacity 0.5s ease;
+  }
+  :global(.nl-toast.is-hiding) { opacity: 0; }
 </style>

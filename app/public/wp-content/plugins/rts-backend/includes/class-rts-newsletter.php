@@ -1,10 +1,14 @@
 <?php
 /**
- * Newsletter-Anmeldung (§5) – Brevo-Anbindung.
+ * Newsletter-Anmeldung (§5).
  *
- * Das Frontend postet { email, consent } an /rts/v1/newsletter. Dieser Endpunkt
- * trägt die Adresse serverseitig bei Brevo ein. Bevorzugt per Double-Opt-in
- * (DSGVO-konform: Brevo verschickt die Bestätigungsmail), sonst Single-Opt-in.
+ * Das Frontend postet { email, consent } an /rts/v1/newsletter.
+ *
+ * Seit 18.09.2026 bevorzugt über das WordPress-Plugin „Newsletter" (TNP) auf der
+ * Hauptseite: Es verschickt die Double-Opt-in-Mail selbst über den normalen
+ * Mailversand von WordPress (WP Mail SMTP). Grund: Bei Brevo ließ sich die Domain
+ * nicht authentifizieren (DMARC-CNAME bei IONOS), die Bestätigungsmails kamen nie an.
+ * Ist das Plugin nicht aktiv, greift weiter die Brevo-Anbindung unten.
  *
  * Konfiguration über WP-Optionen (NIE im Code/Repo):
  *   - rts_esp_key            Brevo API-Key v3 (xkeysib-…)            [Pflicht]
@@ -73,6 +77,10 @@ class RTS_Newsletter {
 		// Hook bleibt erhalten (z. B. fürs Logging/CRM), unabhängig vom ESP.
 		do_action( 'rts_newsletter_signup', $email, $params );
 
+		if ( class_exists( 'TNP' ) ) {
+			return self::subscribe_tnp( $email, $params );
+		}
+
 		// Ohne Grundkonfiguration kein Fake-Erfolg – klarer Fehler.
 		if ( '' === $api_key || $list_id < 1 ) {
 			return new WP_REST_Response( array( 'error' => 'esp_not_configured' ), 503 );
@@ -129,5 +137,45 @@ class RTS_Newsletter {
 		// Sonst: Fehler protokollieren (OHNE Key) und neutral antworten.
 		error_log( '[rts-newsletter] Brevo HTTP ' . $code . ' – ' . wp_remote_retrieve_body( $resp ) );
 		return new WP_REST_Response( array( 'error' => 'esp_error' ), 502 );
+	}
+
+	/**
+	 * Anmeldung über das Plugin „Newsletter". Es beachtet das dort eingestellte
+	 * Double-Opt-in und verschickt die Bestätigungsmail (send_emails).
+	 *
+	 * @param string $email  Geprüfte Adresse.
+	 * @param array  $params Request-Daten (optional: name).
+	 * @return WP_REST_Response
+	 */
+	private static function subscribe_tnp( $email, $params ) {
+		$args = array(
+			'email'       => $email,
+			'send_emails' => true,
+		);
+		if ( ! empty( $params['name'] ) ) {
+			$args['name'] = sanitize_text_field( (string) $params['name'] );
+		}
+
+		$user = TNP::subscribe( $args );
+
+		if ( is_wp_error( $user ) ) {
+			$code = $user->get_error_code();
+			// Schon eingetragen → für den Besucher kein Fehler.
+			if ( 'exists' === $code ) {
+				return new WP_REST_Response( array( 'ok' => true, 'already' => true ), 200 );
+			}
+			error_log( '[rts-newsletter] TNP ' . $code . ' – ' . $user->get_error_message() );
+			$status = in_array( $code, array( 'email', 'spam' ), true ) ? 422 : 409;
+			return new WP_REST_Response( array( 'error' => 'esp_' . $code ), $status );
+		}
+
+		return new WP_REST_Response(
+			array(
+				'ok'      => true,
+				// Bereits bestätigte Adressen bekommen keine neue Mail.
+				'already' => ( is_object( $user ) && isset( $user->status ) && 'C' === $user->status ),
+			),
+			200
+		);
 	}
 }
