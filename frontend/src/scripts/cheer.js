@@ -27,9 +27,6 @@ function deviceId() {
   }
   return id;
 }
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
 function labelFor(entry) {
   if (entry && entry.nachricht) {
     const who = entry.vorname
@@ -116,7 +113,7 @@ export function initCheer(root) {
   function renderTicker() {
     if (!ticker.length) { tickerEl.textContent = 'Drück als Erste/r die Daumen für unsere Jungs!'; return; }
     const e = ticker[tickerIdx % ticker.length];
-    tickerEl.innerHTML = `<span class="cheer__ticker-pre">Gerade eben:</span> ${esc(labelFor(e))}`;
+    tickerEl.textContent = labelFor(e); // bewusst ohne „Gerade eben:“ – die Einträge sind teils Tage alt
     tickerIdx++;
   }
   function startTicker() {
