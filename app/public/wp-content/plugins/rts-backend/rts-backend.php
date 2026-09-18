@@ -26,6 +26,7 @@ require_once RTS_PLUGIN_DIR . 'includes/class-rts-turnstile.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-wishes.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-dispatch.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-newsletter.php';
+require_once RTS_PLUGIN_DIR . 'includes/class-rts-newsletter-sender.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-instagram.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-signup-log.php';
 require_once RTS_PLUGIN_DIR . 'includes/class-rts-signup-admin.php';
@@ -43,6 +44,7 @@ add_action( 'rest_api_init', array( 'RTS_Newsletter', 'register_routes' ) );
 add_action( 'rest_api_init', array( 'RTS_Instagram', 'register_routes' ) );
 // Newsletter-Anmeldungen zusaetzlich lokal sichern (unabhaengig von Brevo).
 RTS_Signup_Log::init();
+RTS_Newsletter_Sender::init(); // Übergang bis IONOS-SMTP, s. Klasse
 RTS_Signup_Admin::init();
 
 // Admin-Komfort: Spalten für die Wunsch-Moderation.
