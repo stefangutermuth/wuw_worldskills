@@ -1,7 +1,7 @@
-# Aufruf: Daumendrücken auf 100 bringen
+# Aufruf: Daumendrücken auf 70 bringen
 
-**Stand 11.09.2026:** 28 von 100 Daumendrückern. Ziel läuft jetzt bis zum Finale (27.09.),
-nicht mehr bis zum Abflug. Bleiben 16 Tage statt 6.
+**Stand 18.09.2026:** 49 von 70 Daumendrückern. Das Ziel stand kurz auf 50 und ist nach
+49 Einträgen auf 70 angehoben – ohne Frist.
 
 **Annahme:** @wirth_wiener_gmbh liegt unter 2.000 Followern (Klasse „Tiny").
 Falls deutlich mehr – sag Bescheid, dann ändern sich zwei der Empfehlungen.
@@ -69,8 +69,8 @@ Landschaftsgärtner-Limonade und 1.500 Euro vom Freistaat Sachsen. Danke an jede
 der eine Flasche gekauft hat. 🍋
 
 Jetzt fehlt nur noch eins: ihr.
-Auf unserer Shanghai-Seite steigt für jeden Unterstützer eine Laterne auf. 28 sind
-es bisher. 100 wollen wir bis zum Finale schaffen.
+Auf unserer Shanghai-Seite steigt für jeden Unterstützer eine Laterne auf. 49 sind
+es bisher. 70 wollen wir schaffen.
 
 🤞 Schreibt uns in die Kommentare, aus welcher Stadt ihr die Daumen drückt – und
 tragt euch über den Link in unserer Bio ein, dann fliegt eure Laterne mit.
@@ -114,7 +114,7 @@ Landschaftsgärtner-Limonade und 1.500 Euro vom Freistaat Sachsen. Danke an alle
 die eine Flasche gekauft haben.
 
 Jetzt kommt ihr ins Spiel: Auf unserer Shanghai-Seite steigt für jeden
-Unterstützer eine Laterne auf. 28 sind es. 100 wollen wir bis zum Finale schaffen.
+Unterstützer eine Laterne auf. 49 sind es. 70 wollen wir schaffen.
 
 👉 https://shanghai.wirth-wiener.de/#daumendruecken
 

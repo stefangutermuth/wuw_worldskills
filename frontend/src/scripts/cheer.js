@@ -73,7 +73,7 @@ export function initCheer(root) {
   const sharePanel = root.querySelector('[data-cheer-share]');
   const sharePanelText = root.querySelector('[data-cheer-share-text]');
   const shareBtn = root.querySelector('[data-cheer-share-btn]');
-  const GOAL = 100;
+  const GOAL = 70; // muss zu aria-valuemax und Label in Cheer.astro passen
 
   // E-Mail-Feld nur zeigen, wenn Newsletter angehakt ist
   if (newsletterInput && emailInput) {
