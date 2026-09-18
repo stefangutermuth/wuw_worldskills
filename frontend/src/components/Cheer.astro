@@ -55,7 +55,7 @@
     </div>
 
     <p class="cheer__ticker" data-cheer-ticker aria-live="polite">&nbsp;</p>
-    <p class="cheer__hint">Tipp: Klick auf eine Laterne, um Namen &amp; Grüße zu sehen.</p>
+    <p class="cheer__hint"><span class="cheer__hint-mouse">Tipp: Klick auf eine Laterne, um Namen &amp; Grüße zu sehen.</span><span class="cheer__hint-touch">Tippe auf eine Laterne, dann siehst du Namen &amp; Grüße.</span></p>
   </div>
 
   <!-- Laternen-Tooltip -->
@@ -288,6 +288,15 @@
     color: var(--jade-lt);
   }
 
+  .cheer__hint-touch { display: none; }
+  @media (hover: none) {
+    .cheer__hint-mouse { display: none; }
+    .cheer__hint-touch { display: inline; }
+  }
+  /* Bei vielen Laternen hinter dem Text: weicher Schatten hält ihn lesbar */
+  .cheer__lead, .cheer__ticker, .cheer__hint, .cheer__count-line, .cheer__goal-label {
+    text-shadow: 0 1px 12px rgba(6, 10, 18, 0.85), 0 0 2px rgba(6, 10, 18, 0.6);
+  }
   .cheer__hint {
     margin-top: 1.5rem;
     font-size: var(--fs-label);

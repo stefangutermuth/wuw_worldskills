@@ -44,6 +44,19 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   <!-- ============ Text-Layer (scharf, auswählbar) ============ -->
   <div class="hero__content u-container" data-parallax="text">
+    <!-- Ortszeiten: auf dem Handy hier statt im Header – dort fehlt der Platz für die
+         Ortsnamen. clocks.js aktualisiert alle [data-clock-de]/[data-clock-cn]. -->
+    <div class="hero__clocks" aria-label="Ortszeiten Chemnitz und Shanghai">
+      <span class="hero__clock">
+        <span class="hero__clock-city">Chemnitz</span>
+        <time class="hero__clock-time" data-clock-de>–:–</time>
+      </span>
+      <span class="hero__clock-sep" aria-hidden="true"></span>
+      <span class="hero__clock">
+        <span class="hero__clock-city">Shanghai</span>
+        <time class="hero__clock-time" data-clock-cn>–:–</time>
+      </span>
+    </div>
     <p class="u-eyebrow hero__eyebrow">WorldSkills 2026 · Shanghai</p>
     <h1 class="hero__title">
       <span class="hero__title-kicker">Road to</span>
@@ -108,7 +121,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     window.addEventListener('scroll', onFirstScroll, { passive: true });
 
     // Intro-Reveal: Headline gestaffelt
-    gsap.from('.hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
+    gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
       y: 28,
       opacity: 0,
       duration: 1,
@@ -368,6 +381,38 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   .hero__eyebrow { margin-bottom: 1.25rem; }
 
+  /* Ortszeiten im Hero – nur auf schmalen Screens (dort ohne Header-Uhren) */
+  .hero__clocks { display: none; }
+  @media (max-width: 560px) {
+    .hero__clocks {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: clamp(1.1rem, 3.5vh, 2rem);
+      padding: 0.45rem 1.1rem;
+      border: 1px solid rgba(201, 162, 75, 0.3);
+      border-radius: 999px;
+      background: rgba(12, 18, 15, 0.35);
+      backdrop-filter: blur(6px);
+    }
+    .hero__clock { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+    .hero__clock-city {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .hero__clock-time {
+      margin-top: 0.22rem;
+      font-size: 1.12rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--gold);
+    }
+    .hero__clock-sep { width: 1px; height: 1.8rem; background: rgba(201, 162, 75, 0.3); }
+  }
+
   .hero__title {
     display: flex;
     flex-direction: column;
@@ -457,6 +502,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     letter-spacing: 0.22em;
     text-transform: uppercase;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.65);
+    white-space: nowrap; /* bei left:50% schrumpft die Box sonst und bricht linksbündig um */
     animation: hero-scroll-bob 2.4s ease-in-out infinite;
     transition: opacity 0.5s ease;
   }

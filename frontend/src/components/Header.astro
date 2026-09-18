@@ -32,6 +32,17 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <nav class="site-header__nav" data-nav aria-label="Hauptnavigation">
       {nav.map((i) => <a href={i.href}>{i.label}</a>)}
       <a href="#newsletter" class="site-header__cta">Newsletter</a>
+      <!-- Nur im Handy-Menü sichtbar -->
+      <div class="site-header__nav-extra">
+        <a href="https://wirth-wiener.de/" class="site-header__main-link" target="_blank" rel="noopener">
+          Zur Website von Wirth &amp; Wiener <span aria-hidden="true">↗</span>
+        </a>
+        <p class="site-header__legal">
+          <a href="https://wirth-wiener.de/impressum/" target="_blank" rel="noopener">Impressum</a>
+          <span aria-hidden="true">·</span>
+          <a href="https://wirth-wiener.de/datenschutzerklaerung/" target="_blank" rel="noopener">Datenschutz</a>
+        </p>
+      </div>
     </nav>
 
     <button class="site-header__toggle" data-nav-toggle aria-label="Menü" aria-expanded="false">
@@ -42,6 +53,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
 <script>
   import { initClocks } from '../scripts/clocks.js';
+  import { lenis } from '../scripts/motion.js';
   initClocks();
 
   const header = document.querySelector('[data-header]');
@@ -56,17 +68,18 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Mobile-Menü
-  toggle?.addEventListener('click', () => {
-    const open = header.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(open));
+  // Mobile-Menü (Vollbild): Seite dahinter einfrieren, solange es offen ist
+  const setOpen = (open) => {
+    header.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('nav-open', open);
+    if (lenis) open ? lenis.stop() : lenis.start();
+  };
+  toggle?.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+  nav?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('is-open')) setOpen(false);
   });
-  nav?.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      header.classList.remove('is-open');
-      toggle?.setAttribute('aria-expanded', 'false');
-    })
-  );
 </script>
 
 <style>
@@ -80,6 +93,13 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     background: rgba(12, 18, 15, 0.72);
     backdrop-filter: blur(10px);
     box-shadow: 0 1px 0 rgba(201, 162, 75, 0.18);
+  }
+  /* WICHTIG: backdrop-filter macht den Header zum Bezugsrahmen für position:fixed –
+     das Vollbild-Menü wäre sonst nach dem Scrollen nur so hoch wie die Kopfleiste. */
+  .site-header.is-open {
+    backdrop-filter: none;
+    background: transparent;
+    box-shadow: none;
   }
 
   .site-header__inner {
@@ -203,51 +223,83 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   .site-header.is-open .site-header__toggle span:nth-child(2) { opacity: 0; }
   .site-header.is-open .site-header__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+  .site-header__nav-extra { display: none; }
+
   @media (max-width: 860px) {
-    .site-header__toggle { display: flex; }
+    .site-header__toggle { display: flex; position: relative; z-index: 2; }
+    .site-header__brand { position: relative; z-index: 2; }
+    /* Vollbild-Menü */
     .site-header__nav {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      height: 100vh;
+      height: 100dvh;
       flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
-      padding: 1rem clamp(1.25rem, 5vw, 4rem) 1.5rem;
-      background: rgba(12, 18, 15, 0.96);
-      backdrop-filter: blur(10px);
-      transform: translateY(-12px);
+      align-items: stretch;
+      justify-content: center;
+      gap: 0;
+      padding: clamp(84px, 14vh, 120px) clamp(1.75rem, 8vw, 4rem) clamp(1.5rem, 5vh, 2.5rem);
+      background: rgba(10, 13, 17, 0.97);
+      backdrop-filter: blur(14px);
+      overflow-y: auto;
       opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.3s var(--ease-out);
-    }
-    .site-header__nav a {
-      display: block;
-      width: 100%;
-      padding: 0.95rem 0;
-      font-size: 1.08rem;
-      border-bottom: 1px solid rgba(201, 162, 75, 0.12);
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
     }
     .site-header.is-open .site-header__nav {
       opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
+      visibility: visible;
+      transition: opacity 0.3s ease, visibility 0s;
     }
-    .site-header__cta {
-      margin-top: 0.9rem;
-      width: 100%;
+    .site-header__nav > a:not(.site-header__cta) {
+      display: block;
+      padding: 0.85rem 0;
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 8.5vw, 2.6rem);
+      font-weight: 600;
+      letter-spacing: 0;
       text-align: center;
-      border-bottom: 0;
+      border-bottom: 1px solid rgba(201, 162, 75, 0.12);
     }
+    .site-header__nav > a:not(.site-header__cta)::after { display: none; }
+    .site-header__cta {
+      margin-top: 1.6rem;
+      padding: 0.85rem 1.1rem;
+      text-align: center;
+      font-size: 1.02rem !important;
+    }
+    .site-header__nav-extra {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.1rem;
+      margin-top: auto;
+      padding-top: 2rem;
+    }
+    .site-header__nav .site-header__main-link {
+      font-size: 0.98rem;
+      color: var(--gold);
+      text-shadow: none;
+    }
+    .site-header__legal {
+      display: flex;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+    .site-header__nav .site-header__legal a {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      text-shadow: none;
+    }
+    .site-header__nav-extra a::after { display: none; }
   }
+  /* Seite hinter dem offenen Menü nicht mitscrollen */
+  :global(html.nav-open) { overflow: hidden; }
 
-  /* Uhren auf schmalen Screens kompakter, dann nur Zeiten, zuletzt aus */
+  /* Auf dem Handy wandern die Uhren (mit Ortsnamen) in den Hero, siehe Hero.astro */
   @media (max-width: 560px) {
-    .site-header__clocks { gap: 0.6rem; padding: 0.25rem 0.6rem; }
-    .site-header__clock-city { display: none; }
-    .site-header__clock-sep { height: 1.1rem; }
-  }
-  @media (max-width: 380px) {
     .site-header__clocks { display: none; }
   }
 </style>
