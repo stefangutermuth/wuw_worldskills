@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class RTS_Newsletter_Sender {
 
 	const FROM_EMAIL  = 'info@wirth-wiener.de';
-	const FROM_NAME   = 'Road to Shanghai · Wirth & Wiener';
+	const FROM_NAME   = 'Wirth & Wiener'; // allgemeiner W&W-Newsletter (Entscheidung 19.09.2026), Shanghai ist ein Thema darin
 	const RETURN_PATH = 'stefan@gumu-agentur.de';
 
 	public static function init() {

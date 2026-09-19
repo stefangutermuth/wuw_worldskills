@@ -1,11 +1,10 @@
 <?php
 /**
- * Newsletter-Anmeldungen lokal sichern (Ausfallsicherung neben Brevo).
+ * Newsletter-Anmeldungen lokal sichern (Ausfallsicherung neben dem Plugin „Newsletter").
  *
- * Hängt sich an `rts_newsletter_signup` – dieser Hook feuert BEVOR Brevo
- * aufgerufen wird. Dadurch ist jede Anmeldung festgehalten, selbst wenn Brevo
- * gerade nicht erreichbar ist, der Key abläuft oder die Bestätigungsmail im
- * Spam landet.
+ * Hängt sich an `rts_newsletter_signup` – dieser Hook feuert, BEVOR die Anmeldung an
+ * das Plugin „Newsletter" (Double-Opt-in) übergeben wird. Dadurch ist jede Anmeldung
+ * festgehalten, selbst wenn die Bestätigungsmail nicht ankommt oder im Spam landet.
  *
  * Gespeichert wird in der Option `rts_signup_log` (autoload = no).
  * Zusätzlich geht sofort eine Benachrichtigung an RTS_SIGNUP_NOTIFY.
@@ -76,8 +75,9 @@ class RTS_Signup_Log {
 			. 'IP:        ' . $entry['ip'] . "\n"
 			. 'Herkunft:  ' . $entry['src'] . "\n\n"
 			. 'Insgesamt gespeicherte Anmeldungen: ' . (int) $total . "\n\n"
-			. "Hinweis: Diese Adresse ist lokal in WordPress gesichert. Ob die\n"
-			. "Bestaetigungsmail von Brevo angekommen ist, steht damit noch nicht fest.\n";
+			. "Hinweis: Die Anmeldung laeuft ueber das WordPress-Plugin \"Newsletter\"\n"
+			. "(Double-Opt-in). Ob sie bestaetigt ist, sehen Sie im WordPress-Backend\n"
+			. "unter Newsletter > Abonnenten (Status \"Bestaetigt\").\n";
 
 		wp_mail( $to, 'Newsletter-Anmeldung: ' . $entry['email'], $body );
 	}
