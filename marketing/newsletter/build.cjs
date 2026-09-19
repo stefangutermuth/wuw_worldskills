@@ -184,7 +184,7 @@ const newsletter = frame(
   `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
      <a href="${SITE}" target="_blank"><img src="${ASSETS}/rts-hero-teamgermany.jpg" width="600" height="499" alt="Team Germany bei der WorldSkills 2026 vor einem chinesischen Pavillon in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
    </td></tr>
-  <!-- Bildnachweis fürs Team-Germany-Foto ergänzen, sobald der Urheber feststeht -->` +
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: Instagram <a href="https://www.instagram.com/worldskills_germany/" target="_blank" style="color:${C.muted};text-decoration:underline">@worldskills_germany</a></td></tr>` +
   section(
     preheader('Eröffnung am 22. September, kein Livestream – so bleibst du trotzdem ganz nah dran.') +
     eyebrow('Road to Shanghai · Update') +
