@@ -9,7 +9,8 @@ import { api } from '../lib/api.js';
 import { initBgParallax } from './bgParallax.js';
 import { DEMO_DISPATCHES_ON, DEMO_DISPATCHES } from '../lib/demo.js';
 
-const TARGET = new Date('2026-09-22T00:00:00+08:00').getTime();
+// Beginn der Eröffnungsfeier (= Livestream-Start, 14 Uhr MESZ) – wie der Hero-Countdown
+const TARGET = new Date('2026-09-22T20:00:00+08:00').getTime();
 
 function fmtDate(iso) {
   try {
@@ -36,11 +37,19 @@ export function initLive(root) {
   // ---- Tage-Countdown (Uhren laufen jetzt global im Header, siehe clocks.js) ----
   const daysEl = root.querySelector('[data-live-days]');
 
+  const unitEl = root.querySelector('.live__cd-unit');
   function tick() {
-    if (daysEl) {
-      const days = Math.max(0, Math.ceil((TARGET - Date.now()) / 86400000));
-      daysEl.textContent = String(days);
+    if (!daysEl) return;
+    const diff = TARGET - Date.now();
+    if (diff <= 0) {
+      // Nicht bei „0 Tage" stehen bleiben
+      daysEl.hidden = true;
+      if (unitEl) unitEl.textContent = 'Die WM läuft!';
+      return;
     }
+    const days = Math.ceil(diff / 86400000);
+    daysEl.textContent = String(days);
+    if (unitEl) unitEl.textContent = days === 1 ? 'Tag bis zur Eröffnung' : 'Tage bis Shanghai';
   }
   tick();
   setInterval(tick, 1000 * 30);

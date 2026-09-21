@@ -1,12 +1,14 @@
 /**
  * Split-Flap-Countdown bis zum WM-Start.
- * Ziel: 2026-09-22T00:00:00+08:00 (Shanghai-Zeit, NECC).
+ * Ziel: Beginn der Eröffnungsfeier 2026-09-22T20:00:00+08:00 (= 14 Uhr MESZ, offizieller
+ * WorldSkills-Livestream). Vorher zählte er bis Mitternacht Shanghai-Zeit und stand dann
+ * ab 18 Uhr deutscher Zeit auf 00:00:00:00.
  *
  * Logik = setInterval, Optik = CSS-Flip (siehe Countdown.astro).
  * Jede Stelle ist eine eigene Flip-Karte; es flippt nur, was sich ändert.
  */
 
-const TARGET = new Date('2026-09-22T00:00:00+08:00').getTime();
+const TARGET = new Date('2026-09-22T20:00:00+08:00').getTime();
 
 const FIELDS = [
   { key: 'days', label: 'Tage', digits: 2 },
@@ -131,6 +133,7 @@ export function initCountdown(root) {
     if (diff <= 0) {
       clearInterval(timer);
       root.classList.add('cd--reached');
+      document.dispatchEvent(new CustomEvent('countdown:reached'));
     }
   }
 

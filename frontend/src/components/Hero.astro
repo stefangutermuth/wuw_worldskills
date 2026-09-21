@@ -68,9 +68,13 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       <Countdown />
     </div>
 
-    <a href={asset('/worldskills-2026.ics')} class="hero__cal-btn" download aria-label="Termin zum Kalender hinzufügen">
-      <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
-      Erinnere mich – 22. Sept. 2026
+    <!-- Bis zum Start: Countdown zählt auf die Eröffnungsfeier (Livestream). Danach wechselt
+         der Text per countdown:reached (s. Skript unten); der Link bleibt – YouTube zeigt
+         dann die Aufzeichnung. -->
+    <p class="hero__cd-caption" data-hero-cd-caption>bis zur Eröffnungsfeier · live ab 14 Uhr</p>
+    <a href="https://www.youtube.com/watch?v=8CnEnzlDPfw" class="hero__cal-btn hero__live-btn" target="_blank" rel="noopener" data-hero-live-btn>
+      <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+      <span data-hero-live-label>Eröffnungsfeier live – Di 22.09.</span>
     </a>
   </div>
 
@@ -119,6 +123,16 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     };
     if (lenis && typeof lenis.on === 'function') lenis.on('scroll', onFirstScroll);
     window.addEventListener('scroll', onFirstScroll, { passive: true });
+
+    // Nach Beginn der Eröffnungsfeier: Hinweis + Button umtexten (Aufzeichnung bleibt verlinkt)
+    const markStarted = () => {
+      const cap = hero.querySelector('[data-hero-cd-caption]');
+      const lbl = hero.querySelector('[data-hero-live-label]');
+      if (cap) cap.textContent = 'Die WM läuft – drück die Daumen!';
+      if (lbl) lbl.textContent = 'Eröffnungsfeier ansehen';
+    };
+    if (Date.now() >= new Date('2026-09-22T20:00:00+08:00').getTime()) markStarted();
+    else document.addEventListener('countdown:reached', markStarted, { once: true });
 
     // Intro-Reveal: Headline gestaffelt
     gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
@@ -466,6 +480,16 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   .hero__countdown { margin-top: clamp(2rem, 5vw, 3.5rem); }
 
+  .hero__cd-caption {
+    margin: 0.7rem 0 0;
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  }
+  .hero__live-btn i { color: #ff4d4d; }
   .hero__cal-btn {
     display: inline-flex;
     align-items: center;
