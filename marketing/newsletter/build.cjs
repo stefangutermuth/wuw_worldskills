@@ -214,6 +214,42 @@ const newsletter = frame(
   }
 );
 
+// ---- Newsletter 2: Eröffnungsfeier live (Versand 21./22.09.2026) ----
+// Stream: offizieller Kanal „WorldSkills" auf YouTube, Start 22.09.2026 12:00 UTC (= 14:00 MESZ / 20:00 Shanghai)
+const STREAM = 'https://www.youtube.com/watch?v=8CnEnzlDPfw';
+const newsletterEroeffnung = frame(
+  section(
+    preheader('Dienstag, 14 Uhr: Die Eröffnungsfeier der WorldSkills 2026 läuft live auf YouTube.') +
+    eyebrow('Road to Shanghai · Live') +
+    h1('Die Eröffnung live mitverfolgen') +
+    p('Jetzt wird es ernst: Am Dienstag, 22. September, wird die WorldSkills 2026 in Shanghai feierlich eröffnet – und du kannst live dabei sein. WorldSkills überträgt die Eröffnungsfeier auf YouTube. Halte Ausschau nach Team Germany: Mit dabei sind Marc-Aurel Spalek und Lennard Weitzmann.') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wann</td><td style="padding:3px 0 3px 12px">Dienstag, 22.09., <strong style="color:${C.ink}">14:00 Uhr</strong> (in Shanghai ist es dann 20:00 Uhr)</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wo</td><td style="padding:3px 0 3px 12px">Live auf YouTube, Kanal „WorldSkills"</td></tr>
+      </table>`
+    ) +
+    button(STREAM, 'Zum Livestream') +
+    small(`Der Link führt zu YouTube. Falls der Button nicht funktioniert: ${link(STREAM, 'youtube.com/watch?v=8CnEnzlDPfw', C.muted)}`) +
+    divider() +
+    h2('Und danach?') +
+    p('Ab Mittwoch bauen Marc-Aurel und Lennard vier Tage lang ihren Wettbewerbsgarten, am Sonntag ist Siegerehrung. Die Wettkampftage selbst werden nicht übertragen – Berichte und Bilder findest du auf unserer Shanghai-Seite.') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Di 22.09.</td><td style="padding:3px 0 3px 12px">Eröffnung – live ab 14:00 Uhr</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Mi–Sa 23.–26.09.</td><td style="padding:3px 0 3px 12px">Vier Wettkampftage</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">So 27.09.</td><td style="padding:3px 0 3px 12px">Siegerehrung</td></tr>
+      </table>`
+    ) +
+    button(SITE, 'Zur Shanghai-Seite', 'outline') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -224,6 +260,7 @@ write('msg-confirmation.html', msgConfirmation);
 write('msg-welcome.html', msgWelcome);
 write('msg-goodbye.html', msgGoodbye);
 write('newsletter-wm-woche.html', newsletter);
+write('newsletter-eroeffnung.html', newsletterEroeffnung);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -234,5 +271,6 @@ write('preview-1-bestaetigung.html', demo(template.replace('{message}', msgConfi
 write('preview-2-willkommen.html', demo(template.replace('{message}', msgWelcome)));
 write('preview-3-abmeldung.html', demo(template.replace('{message}', msgGoodbye)));
 write('preview-4-newsletter.html', demo(newsletter));
+write('preview-5-eroeffnung.html', demo(newsletterEroeffnung));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
