@@ -214,29 +214,33 @@ const newsletter = frame(
   }
 );
 
-// ---- Newsletter 2: Eröffnungsfeier live (Versand 21./22.09.2026) ----
+// ---- Newsletter 2: Eröffnungsfeier live (Versand Di 22.09.2026, 06:30 – daher „heute") ----
 // Stream: offizieller Kanal „WorldSkills" auf YouTube, Start 22.09.2026 12:00 UTC (= 14:00 MESZ / 20:00 Shanghai)
 const STREAM = 'https://www.youtube.com/watch?v=8CnEnzlDPfw';
 const newsletterEroeffnung = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${STREAM}" target="_blank"><img src="${ASSETS}/rts-opening-ceremony.jpg" width="600" height="270" alt="WorldSkills 2026 Opening Ceremony – 22. September 2026, live auf YouTube" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Grafik: WorldSkills</td></tr>` +
   section(
-    preheader('Dienstag, 14 Uhr: Die Eröffnungsfeier der WorldSkills 2026 läuft live auf YouTube.') +
-    eyebrow('Road to Shanghai · Live') +
-    h1('Die Eröffnung live mitverfolgen') +
-    p('Jetzt wird es ernst: Am Dienstag, 22. September, wird die WorldSkills 2026 in Shanghai feierlich eröffnet – und du kannst live dabei sein. WorldSkills überträgt die Eröffnungsfeier auf YouTube. Halte Ausschau nach Team Germany: Mit dabei sind Marc-Aurel Spalek und Lennard Weitzmann.') +
+    preheader('Heute um 14 Uhr läuft die Eröffnungsfeier der WorldSkills 2026 live auf YouTube.') +
+    eyebrow('Road to Shanghai · Heute live') +
+    h1('Heute live: die Eröffnung in Shanghai') +
+    p('Jetzt wird es ernst: Heute wird die WorldSkills 2026 in Shanghai feierlich eröffnet – und du kannst live dabei sein. WorldSkills überträgt die Eröffnungsfeier auf YouTube. Halte Ausschau nach Team Germany: Mit dabei sind Marc-Aurel Spalek und Lennard Weitzmann.') +
     infobox(
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
-        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wann</td><td style="padding:3px 0 3px 12px">Dienstag, 22.09., <strong style="color:${C.ink}">14:00 Uhr</strong> (in Shanghai ist es dann 20:00 Uhr)</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wann</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Heute, 14:00 Uhr</strong> (in Shanghai ist es dann 20:00 Uhr)</td></tr>
         <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wo</td><td style="padding:3px 0 3px 12px">Live auf YouTube, Kanal „WorldSkills"</td></tr>
       </table>`
     ) +
-    button(STREAM, 'Zum Livestream') +
+    button(STREAM, 'Heute live verfolgen') +
     small(`Der Link führt zu YouTube. Falls der Button nicht funktioniert: ${link(STREAM, 'youtube.com/watch?v=8CnEnzlDPfw', C.muted)}`) +
     divider() +
     h2('Und danach?') +
-    p('Ab Mittwoch bauen Marc-Aurel und Lennard vier Tage lang ihren Wettbewerbsgarten, am Sonntag ist Siegerehrung. Die Wettkampftage selbst werden nicht übertragen – Berichte und Bilder findest du auf unserer Shanghai-Seite.') +
+    p('Ab morgen bauen Marc-Aurel und Lennard vier Tage lang ihren Wettbewerbsgarten, am Sonntag ist Siegerehrung. Die Wettkampftage selbst werden nicht übertragen – Berichte und Bilder findest du auf unserer Shanghai-Seite.') +
     infobox(
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
-        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Di 22.09.</td><td style="padding:3px 0 3px 12px">Eröffnung – live ab 14:00 Uhr</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Heute, Di 22.09.</td><td style="padding:3px 0 3px 12px">Eröffnung – live ab 14:00 Uhr</td></tr>
         <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Mi–Sa 23.–26.09.</td><td style="padding:3px 0 3px 12px">Vier Wettkampftage</td></tr>
         <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">So 27.09.</td><td style="padding:3px 0 3px 12px">Siegerehrung</td></tr>
       </table>`
