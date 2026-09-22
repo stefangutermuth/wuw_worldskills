@@ -45,6 +45,8 @@ export function initLive(root) {
       // Nicht bei „0 Tage" stehen bleiben
       daysEl.hidden = true;
       if (unitEl) unitEl.textContent = 'Die WM läuft!';
+      const cdText = root.querySelector('.live__cd-text');
+      if (cdText) cdText.hidden = true; // „bis zum ersten Bericht …" ist dann überholt
       return;
     }
     const days = Math.ceil(diff / 86400000);

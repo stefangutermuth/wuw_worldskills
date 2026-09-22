@@ -1,17 +1,13 @@
 ---
+import Tagebuch from './Tagebuch.astro';
 // Sektion „Live aus Shanghai" (§A4) – Reportage-Dashboard.
-// Vor dem Event: Vorfreude (Countdown, Uhren, „Was dich erwartet").
+// Vorfreude/Countdown, danach Tagebuch der WM-Woche (Reiter pro Tag, s. Tagebuch.astro).
 // Während (Status=on / Dispatches vorhanden): Reportage (Featured + Karten).
-const expect = [
-  { ic: '📝', title: 'Tägliche Berichte', text: 'Jeden Tag ein kurzer Bericht direkt aus der Wettkampfhalle.' },
-  { ic: '📸', title: 'Live-Fotos', text: 'Eindrücke vom Aufbau, vom Team und vom Schaugarten.' },
-  { ic: '🏅', title: 'Ergebnisse', text: 'Wie schlagen sich die Jungs auf der Weltbühne?' },
-];
 // Programm-Woche in Shanghai (Quelle: WorldSkills-Germany-Presseinfo).
 const programm = [
   { date: '17. Sep', label: 'Anreise nach Shanghai' },
   // Offizieller Livestream von WorldSkills (YouTube, Start 22.09. 12:00 UTC = 14 Uhr MESZ)
-  { date: '22. Sep', label: 'Eröffnungsfeier', live: { url: 'https://www.youtube.com/watch?v=8CnEnzlDPfw', text: 'Live auf YouTube · 14 Uhr' } },
+  { date: '22. Sep', label: 'Eröffnungsfeier', live: { url: 'https://www.youtube.com/watch?v=8CnEnzlDPfw', text: 'Aufzeichnung auf YouTube' } },
   { date: '23.–26. Sep', label: '4 Tage Wettkampf' },
   { date: '27. Sep', label: 'Siegerehrung & Abschluss' },
 ];
@@ -33,13 +29,16 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
     <!-- AKTUELL: jeweils die neueste Meldung. Zum Austauschen einfach Badge, Text und Meta ersetzen. -->
     <aside class="live__update">
-      <span class="live__update-badge">Aktuell · Eröffnung</span>
+      <span class="live__update-badge">Aktuell · 22. September</span>
       <p class="live__update-text">
-        <strong>Die Eröffnungsfeier live:</strong> WorldSkills überträgt die Eröffnung der Berufe-Weltmeisterschaft am <strong>Dienstag, 22. September, ab 14 Uhr</strong> deutscher Zeit auf YouTube. Von den Wettkampftagen selbst gibt es keinen Livestream – die Bilder kommen dann über Social Media und hier auf der Seite. 🇨🇳
+        <strong>Die Eröffnung ist gefeiert – jetzt wird gebaut.</strong> Mit großer Show wurde die WorldSkills in Shanghai eröffnet, ein Fanblock von Wirth &amp; Wiener war mittendrin. Ab <strong>Mittwoch, 23. September</strong>, bauen Marc-Aurel &amp; Lennard vier Tage lang ihren Garten – auf <strong>Fläche 13</strong> im Skill 37. 🇨🇳
       </p>
       <a class="live__update-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener">
-        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Zur Eröffnungsfeier auf YouTube
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Eröffnungsfeier nachschauen
       </a>
+      <p class="live__update-meta">
+        Bilder in der <a href="#route">Reise unter „Die Eröffnung“ und „Fläche 13“</a> · Fotos: Wirth &amp; Wiener
+      </p>
     </aside>
 
     <!-- Vorfreude (vor dem Event): Zahl · Label · Datum in einer zentrierten Zeile -->
@@ -55,16 +54,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </p>
     </div>
 
-    <!-- Was dich erwartet -->
-    <div class="live__expect" data-live-expect>
-      {expect.map((c) => (
-        <article class="live__expect-card">
-          <span class="live__expect-ic" aria-hidden="true">{c.ic}</span>
-          <h3>{c.title}</h3>
-          <p>{c.text}</p>
-        </article>
-      ))}
-    </div>
+    <!-- Tagebuch der WM-Woche: Reiter pro Tag, Inhalte in src/data/tagebuch.js -->
+    <Tagebuch />
 
     <!-- Programm-Woche in Shanghai -->
     <div class="live__programm">
@@ -101,7 +92,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       <div class="live__watch-text">
         <h3 class="live__sub"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> So bist du dabei</h3>
         <p>
-          Die Eröffnungsfeier überträgt WorldSkills live auf YouTube. Von den Wettkämpfen selbst gibt es
+          Die Eröffnungsfeier gibt es als Aufzeichnung auf YouTube. Von den Wettkämpfen selbst gibt es
           keinen Livestream – damit die Teams ungestört arbeiten können. Die Bilder kommen trotzdem: Team
           Germany berichtet täglich auf Social Media, die Landschaftsgärtner zeigen den Baufortschritt, und
           hier auf der Seite erscheinen die Berichte von Marc-Aurel &amp; Lennard.
@@ -109,9 +100,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </div>
       <div class="live__follow">
         <div class="live__follow-group">
-          <span class="live__follow-label">Eröffnungsfeier <span class="live__follow-sub">· Di 22.09., 14 Uhr</span></span>
+          <span class="live__follow-label">Eröffnungsfeier <span class="live__follow-sub">· Aufzeichnung</span></span>
           <div class="live__follow-links">
-            <a class="live__follow-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener" aria-label="Eröffnungsfeier live auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Live auf YouTube</a>
+            <a class="live__follow-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener" aria-label="Aufzeichnung der Eröffnungsfeier auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Auf YouTube ansehen</a>
           </div>
         </div>
         <div class="live__follow-group">
@@ -299,36 +290,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     color: rgba(241, 232, 214, 0.92);
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
   }
-
-  /* ---------- Was dich erwartet ---------- */
-  .live__expect {
-    margin-top: clamp(1.5rem, 3.5vh, 2.4rem);
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 720px) { .live__expect { grid-template-columns: repeat(3, 1fr); } }
-  .live__expect-card {
-    padding: 1.5rem 1.6rem;
-    border: 1px solid rgba(201, 162, 75, 0.28);
-    border-radius: var(--radius);
-    background: rgba(9, 15, 24, 0.82);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
-  }
-  .live__expect-ic { font-size: 1.6rem; }
-  .live__expect-card h3 {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    color: var(--gold);
-    margin: 0.5rem 0 0.3rem;
-  }
-  .live__expect-card p { color: rgba(241, 232, 214, 0.86); font-size: 0.96rem; }
-
-  /* on / Dispatches → Vorfreude weicht der Reportage */
-  .live[data-live='on'] .live__pre,
-  .live[data-dispatches='yes'] .live__pre,
-  .live[data-dispatches='yes'] .live__expect { display: none; }
 
   /* ---------- Reportage ---------- */
   .live__featured {

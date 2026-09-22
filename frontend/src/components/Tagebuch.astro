@@ -1,0 +1,324 @@
+---
+// Tagebuch der WM-Woche: ein Reiter pro Tag. Offen ist der neueste Tag mit Inhalt,
+// Tage ohne Inhalt sind ausgegraut („folgt"). Inhalte: src/data/tagebuch.js
+import { tage, hasContent } from '../data/tagebuch.js';
+
+const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
+const filled = tage.filter(hasContent);
+const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
+---
+
+<div class="tb" data-tagebuch data-default={openId}>
+  <h3 class="tb__title">Tag für Tag</h3>
+
+  <div class="tb__tabs" role="tablist" aria-label="Tage der WM-Woche" data-tb-tabs>
+    {tage.map((t) => {
+      const on = t.id === openId;
+      const empty = !hasContent(t);
+      return (
+        <button
+          type="button"
+          class={`tb__tab${empty ? ' is-empty' : ''}`}
+          role="tab"
+          id={`tb-tab-${t.id}`}
+          aria-controls={`tag-${t.id}`}
+          aria-selected={on ? 'true' : 'false'}
+          tabindex={on ? 0 : -1}
+          disabled={empty}
+          data-day={t.id}
+        >
+          <span class="tb__tab-date">{t.tab}</span>
+          <span class="tb__tab-name">{empty ? 'folgt' : t.title}</span>
+        </button>
+      );
+    })}
+  </div>
+
+  {tage.filter(hasContent).map((t) => (
+    <section
+      class="tb__panel"
+      role="tabpanel"
+      id={`tag-${t.id}`}
+      aria-labelledby={`tb-tab-${t.id}`}
+      data-day={t.id}
+      hidden={t.id !== openId}
+    >
+      <div class="tb__head">
+        <h4 class="tb__day">{t.title}</h4>
+        {t.text && <p class="tb__text">{t.text}</p>}
+        {t.link && (
+          <a class="tb__link" href={t.link.url} target="_blank" rel="noopener">
+            {t.link.icon === 'youtube' && <i class="fa-brands fa-youtube" aria-hidden="true"></i>}
+            {t.link.label}
+          </a>
+        )}
+      </div>
+      <div class="tb__grid">
+        {t.photos.map((p, i) => (
+          <button
+            type="button"
+            class={`tb__photo${p.wide ? ' is-wide' : ''}`}
+            data-full={asset(`${p.full}.webp`)}
+            data-full-jpg={asset(`${p.full}.jpg`)}
+            data-credit={t.credit || undefined}
+            aria-label={`Foto ${i + 1} vergrößern: ${p.alt}`}
+          >
+            <picture>
+              <source srcset={asset(`${p.thumb}.webp`)} type="image/webp" />
+              <img src={asset(`${p.thumb}.jpg`)} alt={p.alt} loading="lazy" decoding="async" />
+            </picture>
+          </button>
+        ))}
+      </div>
+      {t.credit && <p class="tb__credit">Fotos: {t.credit}</p>}
+    </section>
+  ))}
+
+  <!-- Lightbox (wird an <body> gehängt) -->
+  <div class="tb-lb" data-tb-lightbox role="dialog" aria-modal="true" aria-label="Foto" data-lenis-prevent hidden>
+    <button class="tb-lb__close" type="button" data-tb-close aria-label="Schließen">&times;</button>
+    <button class="tb-lb__nav tb-lb__nav--prev" type="button" data-tb-prev aria-label="Vorheriges Foto">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
+    </button>
+    <button class="tb-lb__nav tb-lb__nav--next" type="button" data-tb-next aria-label="Nächstes Foto">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+    </button>
+    <figure class="tb-lb__fig">
+      <img data-tb-img src="" alt="" />
+      <figcaption class="tb-lb__meta"><span data-tb-credit></span> <span data-tb-count></span></figcaption>
+    </figure>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector('[data-tagebuch]');
+  if (root) {
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+    const tabRow = root.querySelector('[data-tb-tabs]');
+
+    const select = (id, { focus = false } = {}) => {
+      const tab = tabs.find((t) => t.dataset.day === id && !t.disabled);
+      if (!tab) return false;
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p) => { p.hidden = p.dataset.day !== id; });
+      // aktiven Reiter in der wischbaren Leiste sichtbar halten (Handy)
+      tabRow.scrollTo({ left: tab.offsetLeft - (tabRow.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
+      if (focus) tab.focus();
+      return true;
+    };
+
+    tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.day)));
+    tabRow.addEventListener('keydown', (e) => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+      const enabled = tabs.filter((t) => !t.disabled);
+      const i = enabled.indexOf(document.activeElement);
+      if (i < 0) return;
+      e.preventDefault();
+      const next = e.key === 'Home' ? 0 : e.key === 'End' ? enabled.length - 1
+        : (i + (e.key === 'ArrowRight' ? 1 : -1) + enabled.length) % enabled.length;
+      select(enabled[next].dataset.day, { focus: true });
+    });
+
+    // Direktlink: #tag-2309 öffnet den Tag
+    const fromHash = () => {
+      const m = location.hash.match(/^#tag-(\d{4})$/);
+      if (m && select(m[1])) root.scrollIntoView({ block: 'start' });
+    };
+    fromHash();
+    window.addEventListener('hashchange', fromHash);
+
+    // ---- Lightbox ----
+    const lb = root.querySelector('[data-tb-lightbox]');
+    document.body.appendChild(lb);
+    const img = lb.querySelector('[data-tb-img]');
+    const credit = lb.querySelector('[data-tb-credit]');
+    const count = lb.querySelector('[data-tb-count]');
+    let list = [];
+    let idx = 0;
+    const canWebp = document.createElement('canvas').toDataURL('image/webp').startsWith('data:image/webp');
+
+    const show = (i) => {
+      idx = (i + list.length) % list.length;
+      const b = list[idx];
+      img.src = canWebp ? b.dataset.full : b.dataset.fullJpg;
+      img.alt = b.querySelector('img')?.alt || '';
+      credit.textContent = b.dataset.credit ? `Foto: ${b.dataset.credit}` : '';
+      count.textContent = list.length > 1 ? `${idx + 1} / ${list.length}` : '';
+      [1, -1].forEach((d) => { const n = list[(idx + d + list.length) % list.length]; new Image().src = canWebp ? n.dataset.full : n.dataset.fullJpg; });
+    };
+    const open = (btn) => {
+      list = [...btn.closest('.tb__grid').querySelectorAll('.tb__photo')];
+      show(list.indexOf(btn));
+      lb.hidden = false;
+      void lb.offsetWidth; // kein rAF – sonst unsichtbares Overlay (s. route.js)
+      lb.classList.add('is-open');
+    };
+    const close = () => {
+      lb.classList.remove('is-open');
+      setTimeout(() => { lb.hidden = true; img.src = ''; }, 220);
+    };
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tb__photo');
+      if (btn) open(btn);
+    });
+    lb.querySelector('[data-tb-prev]').addEventListener('click', (e) => { e.stopPropagation(); show(idx - 1); });
+    lb.querySelector('[data-tb-next]').addEventListener('click', (e) => { e.stopPropagation(); show(idx + 1); });
+    lb.querySelector('[data-tb-close]').addEventListener('click', (e) => { e.stopPropagation(); close(); });
+
+    let tx = 0, ty = 0, swiped = false;
+    lb.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; swiped = false; }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) { swiped = true; show(idx + (dx < 0 ? 1 : -1)); }
+    }, { passive: true });
+    lb.addEventListener('click', () => { if (swiped) { swiped = false; return; } close(); });
+    document.addEventListener('keydown', (e) => {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(idx + 1);
+      if (e.key === 'ArrowLeft') show(idx - 1);
+    });
+  }
+</script>
+
+<style>
+  .tb { margin-top: clamp(2.5rem, 6vh, 4rem); }
+  .tb__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--paper);
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Reiter: auf dem Handy wischbare Leiste */
+  .tb__tabs {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 0.2rem 0.1rem 0.6rem;
+    margin: 0 calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+  .tb__tabs::-webkit-scrollbar { display: none; }
+  @media (min-width: 900px) {
+    .tb__tabs { justify-content: center; margin: 0; padding-inline: 0; }
+  }
+  .tb__tab {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+    min-width: 7.2rem;
+    min-height: 52px;
+    padding: 0.55rem 0.95rem;
+    border-radius: 12px;
+    border: 1px solid rgba(201, 162, 75, 0.3);
+    background: rgba(9, 15, 24, 0.7);
+    color: var(--paper);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .tb__tab:hover:not(:disabled) { border-color: var(--gold); }
+  .tb__tab[aria-selected='true'] {
+    border-color: var(--gold);
+    background: rgba(201, 162, 75, 0.16);
+  }
+  .tb__tab-date { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .tb__tab-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--gold); }
+  .tb__tab.is-empty { opacity: 0.45; cursor: default; }
+  .tb__tab.is-empty .tb__tab-name { color: var(--ink-soft); font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; }
+
+  /* Tagesinhalt */
+  .tb__panel {
+    margin-top: 0.8rem;
+    padding: clamp(1.1rem, 3vw, 1.6rem);
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.25);
+    background: rgba(9, 15, 24, 0.78);
+  }
+  .tb__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; margin-bottom: 1rem; }
+  .tb__day { font-family: var(--font-display); font-size: 1.4rem; color: var(--gold); margin: 0; }
+  .tb__text { flex: 1 1 22rem; margin: 0; color: rgba(241, 232, 214, 0.9); line-height: 1.55; font-size: 0.95rem; }
+  .tb__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(168, 30, 46, 0.7);
+    background: rgba(168, 30, 46, 0.22);
+    color: var(--paper);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .tb__link i { color: #ff4d4d; }
+  .tb__link:hover { border-color: #ff6b6b; }
+
+  .tb__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  @media (min-width: 640px) { .tb__grid { grid-template-columns: repeat(4, 1fr); gap: 0.6rem; } }
+  .tb__photo {
+    display: block;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: zoom-in;
+  }
+  .tb__photo.is-wide { grid-column: span 2; aspect-ratio: auto; }
+  .tb__photo picture, .tb__photo img { display: block; width: 100%; height: 100%; }
+  .tb__photo img { object-fit: cover; transition: transform 0.35s ease; }
+  .tb__photo:hover img { transform: scale(1.04); }
+  .tb__credit { margin: 0.7rem 0 0; font-size: 0.75rem; color: var(--ink-soft); }
+
+  /* Lightbox */
+  .tb-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: grid;
+    place-items: center;
+    padding: clamp(0.6rem, 3vw, 2.5rem);
+    background: rgba(6, 8, 12, 0.92);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .tb-lb.is-open { opacity: 1; }
+  .tb-lb[hidden] { display: none; }
+  .tb-lb__fig { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .tb-lb__fig img { max-width: min(1100px, 96vw); max-height: 84vh; width: auto; height: auto; border-radius: 8px; }
+  .tb-lb__meta { font-size: 0.8rem; color: rgba(255, 255, 255, 0.75); text-align: center; }
+  .tb-lb__close {
+    position: absolute; top: 0.5rem; right: 0.6rem; z-index: 2;
+    width: 48px; height: 48px; display: grid; place-items: center;
+    border: 0; background: none; color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer;
+  }
+  .tb-lb__nav {
+    position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px;
+    display: grid; place-items: center; border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(0, 0, 0, 0.45); color: #fff; cursor: pointer;
+  }
+  .tb-lb__nav--prev { left: clamp(0.4rem, 2vw, 1.5rem); }
+  .tb-lb__nav--next { right: clamp(0.4rem, 2vw, 1.5rem); }
+  @media (hover: none) { .tb-lb__nav { display: none; } }
+</style>

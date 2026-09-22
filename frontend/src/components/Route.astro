@@ -175,6 +175,44 @@ const chapters = [
       '/img/route/pressegespraech/pg-16',
     ],
   },
+  {
+    num: '09', title: 'Die Eröffnung',
+    text: 'Feierlicher Auftakt in Shanghai – zum Nachschauen.',
+    img: '/img/route/eroeffnung/eroeffnung-card',
+    alt: 'Blick in die Arena bei der Eröffnungsfeier der WorldSkills Shanghai 2026',
+    long: 'Am 22. September wurde die 48. WorldSkills in Shanghai feierlich eröffnet – mit einer großen Show in der Arena und Teilnehmenden aus über 70 Ländern und Regionen. Mit vor Ort: ein Fanblock von Wirth & Wiener in roten Shirts, auf dem Rücken Marc-Aurel und Lennard. Die komplette Feier gibt es hier zum Nachschauen.',
+    credit: 'Wirth & Wiener',
+    // Offizielle Aufzeichnung (WorldSkills, YouTube). Zwei-Klick: iframe erst nach Klick (route.js).
+    embed: {
+      url: 'https://www.youtube-nocookie.com/embed/8CnEnzlDPfw?autoplay=1&rel=0',
+      title: 'WorldSkills Shanghai 2026 Opening Ceremony',
+      label: 'Eröffnungsfeier ansehen',
+      meta: 'WorldSkills · YouTube · 1 Std. 53 Min.',
+      note: 'Klick startet den Player von YouTube – dabei wird eine Verbindung zu YouTube (Google) aufgebaut.',
+    },
+    link: {
+      url: 'https://www.youtube.com/watch?v=8CnEnzlDPfw',
+      label: 'Auf YouTube öffnen',
+    },
+    gallery: [
+      '/img/route/eroeffnung/eroeffnung-01',
+      '/img/route/eroeffnung/eroeffnung-02',
+      '/img/route/eroeffnung/eroeffnung-03',
+      '/img/route/eroeffnung/eroeffnung-04',
+      '/img/route/eroeffnung/eroeffnung-05',
+      '/img/route/eroeffnung/eroeffnung-06',
+      '/img/route/eroeffnung/eroeffnung-07',
+    ],
+  },
+  {
+    num: '10', title: 'Fläche 13',
+    text: 'Hier entsteht ihr Wettbewerbsgarten.',
+    img: '/img/route/flaeche13/flaeche13-01',
+    alt: 'Die noch leere Wettkampffläche 13 im Skill 37 Landscape Gardening mit weißer Mauer und Mondtor',
+    long: 'Das ist ihr Arbeitsplatz für die nächsten vier Tage: Fläche 13 im Skill 37 „Landscape Gardening“. Eine weiße Mauer mit Mondtor und chinesischem Ziegeldach steht bereits, daneben liegen Sand, Natursteine und Holz. Von Mittwoch bis Samstag bauen Marc-Aurel und Lennard hier ihren Garten – nach Plan, auf den Millimeter und mit Werkzeug, das der Veranstalter stellt. Am Ende jedes Tages bewerten Experten aus anderen Nationen die fertigen Module.',
+    credit: 'Wirth & Wiener',
+    gallery: ['/img/route/flaeche13/flaeche13-01'],
+  },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
