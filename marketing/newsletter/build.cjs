@@ -8,7 +8,7 @@
  *   msg-confirmation.html    Bestätigung (Double-Opt-in)
  *   msg-welcome.html         Willkommen nach der Bestätigung
  *   msg-goodbye.html         Abmeldebestätigung
- *   newsletter-wm-woche.html Newsletter-Vorlage (komplett, ohne Rahmen-Platzhalter)
+ *   newsletter-*.html        Newsletter (komplett, ohne Rahmen-Platzhalter)
  *   preview-*.html           Vorschauen mit Beispielwerten statt Plugin-Platzhaltern
  *
  * Bewusst KEINE Web-Fonts (Google Fonts würde beim Öffnen die IP an Google senden).
@@ -254,6 +254,53 @@ const newsletterEroeffnung = frame(
   }
 );
 
+// ---- Newsletter 3: Eröffnung zum Nachschauen + Tag 1 (Versand Mi 23.09.2026 morgens – daher „heute“) ----
+// Fotos: Wirth & Wiener (mitgereiste Fans, 22.09.2026). Bild 5 (Lanyards, evtl. Team Germany) bewusst nicht verwendet.
+const photo = (src, w, h, alt, href) =>
+  `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 18px">
+  <tr><td style="font-size:0;line-height:0">${href ? `<a href="${href}" target="_blank">` : ''}<img src="${ASSETS}/${src}" width="${w}" height="${h}" alt="${alt}" style="display:block;width:100%;max-width:${w}px;height:auto;border-radius:6px" />${href ? '</a>' : ''}</td></tr></table>`;
+const TAGEBUCH = SITE + '#tag-2209';
+const newsletterTag1 = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${STREAM}" target="_blank"><img src="${ASSETS}/rts-eroeffnung-hero.jpg" width="600" height="338" alt="Blick in die Arena bei der Eröffnungsfeier der WorldSkills 2026 in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: Wirth &amp; Wiener</td></tr>` +
+  section(
+    preheader('Die Eröffnungsfeier zum Nachschauen, Bilder vom Fanblock – und heute ist der erste Wettkampftag.') +
+    eyebrow('Road to Shanghai · Tag 1') +
+    h1('Die Eröffnung ist gefeiert – jetzt wird gebaut') +
+    p('Gestern wurde die 48. WorldSkills in Shanghai eröffnet: eine große Show in der Arena, Teilnehmende aus über 70 Ländern und Regionen – und mittendrin Marc-Aurel Spalek und Lennard Weitzmann mit Team Germany. Wer die Feier verpasst hat oder noch einmal reinschauen will: Die komplette Aufzeichnung gibt es auf YouTube.') +
+    button(STREAM, 'Eröffnungsfeier nachschauen') +
+    small(`Aufzeichnung auf dem YouTube-Kanal „WorldSkills“ · 1&nbsp;Std. 53&nbsp;Min. Auch auf unserer ${link(SITE + '#route', 'Shanghai-Seite', C.muted)} unter „Die Reise“.`) +
+    divider() +
+    h2('Unser Fanblock in Shanghai') +
+    photo('rts-fanshirts.jpg', 512, 320, 'Mitgereiste Fans von Wirth &amp; Wiener in roten Shirts auf dem Weg zur Eröffnungsfeier', TAGEBUCH) +
+    p('Mitgereist sind auch Fans von Wirth &amp; Wiener – in roten Shirts, auf dem Rücken Marc-Aurel und Lennard. Näher dran kann man beim Daumendrücken kaum sein.') +
+    divider() +
+    h2('Fläche 13 – hier entsteht ihr Garten') +
+    photo('rts-flaeche13.jpg', 512, 320, 'Fläche 13 im Skill 37 mit weißer Mauer, Mondtor und chinesischem Ziegeldach', TAGEBUCH) +
+    p('Das ist der Arbeitsplatz der beiden für die nächsten vier Tage: Fläche 13 im Skill 37 „Landscape Gardening“. Die weiße Mauer mit Mondtor und chinesischem Ziegeldach steht schon, daneben warten Sand, Natursteine und Holz. Ab heute bauen Marc-Aurel und Lennard hier ihren Wettbewerbsgarten.') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Heute, Mi 23.09.</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Wettkampftag 1</strong></td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Do–Sa 24.–26.09.</td><td style="padding:3px 0 3px 12px">Wettkampftage 2 bis 4</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">So 27.09.</td><td style="padding:3px 0 3px 12px">Siegerehrung</td></tr>
+      </table>`
+    ) +
+    p(`Von den Wettkampftagen gibt es keinen Livestream. Die Bilder kommen trotzdem: Auf unserer Shanghai-Seite sammeln wir ab jetzt Tag für Tag Fotos im Tagebuch. Team Germany berichtet auf ${link('https://www.instagram.com/worldskills_germany/', 'Instagram')}, die Landschaftsgärtner zeigen den Baufortschritt auf ${link('https://www.instagram.com/die_landschaftsgaertner/', 'Instagram')} und ${link('https://www.facebook.com/dielandschaftsgaertner', 'Facebook')}.`) +
+    button(TAGEBUCH, 'Zum Tagebuch', 'outline') +
+    divider() +
+    h2('Drück die Daumen') +
+    p('Schon mehr als 90 Menschen drücken den beiden die Daumen – für jeden steigt auf unserer Seite eine Laterne auf. Mach mit, jetzt zählt jede einzelne.') +
+    button(SITE + '#daumendruecken', 'Daumen drücken') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -265,6 +312,7 @@ write('msg-welcome.html', msgWelcome);
 write('msg-goodbye.html', msgGoodbye);
 write('newsletter-wm-woche.html', newsletter);
 write('newsletter-eroeffnung.html', newsletterEroeffnung);
+write('newsletter-tag1.html', newsletterTag1);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -276,5 +324,6 @@ write('preview-2-willkommen.html', demo(template.replace('{message}', msgWelcome
 write('preview-3-abmeldung.html', demo(template.replace('{message}', msgGoodbye)));
 write('preview-4-newsletter.html', demo(newsletter));
 write('preview-5-eroeffnung.html', demo(newsletterEroeffnung));
+write('preview-6-tag1.html', demo(newsletterTag1));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
