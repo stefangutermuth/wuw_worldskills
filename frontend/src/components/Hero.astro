@@ -1,6 +1,5 @@
 ---
 // Sektion „Der Aufbruch" (Hero) — §A1
-import Countdown from './Countdown.astro';
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
 
@@ -64,17 +63,15 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     </h1>
     <p class="hero__subline">Unsere Jungs auf dem Weg zu den WorldSkills</p>
 
-    <div class="hero__countdown">
-      <Countdown />
+    <!-- Seit der Eröffnung (22.09.2026) statt Countdown: Status der WM-Woche.
+         Countdown-Komponente liegt weiter in Countdown.astro (Demo: /countdown). -->
+    <div class="hero__status">
+      <p class="hero__status-main u-gold-sheen">Die WM läuft</p>
+      <p class="hero__status-sub">Drück die Daumen!</p>
     </div>
-
-    <!-- Bis zum Start: Countdown zählt auf die Eröffnungsfeier (Livestream). Danach wechselt
-         der Text per countdown:reached (s. Skript unten); der Link bleibt – YouTube zeigt
-         dann die Aufzeichnung. -->
-    <p class="hero__cd-caption" data-hero-cd-caption>bis zur Eröffnungsfeier · live ab 14 Uhr</p>
-    <a href="https://www.youtube.com/watch?v=8CnEnzlDPfw" class="hero__cal-btn hero__live-btn" target="_blank" rel="noopener" data-hero-live-btn>
+    <a href="https://www.youtube.com/watch?v=8CnEnzlDPfw" class="hero__cal-btn hero__live-btn" target="_blank" rel="noopener">
       <i class="fa-brands fa-youtube" aria-hidden="true"></i>
-      <span data-hero-live-label>Eröffnungsfeier live – Di 22.09.</span>
+      <span>Eröffnungsfeier ansehen</span>
     </a>
   </div>
 
@@ -124,18 +121,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     if (lenis && typeof lenis.on === 'function') lenis.on('scroll', onFirstScroll);
     window.addEventListener('scroll', onFirstScroll, { passive: true });
 
-    // Nach Beginn der Eröffnungsfeier: Hinweis + Button umtexten (Aufzeichnung bleibt verlinkt)
-    const markStarted = () => {
-      const cap = hero.querySelector('[data-hero-cd-caption]');
-      const lbl = hero.querySelector('[data-hero-live-label]');
-      if (cap) cap.textContent = 'Die WM läuft – drück die Daumen!';
-      if (lbl) lbl.textContent = 'Eröffnungsfeier ansehen';
-    };
-    if (Date.now() >= new Date('2026-09-22T20:00:00+08:00').getTime()) markStarted();
-    else document.addEventListener('countdown:reached', markStarted, { once: true });
-
     // Intro-Reveal: Headline gestaffelt
-    gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__countdown', {
+    gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__status', {
       y: 28,
       opacity: 0,
       duration: 1,
@@ -388,7 +375,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
 
   /* Text-Layer */
   .hero__content {
-    min-width: 0; /* sonst erzwingt der Countdown auf 360-px-Handys Überbreite */
+    min-width: 0; /* sonst erzwingt breiter Inhalt auf 360-px-Handys Überbreite */
     position: relative;
     z-index: var(--z-text);
     text-align: center;
@@ -478,9 +465,19 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     font-style: italic;
   }
 
-  .hero__countdown { margin-top: clamp(2rem, 5vw, 3.5rem); }
-
-  .hero__cd-caption {
+  .hero__status { margin-top: clamp(1.6rem, 4.5vw, 3rem); }
+  .hero__status-main {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6.4vw, 4.4rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    /* Gold-Verlauf per background-clip → text-shadow würde die Schrift abdunkeln */
+    filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.55));
+  }
+  .hero__status-sub {
     margin: 0.7rem 0 0;
     font-size: var(--fs-label);
     font-weight: 600;
@@ -570,10 +567,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     .hero__layer { inset: 0; } /* mobil ohne Parallax-Überstand */
   }
 
-  /* Niedrige Viewports (Laptops): Abstände straffen, damit Countdown und
+  /* Niedrige Viewports (Laptops): Abstände straffen, damit Status und
      Scroll-Hinweis nicht kollidieren (Hero-Inhalt bleibt zentriert & passt). */
   @media (max-height: 780px) {
     .hero__eyebrow { margin-bottom: 0.6rem; }
-    .hero__countdown { margin-top: clamp(0.75rem, 2vh, 1.4rem); }
+    .hero__status { margin-top: clamp(0.75rem, 2vh, 1.4rem); }
   }
 </style>

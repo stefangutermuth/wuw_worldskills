@@ -23,9 +23,38 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 
 export let lenis = null;
 
+// Direktlinks wie /#daumendruecken oder /#tag-2209 (Newsletter, Social): Solange der
+// Preloader läuft, ist das Scrollen gesperrt – der native Sprung des Browsers verpufft
+// und man landet oben im Hero. Daher nach dem Preloader selbst hinspringen.
+// Steht an einem Vorfahren data-scroll-anchor, ist der das Ziel (Tagebuch: Reiter mit ins Bild).
+const HEADER_OFFSET = 90;
+function jumpToHash(l) {
+  let id = '';
+  try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+  const el = id && document.getElementById(id);
+  if (!el) return;
+  const target = el.closest('[data-scroll-anchor]') || el;
+  if (l) {
+    // Lenis misst die Seitenhöhe entprellt nach – ohne resize() gilt noch die gesperrte
+    // Höhe (limit 0) und der Sprung endet oben.
+    l.resize();
+    l.scrollTo(target, { offset: -HEADER_OFFSET, immediate: true, force: true });
+  } else {
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET });
+  }
+}
+function afterPreloader(fn) {
+  if (document.documentElement.classList.contains('is-preloading')) {
+    document.addEventListener('preloader:done', fn, { once: true });
+  } else {
+    fn(); // Preloader schon weg (Cache)
+  }
+}
+
 export function initMotion() {
   if (prefersReduced) {
     // Kein Smooth-Scroll, keine Scroll-Tweens – Endzustände stehen via CSS.
+    afterPreloader(() => requestAnimationFrame(() => jumpToHash(null)));
     return { lenis: null, gsap, ScrollTrigger, prefersReduced };
   }
 
@@ -53,14 +82,15 @@ export function initMotion() {
   // die Hero-Parallax (Koi, BG-Layer) sitzt falsch, bis der erste Scroll ein Update
   // auslöst. Daher nach dem Preloader-Ende neu kalibrieren (doppeltes rAF, damit
   // Scrollbar/Höhe sicher gesetzt sind).
-  const refreshAfterPreloader = () => {
-    requestAnimationFrame(() => requestAnimationFrame(refresh));
-  };
-  if (document.documentElement.classList.contains('is-preloading')) {
-    document.addEventListener('preloader:done', refreshAfterPreloader, { once: true });
-  } else {
-    refreshAfterPreloader(); // Preloader schon weg (reduced-motion / Cache)
-  }
+  // Erst neu kalibrieren (Pin-Abstände der Reise stehen dann), dann zum Anker springen.
+  afterPreloader(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      refresh();
+      jumpToHash(lenis);
+    }));
+  });
+  // Hash-Wechsel ohne Neuladen (URL von Hand geändert): nativer Sprung ignoriert den Header
+  window.addEventListener('hashchange', () => jumpToHash(lenis));
 
   // (Scroll-Snap entfernt: rastete immer am Sektionsanfang ein – bei Sektionen,
   //  die höher als der Viewport sind (z. B. „Live"), blieb das untere Ende verdeckt.
@@ -76,7 +106,7 @@ export function initMotion() {
     const target = document.querySelector(id);
     if (!target) return; // unbekannter Anker (z. B. #impressum-Platzhalter) → normal lassen
     e.preventDefault();
-    lenis.scrollTo(target, { offset: -90, duration: 1.1 });
+    lenis.scrollTo(target.closest('[data-scroll-anchor]') || target, { offset: -HEADER_OFFSET, duration: 1.1 });
   });
 
   return { lenis, gsap, ScrollTrigger, prefersReduced };

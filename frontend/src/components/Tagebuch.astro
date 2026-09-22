@@ -8,7 +8,7 @@ const filled = tage.filter(hasContent);
 const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
 ---
 
-<div class="tb" data-tagebuch data-default={openId}>
+<div class="tb" data-tagebuch data-scroll-anchor data-default={openId}>
   <h3 class="tb__title">Tag für Tag</h3>
 
   <div class="tb__tabs" role="tablist" aria-label="Tage der WM-Woche" data-tb-tabs>
@@ -124,10 +124,11 @@ const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
       select(enabled[next].dataset.day, { focus: true });
     });
 
-    // Direktlink: #tag-2309 öffnet den Tag
+    // Direktlink: #tag-2309 öffnet den Tag. Hinscrollen übernimmt motion.js
+    // (nach dem Preloader bzw. bei hashchange; data-scroll-anchor → mit Reitern).
     const fromHash = () => {
       const m = location.hash.match(/^#tag-(\d{4})$/);
-      if (m && select(m[1])) root.scrollIntoView({ block: 'start' });
+      if (m) select(m[1]);
     };
     fromHash();
     window.addEventListener('hashchange', fromHash);
