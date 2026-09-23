@@ -4,7 +4,8 @@
 // Offen ist automatisch der NEUESTE Tag mit Inhalt; Tage ohne Inhalt erscheinen
 // ausgegraut als „folgt".
 //
-// photos: { thumb, full, alt, wide? }   thumb/full ohne Endung (.webp + .jpg liegen daneben)
+// photos: { thumb, full, alt, wide?, credit? }   thumb/full ohne Endung (.webp + .jpg liegen daneben)
+//         credit: überschreibt den Tages-Bildnachweis (Pflicht bei Fremdfotos)
 //         wide: true → Querformat, belegt zwei Spalten (nur nutzen, wenn das Raster dann aufgeht)
 //
 // Direkt verlinkbar: https://shanghai.wirth-wiener.de/#tag-2209 (id des Tages)
@@ -20,6 +21,12 @@ export const tage = [
     credit: 'Wirth & Wiener',
     link: { url: YT_OPENING, label: 'Eröffnungsfeier nachschauen', icon: 'youtube' },
     photos: [
+      { thumb: '/img/tagebuch/2209/p01-thumb', full: '/img/tagebuch/2209/p01', alt: 'Einmarsch der Nationen mit Fahnen in der Arena', credit: 'Petra Reidel' },
+      { thumb: '/img/tagebuch/2209/p02-thumb', full: '/img/tagebuch/2209/p02', alt: 'Das Motto „Master Skills, Change Your Future“ über der Bühne', credit: 'Petra Reidel' },
+      { thumb: '/img/tagebuch/2209/p03-thumb', full: '/img/tagebuch/2209/p03', alt: 'Schriftzug WorldSkills Shanghai 2026 über den Rängen', credit: 'Petra Reidel' },
+      { thumb: '/img/tagebuch/2209/p04-thumb', full: '/img/tagebuch/2209/p04', alt: 'Team Germany im Publikum mit Deutschlandfähnchen', credit: 'Petra Reidel' },
+      { thumb: '/img/tagebuch/2209/p05-thumb', full: '/img/tagebuch/2209/p05', alt: 'Jubel bei Team Germany während der Eröffnungsfeier', credit: 'Petra Reidel' },
+      { thumb: '/img/tagebuch/2209/p06-thumb', full: '/img/tagebuch/2209/p06', alt: 'Große Kugel und Tänzerinnen bei der Show', credit: 'Petra Reidel' },
       { thumb: '/img/tagebuch/2209/01-thumb', full: '/img/route/eroeffnung/eroeffnung-01', alt: 'Blick in die Arena bei der Eröffnungsfeier' },
       { thumb: '/img/tagebuch/2209/02-thumb', full: '/img/route/eroeffnung/eroeffnung-02', alt: 'Fan-Shirt mit Marc-Aurel und Lennard vor der Bühne' },
       { thumb: '/img/tagebuch/2209/03-thumb', full: '/img/route/eroeffnung/eroeffnung-03', alt: 'Mit Deutschlandfahne auf dem Weg zur Arena' },
@@ -37,6 +44,14 @@ export const tage = [
     text: 'Der Wettkampf läuft. Mauer, Beläge und die ersten Pflanzen stehen. Die beiden liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden. Auch von außen betrachtet sieht alles hervorragend aus.',
     credit: 'Wirth & Wiener',
     photos: [
+      { thumb: '/img/tagebuch/2309/p01-thumb', full: '/img/tagebuch/2309/p01', alt: 'Ein Stein wird mit dem Hammer zugerichtet, daneben entsteht die Trockenmauer', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p02-thumb', full: '/img/tagebuch/2309/p02', alt: 'Zu zweit an der Trockenmauer vor dem Mondtor', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p03-thumb', full: '/img/tagebuch/2309/p03', alt: 'Blick über die ganze Fläche mit Mondtor und Mauer im Bau', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p04-thumb', full: '/img/tagebuch/2309/p04', alt: 'Konzentriert an der Mauerkrone', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p05-thumb', full: '/img/tagebuch/2309/p05', alt: 'Ein schwerer Stein wird in der Mauer versetzt', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p06-thumb', full: '/img/tagebuch/2309/p06', alt: 'Arbeiten mit der Lampe an der Mauer unter dem Mondtor', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p07-thumb', full: '/img/tagebuch/2309/p07', alt: 'Eine Platte wird für den Belag zugelegt', credit: 'AuGaLa/Reidel' },
+      { thumb: '/img/tagebuch/2309/p08-thumb', full: '/img/tagebuch/2309/p08', alt: 'Kurzes Lächeln in die Kamera, mit Deutschlandfähnchen in der Hand', credit: 'AuGaLa/Reidel' },
       { thumb: '/img/tagebuch/2309/01-thumb', full: '/img/tagebuch/2309/01', alt: 'Team Germany baut die Trockenmauer vor der weißen Wand mit Mondtor' },
       { thumb: '/img/tagebuch/2309/02-thumb', full: '/img/tagebuch/2309/02', alt: 'Pflanzen kommen in das Beet hinter der fertigen Trockenmauer' },
       { thumb: '/img/tagebuch/2309/03-thumb', full: '/img/tagebuch/2309/03', alt: 'Ein Formgehölz wird an der Mauer in Position gebracht' },

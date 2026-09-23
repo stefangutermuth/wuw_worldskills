@@ -6,6 +6,9 @@ import { tage, hasContent } from '../data/tagebuch.js';
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 const filled = tage.filter(hasContent);
 const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
+
+// Alle Bildnachweise eines Tages, ohne Dopplung (Fotos können aus verschiedenen Quellen kommen).
+const credits = (t) => [...new Set((t.photos || []).map((p) => p.credit || t.credit).filter(Boolean))];
 ---
 
 <div class="tb" data-tagebuch data-scroll-anchor data-default={openId}>
@@ -60,7 +63,7 @@ const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
             class={`tb__photo${p.wide ? ' is-wide' : ''}`}
             data-full={asset(`${p.full}.webp`)}
             data-full-jpg={asset(`${p.full}.jpg`)}
-            data-credit={t.credit || undefined}
+            data-credit={p.credit || t.credit || undefined}
             aria-label={`Foto ${i + 1} vergrößern: ${p.alt}`}
           >
             <picture>
@@ -70,7 +73,7 @@ const openId = filled.length ? filled[filled.length - 1].id : tage[0].id;
           </button>
         ))}
       </div>
-      {t.credit && <p class="tb__credit">Fotos: {t.credit}</p>}
+      {credits(t).length > 0 && <p class="tb__credit">Fotos: {credits(t).join(' · ')}</p>}
     </section>
   ))}
 
