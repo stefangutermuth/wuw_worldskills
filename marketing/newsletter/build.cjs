@@ -260,6 +260,7 @@ const photo = (src, w, h, alt, href) =>
   `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 18px">
   <tr><td style="font-size:0;line-height:0">${href ? `<a href="${href}" target="_blank">` : ''}<img src="${ASSETS}/${src}" width="${w}" height="${h}" alt="${alt}" style="display:block;width:100%;max-width:${w}px;height:auto;border-radius:6px" />${href ? '</a>' : ''}</td></tr></table>`;
 const TAGEBUCH = SITE + '#tag-2209';
+const TAGEBUCH_TAG1 = SITE + '#tag-2309';
 const newsletterTag1 = frame(
   `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
      <a href="${STREAM}" target="_blank"><img src="${ASSETS}/rts-eroeffnung-hero.jpg" width="600" height="338" alt="Blick in die Arena bei der Eröffnungsfeier der WorldSkills 2026 in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
@@ -301,6 +302,43 @@ const newsletterTag1 = frame(
   }
 );
 
+// ---- Newsletter 4: Reisegruppe + Tag 1 (Titelbild: Gruppe vor dem China-Pavillon) ----
+// Fotos: Wirth & Wiener (22./23.09.2026).
+const newsletterReisegruppe = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${TAGEBUCH_TAG1}" target="_blank"><img src="${ASSETS}/rts-reisegruppe.jpg" width="600" height="400" alt="Die Reisegruppe von Wirth &amp; Wiener in roten Shirts mit Deutschlandfahne vor dem China-Pavillon in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: Wirth &amp; Wiener</td></tr>` +
+  section(
+    preheader('Unsere Reisegruppe in Shanghai – und der erste Wettkampftag läuft nach Plan.') +
+    eyebrow('Road to Shanghai · Tag 1') +
+    h1('Mitgereist: unsere Gruppe in Shanghai') +
+    p('Sie sind über 8.000 Kilometer geflogen, um zwei Landschaftsgärtnern die Daumen zu drücken: Mitarbeiterinnen und Mitarbeiter von Wirth &amp; Wiener, dazu Familie und Freunde. In roten Shirts, mit Deutschlandfahne und Fähnchen in der Hand – hier vor dem China-Pavillon. Lauter kann ein Fanblock kaum sein.') +
+    divider() +
+    h2('Tag 1: alles im Plan') +
+    photo('rts-tag1-mauer.jpg', 512, 320, 'Marc-Aurel und Lennard bauen die Trockenmauer vor der Wand mit Mondtor', TAGEBUCH_TAG1) +
+    p('Seit heute früh wird gebaut. Die Trockenmauer steht, die Beläge liegen, die ersten Pflanzen sind gesetzt. Marc-Aurel und Lennard liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden – und auch von außen betrachtet sieht alles hervorragend aus.') +
+    photo('rts-tag1-pflanzen.jpg', 512, 320, 'Pflanzen kommen in das Beet hinter der fertigen Trockenmauer', TAGEBUCH_TAG1) +
+    p('Beeindruckend ist auch alles drumherum: wie diese Weltmeisterschaft organisiert ist und welche Dimension die Hallen haben – überwältigend.') +
+    button(TAGEBUCH_TAG1, 'Alle Bilder im Tagebuch') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Do–Sa 24.–26.09.</td><td style="padding:3px 0 3px 12px">Wettkampftage 2 bis 4</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">So 27.09.</td><td style="padding:3px 0 3px 12px">Siegerehrung</td></tr>
+      </table>`
+    ) +
+    divider() +
+    h2('Fast am Ziel') +
+    p('Fast 100 Menschen drücken den beiden inzwischen die Daumen – für jeden steigt auf unserer Seite eine Laterne auf. Bis zur runden Zahl fehlen nur noch ein paar.') +
+    button(SITE + '#daumendruecken', 'Daumen drücken') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -313,6 +351,7 @@ write('msg-goodbye.html', msgGoodbye);
 write('newsletter-wm-woche.html', newsletter);
 write('newsletter-eroeffnung.html', newsletterEroeffnung);
 write('newsletter-tag1.html', newsletterTag1);
+write('newsletter-reisegruppe.html', newsletterReisegruppe);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -325,5 +364,6 @@ write('preview-3-abmeldung.html', demo(template.replace('{message}', msgGoodbye)
 write('preview-4-newsletter.html', demo(newsletter));
 write('preview-5-eroeffnung.html', demo(newsletterEroeffnung));
 write('preview-6-tag1.html', demo(newsletterTag1));
+write('preview-7-reisegruppe.html', demo(newsletterReisegruppe));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
