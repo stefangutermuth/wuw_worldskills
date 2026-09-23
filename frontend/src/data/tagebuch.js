@@ -16,7 +16,7 @@ export const tage = [
     id: '2209',
     tab: 'Di 22.09.',
     title: 'Eröffnung',
-    text: 'Große Show in der Arena – und ein Fanblock von Wirth & Wiener mittendrin. Der Arbeitsplatz steht bereit: Fläche 13 im Skill 37.',
+    text: 'Große Show in der Arena, mittendrin ein Fanblock von Wirth & Wiener. Der Arbeitsplatz steht bereit: Fläche 13 im Skill 37.',
     credit: 'Wirth & Wiener',
     link: { url: YT_OPENING, label: 'Eröffnungsfeier nachschauen', icon: 'youtube' },
     photos: [
@@ -34,7 +34,7 @@ export const tage = [
     id: '2309',
     tab: 'Mi 23.09.',
     title: 'Tag 1',
-    text: 'Der Wettkampf läuft. Mauer, Beläge und die ersten Pflanzen stehen – die beiden liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden. Auch von außen betrachtet sieht alles hervorragend aus.',
+    text: 'Der Wettkampf läuft. Mauer, Beläge und die ersten Pflanzen stehen. Die beiden liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden. Auch von außen betrachtet sieht alles hervorragend aus.',
     credit: 'Wirth & Wiener',
     photos: [
       { thumb: '/img/tagebuch/2309/01-thumb', full: '/img/tagebuch/2309/01', alt: 'Team Germany baut die Trockenmauer vor der weißen Wand mit Mondtor' },

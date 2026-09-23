@@ -306,30 +306,30 @@ const newsletterTag1 = frame(
 // Fotos: Wirth & Wiener (22./23.09.2026).
 const newsletterReisegruppe = frame(
   `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
-     <a href="${TAGEBUCH_TAG1}" target="_blank"><img src="${ASSETS}/rts-reisegruppe.jpg" width="600" height="400" alt="Die Reisegruppe von Wirth &amp; Wiener in roten Shirts mit Deutschlandfahne vor dem China-Pavillon in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+     <a href="${TAGEBUCH_TAG1}" target="_blank"><img src="${ASSETS}/rts-reisegruppe.jpg" width="600" height="400" alt="Die Reisegruppe von Wirth &amp; Wiener in roten Fanshirts mit Deutschlandfahne vor dem China-Pavillon in Shanghai" style="display:block;width:100%;max-width:600px;height:auto" /></a>
    </td></tr>
    <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: Wirth &amp; Wiener</td></tr>` +
   section(
-    preheader('Unsere Reisegruppe in Shanghai – und der erste Wettkampftag läuft nach Plan.') +
+    preheader('Unsere Reisegruppe in Shanghai und der erste Wettkampftag, der nach Plan läuft.') +
     eyebrow('Road to Shanghai · Tag 1') +
     h1('Mitgereist: unsere Gruppe in Shanghai') +
-    p('Sie sind über 8.000 Kilometer geflogen, um zwei Landschaftsgärtnern die Daumen zu drücken: Mitarbeiterinnen und Mitarbeiter von Wirth &amp; Wiener, dazu Familie und Freunde. In roten Shirts, mit Deutschlandfahne und Fähnchen in der Hand – hier vor dem China-Pavillon. Lauter kann ein Fanblock kaum sein.') +
+    p('Sie sind über 8.000 Kilometer geflogen, um zwei Landschaftsgärtnern die Daumen zu drücken: Mitarbeiterinnen und Mitarbeiter von Wirth &amp; Wiener, dazu Familie und Freunde. Die roten Fanshirts wurden eigens für diese Reise angefertigt. Hier steht die Gruppe vor dem China-Pavillon. Lauter kann ein Fanblock kaum sein.') +
     divider() +
     h2('Tag 1: alles im Plan') +
     photo('rts-tag1-mauer.jpg', 512, 320, 'Marc-Aurel und Lennard bauen die Trockenmauer vor der Wand mit Mondtor', TAGEBUCH_TAG1) +
-    p('Seit heute früh wird gebaut. Die Trockenmauer steht, die Beläge liegen, die ersten Pflanzen sind gesetzt. Marc-Aurel und Lennard liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden – und auch von außen betrachtet sieht alles hervorragend aus.') +
+    p('Seit heute früh wird gebaut. Die Trockenmauer steht, die Beläge liegen, die ersten Pflanzen sind gesetzt. Marc-Aurel und Lennard liegen gut in der Zeit und sind mit ihrer Arbeit zufrieden. Auch von außen betrachtet sieht alles hervorragend aus.') +
     photo('rts-tag1-pflanzen.jpg', 512, 320, 'Pflanzen kommen in das Beet hinter der fertigen Trockenmauer', TAGEBUCH_TAG1) +
-    p('Beeindruckend ist auch alles drumherum: wie diese Weltmeisterschaft organisiert ist und welche Dimension die Hallen haben – überwältigend.') +
+    p('Beeindruckend ist auch alles drumherum: wie diese Weltmeisterschaft organisiert ist und welche Dimension die Hallen haben. Überwältigend.') +
     button(TAGEBUCH_TAG1, 'Alle Bilder im Tagebuch') +
     infobox(
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
-        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Do–Sa 24.–26.09.</td><td style="padding:3px 0 3px 12px">Wettkampftage 2 bis 4</td></tr>
-        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">So 27.09.</td><td style="padding:3px 0 3px 12px">Siegerehrung</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Do bis Sa</td><td style="padding:3px 0 3px 12px">24. bis 26.09., Wettkampftage 2 bis 4</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Sonntag</td><td style="padding:3px 0 3px 12px">27.09., Siegerehrung</td></tr>
       </table>`
     ) +
     divider() +
     h2('Fast am Ziel') +
-    p('Fast 100 Menschen drücken den beiden inzwischen die Daumen – für jeden steigt auf unserer Seite eine Laterne auf. Bis zur runden Zahl fehlen nur noch ein paar.') +
+    p('Fast 100 Menschen drücken den beiden inzwischen die Daumen. Für jeden steigt auf unserer Seite eine Laterne auf. Bis zur runden Zahl fehlen nur noch ein paar.') +
     button(SITE + '#daumendruecken', 'Daumen drücken') +
     signature()
   ),
