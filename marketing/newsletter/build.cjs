@@ -339,6 +339,44 @@ const newsletterReisegruppe = frame(
   }
 );
 
+// ---- Newsletter 5: Tag 2 geschafft (Versand Fr 25.09.2026, waehrend Tag 3 laeuft) ----
+// Fotos: AuGaLa/Reidel (Petra Reidel), Quellenangabe ist Pflicht.
+const TAGEBUCH_TAG2 = SITE + '#tag-2409';
+const newsletterTag2 = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${TAGEBUCH_TAG2}" target="_blank"><img src="${ASSETS}/rts-tag2-hero.jpg" width="600" height="400" alt="Marc-Aurel und Lennard mit ihrem Trainer in der Messehalle, beide zeigen den Daumen nach oben" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
+  section(
+    preheader('Tag 2 hatte es in sich. Das Zeitlimit haben die beiden gerade so gehalten, mit ihrem Stand sind sie zufrieden.') +
+    eyebrow('Road to Shanghai · Tag 2') +
+    h1('Tag 2 ist geschafft') +
+    p('Der zweite Wettkampftag war deutlich härter als der erste. Das Zeitlimit haben Marc-Aurel und Lennard gerade so gehalten. Mit ihrer Arbeit und mit dem Zwischenstand sind sie zufrieden, und genau darauf kommt es jetzt an.') +
+    photo('rts-tag2-waage.jpg', 512, 320, 'Mit der Wasserwaage flach im Sand, der Belag muss auf den Millimeter stimmen', TAGEBUCH_TAG2) +
+    p('Auf der Fläche zählt jeder Millimeter. Wasserwaage, Schnur und Winkel sind genauso im Einsatz wie Hammer und Meißel.') +
+    photo('rts-tag2-mauer.jpg', 512, 320, 'Zu zweit an der frei stehenden Trockenmauer', TAGEBUCH_TAG2) +
+    p('Die frei stehende Mauer wächst Stein für Stein. Jeder einzelne wird zugerichtet, angepasst und versetzt.') +
+    button(TAGEBUCH_TAG2, 'Alle Bilder im Tagebuch') +
+    p('Während du das liest, läuft in Shanghai schon Tag 3.') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Heute, Fr 25.09.</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Wettkampftag 3</strong></td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Samstag</td><td style="padding:3px 0 3px 12px">26.09., letzter Wettkampftag</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Sonntag</td><td style="padding:3px 0 3px 12px">27.09., Siegerehrung</td></tr>
+      </table>`
+    ) +
+    divider() +
+    h2('Die 100 steht') +
+    p('Mehr als 100 Menschen drücken den beiden inzwischen die Daumen. Das Ziel ist geschafft, und jede weitere Laterne steigt trotzdem auf.') +
+    button(SITE + '#daumendruecken', 'Daumen drücken', 'outline') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -352,6 +390,7 @@ write('newsletter-wm-woche.html', newsletter);
 write('newsletter-eroeffnung.html', newsletterEroeffnung);
 write('newsletter-tag1.html', newsletterTag1);
 write('newsletter-reisegruppe.html', newsletterReisegruppe);
+write('newsletter-tag2.html', newsletterTag2);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -365,5 +404,6 @@ write('preview-4-newsletter.html', demo(newsletter));
 write('preview-5-eroeffnung.html', demo(newsletterEroeffnung));
 write('preview-6-tag1.html', demo(newsletterTag1));
 write('preview-7-reisegruppe.html', demo(newsletterReisegruppe));
+write('preview-8-tag2.html', demo(newsletterTag2));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
