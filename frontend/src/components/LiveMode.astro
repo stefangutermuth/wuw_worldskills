@@ -1,6 +1,7 @@
 ---
 import Tagebuch from './Tagebuch.astro';
 import { posts as igPosts } from '../data/instagram.js';
+const igCredits = [...new Set(igPosts.slice(0, 5).map((p) => p.credit).filter(Boolean))];
 // Sektion „Live aus Shanghai" (§A4) – Reportage-Dashboard.
 // Vorfreude/Countdown, danach Tagebuch der WM-Woche (Reiter pro Tag, s. Tagebuch.astro).
 // Während (Status=on / Dispatches vorhanden): Reportage (Featured + Karten).
@@ -149,7 +150,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               <a class="live__insta-tile" href={p.url} target="_blank" rel="noopener">
                 <picture>
                   <source srcset={asset(`${p.image}.webp`)} type="image/webp" />
-                  <img src={asset(`${p.image}.jpg`)} alt={p.alt} loading="lazy" width="600" height="600" />
+                  <img src={asset(`${p.image}.jpg`)} alt={p.alt} loading="lazy" width="560" height="373" />
                 </picture>
               </a>
             ))
@@ -163,6 +164,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
               </figure>
             ))}
       </div>
+      {igCredits.length > 0 && <p class="live__insta-credit">Fotos: {igCredits.join(' · ')}</p>}
       <p class="live__hashtags">#WorldSkillsShanghai · #maximalzusammen · #teamgermany2026</p>
     </div>
   </div>
@@ -385,7 +387,9 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   .live__insta-btn--ghost:hover { background: rgba(241, 232, 214, 0.06); }
   .live__insta-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    /* Spalten richten sich nach der Anzahl der Kacheln (Feed: 5, feste Liste: auch weniger) */
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
     gap: 0.6rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -396,7 +400,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   .live__insta-grid > :global(*) { scroll-snap-align: start; }
   @media (max-width: 600px) {
     /* zweieinhalb Kacheln sichtbar → man sieht sofort, dass es weitergeht */
-    .live__insta-grid { grid-template-columns: repeat(5, 40vw); }
+    .live__insta-grid { grid-auto-columns: 40vw; }
   }
 
   /* global, damit auch die per JS eingefügten echten Instagram-Kacheln greifen */
@@ -409,6 +413,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     border-radius: 10px;
     border: 1px solid rgba(201, 162, 75, 0.18);
   }
+  /* <picture> ist inline, ohne eigene Hoehe greift height:100% am Bild nicht */
+  :global(.live__insta-tile picture) { display: block; width: 100%; height: 100%; }
   :global(.live__insta-tile img) {
     width: 100%; height: 100%;
     object-fit: cover;
@@ -426,8 +432,13 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   :global(.live__insta-tile:hover img) { transform: scale(1.08); filter: saturate(1.12) brightness(1.05); }
   :global(.live__insta-tile:hover::after) { opacity: 1; }
 
+  .live__insta-credit {
+    margin: 0.7rem 0 0;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
   .live__hashtags {
-    margin-top: 1rem;
+    margin-top: 0.6rem;
     font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.01em;
