@@ -60,7 +60,9 @@ export function initLive(root) {
   initBgParallax(root.querySelector('[data-live-bg]'));
 
   // ---- Instagram-Feed (echte Posts der Haupt-WP via rts-backend) ----
-  const igGrid = root.querySelector('[data-insta-grid]');
+  // data-insta-fixed = feste Kacheln aus src/data/instagram.js (z. B. Collab-Beiträge,
+  // die die Instagram-Schnittstelle nicht liefert). Dann nichts nachladen.
+  const igGrid = root.querySelector('[data-insta-grid]:not([data-insta-fixed])');
   if (igGrid) {
     api
       .getInstagram()
