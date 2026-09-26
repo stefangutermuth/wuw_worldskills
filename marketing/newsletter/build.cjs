@@ -429,7 +429,6 @@ const newsletterTag4 = frame(
     photo('rts-tag4-pflanzen.jpg', 512, 320, 'Die letzten Pflanzen kommen in die Beete', TAGEBUCH_TAG4) +
     p('Am letzten Tag kamen die Pflanzen in die Beete, das Moos rund um die Brücke und die letzten Steine in den Weg.') +
     photo('rts-tag4-bruecke.jpg', 512, 320, 'Zu zweit am Geländer der Holzbrücke', TAGEBUCH_TAG4) +
-    p('Die Holzbrücke mit Geländer war das große Stück der letzten Tage. Jede Leiste zugeschnitten, angepasst und verschraubt, dazu Mauern, Wege und das Gitterfenster aus Tag 3.') +
     button(TAGEBUCH_TAG4, 'Vier Tage im Tagebuch ansehen') +
     infobox(
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
