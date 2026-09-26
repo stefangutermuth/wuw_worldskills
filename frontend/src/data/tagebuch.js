@@ -98,7 +98,25 @@ export const tage = [
       { thumb: '/img/tagebuch/2509/p10-thumb', full: '/img/tagebuch/2509/p10', alt: 'Zu zweit beim Setzen der Findlinge' },
     ],
   },
-  { id: '2609', tab: 'Sa 26.09.', title: 'Tag 4', photos: [] },
+  {
+    id: '2609',
+    tab: 'Sa 26.09.',
+    title: 'Tag 4',
+    text: 'Geschafft. Unter dem Jubel der mitgereisten Fans haben die beiden das Zeitlimit eingehalten und ein Spitzenergebnis abgeliefert. Brücke, Mauern, Wege und Bepflanzung stehen. Beide sind überwältigt und können es kaum in Worte fassen. Jetzt heißt es Daumen drücken.',
+    credit: 'AuGaLa/Reidel',
+    photos: [
+      { thumb: '/img/tagebuch/2609/p01-thumb', full: '/img/tagebuch/2609/p01', alt: 'Der fertige Garten mit Holzbrücke, Mondtor und Bambus' },
+      { thumb: '/img/tagebuch/2609/p02-thumb', full: '/img/tagebuch/2609/p02', alt: 'Blick über den Garten mit Formgehölzen und Pflanzflächen' },
+      { thumb: '/img/tagebuch/2609/p03-thumb', full: '/img/tagebuch/2609/p03', alt: 'Die letzten Pflanzen kommen in die Beete' },
+      { thumb: '/img/tagebuch/2609/p04-thumb', full: '/img/tagebuch/2609/p04', alt: 'Moos wird rund um die Brücke verlegt' },
+      { thumb: '/img/tagebuch/2609/p05-thumb', full: '/img/tagebuch/2609/p05', alt: 'Der Weg wird Stein für Stein fertig verlegt' },
+      { thumb: '/img/tagebuch/2609/p06-thumb', full: '/img/tagebuch/2609/p06', alt: 'Zu zweit am Geländer der Brücke' },
+      { thumb: '/img/tagebuch/2609/p07-thumb', full: '/img/tagebuch/2609/p07', alt: 'Das Geländer wird ausgerichtet und verschraubt' },
+      { thumb: '/img/tagebuch/2609/p08-thumb', full: '/img/tagebuch/2609/p08', alt: 'Feinarbeit am Handlauf, zu zweit' },
+      { thumb: '/img/tagebuch/2609/p09-thumb', full: '/img/tagebuch/2609/p09', alt: 'Letzte Anpassung am Brückenbogen' },
+      { thumb: '/img/tagebuch/2609/p10-thumb', full: '/img/tagebuch/2609/p10', alt: 'Steine aus der Schubkarre für die letzten Meter' },
+    ],
+  },
   { id: '2709', tab: 'So 27.09.', title: 'Siegerehrung', photos: [] },
 ];
 

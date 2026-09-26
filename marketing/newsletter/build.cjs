@@ -413,6 +413,42 @@ const newsletterTag3 = frame(
   }
 );
 
+// ---- Newsletter 7: Tag 4, der Garten steht (Versand Sa 26.09.2026 abends) ----
+// Fotos: AuGaLa/Reidel (Petra Reidel), Quellenangabe ist Pflicht.
+const TAGEBUCH_TAG4 = SITE + '#tag-2609';
+const newsletterTag4 = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${TAGEBUCH_TAG4}" target="_blank"><img src="${ASSETS}/rts-tag4-hero.jpg" width="600" height="400" alt="Der fertige Wettbewerbsgarten mit Holzbrücke, Mondtor und Bambus" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
+  section(
+    preheader('Vier Tage Wettkampf sind vorbei, der Garten steht. Morgen fällt bei der Siegerehrung die Entscheidung.') +
+    eyebrow('Road to Shanghai · Tag 4') +
+    h1('Geschafft, der Garten steht') +
+    p('Vier Tage, ein Garten. Unter dem Jubel der mitgereisten Fans haben Marc-Aurel und Lennard das Zeitlimit gehalten und ihren Wettbewerbsgarten fertig abgeliefert. Mit dem Ergebnis sind beide rundum glücklich. Sie sagen selbst, sie seien überwältigt und könnten es kaum in Worte fassen.') +
+    photo('rts-tag4-pflanzen.jpg', 512, 320, 'Die letzten Pflanzen kommen in die Beete', TAGEBUCH_TAG4) +
+    p('Am letzten Tag kamen die Pflanzen in die Beete, das Moos rund um die Brücke und die letzten Steine in den Weg.') +
+    photo('rts-tag4-bruecke.jpg', 512, 320, 'Zu zweit am Geländer der Holzbrücke', TAGEBUCH_TAG4) +
+    p('Die Holzbrücke mit Geländer war das große Stück der letzten Tage. Jede Leiste zugeschnitten, angepasst und verschraubt, dazu Mauern, Wege und das Gitterfenster aus Tag 3.') +
+    button(TAGEBUCH_TAG4, 'Vier Tage im Tagebuch ansehen') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Morgen, So 27.09.</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Siegerehrung in Shanghai</strong></td></tr>
+      </table>`
+    ) +
+    divider() +
+    h2('Jetzt Daumen drücken') +
+    p('105 Laternen stehen für 105 Menschen, die den beiden die Daumen drücken. Vor der Siegerehrung ist genau der richtige Moment für eine weitere.') +
+    button(SITE + '#daumendruecken', 'Daumen drücken') +
+    p('Sobald das Ergebnis feststeht, meldet sich Wirth &amp; Wiener wieder.') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -428,6 +464,7 @@ write('newsletter-tag1.html', newsletterTag1);
 write('newsletter-reisegruppe.html', newsletterReisegruppe);
 write('newsletter-tag2.html', newsletterTag2);
 write('newsletter-tag3.html', newsletterTag3);
+write('newsletter-tag4.html', newsletterTag4);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -443,5 +480,6 @@ write('preview-6-tag1.html', demo(newsletterTag1));
 write('preview-7-reisegruppe.html', demo(newsletterReisegruppe));
 write('preview-8-tag2.html', demo(newsletterTag2));
 write('preview-9-tag3.html', demo(newsletterTag3));
+write('preview-10-tag4.html', demo(newsletterTag4));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
