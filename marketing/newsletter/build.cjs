@@ -377,6 +377,42 @@ const newsletterTag2 = frame(
   }
 );
 
+// ---- Newsletter 6: Tag 3 geschafft (Versand Sa 26.09.2026, letzter Wettkampftag laeuft) ----
+// Fotos: AuGaLa/Reidel (Petra Reidel), Quellenangabe ist Pflicht.
+const TAGEBUCH_TAG3 = SITE + '#tag-2509';
+const newsletterTag3 = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${TAGEBUCH_TAG3}" target="_blank"><img src="${ASSETS}/rts-tag3-hero.jpg" width="600" height="400" alt="Marc-Aurel und Lennard arbeiten zu zweit am Holz über der fertigen Trockenmauer" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
+  section(
+    preheader('Tag 3 war anstrengend, im Kopf und im Körper. Ziel trotzdem erreicht. Heute ist der letzte Wettkampftag.') +
+    eyebrow('Road to Shanghai · Tag 3') +
+    h1('Drei Tage geschafft') +
+    p('Der dritte Wettkampftag war anstrengend, körperlich und im Kopf. Nach vier Tagen Dauerspannung merken Marc-Aurel und Lennard die Anstrengung und den Druck. Ihr Tagesziel haben sie trotzdem erreicht, mit dem Stand sind sie zufrieden. Die Vorfreude galt am Abend vor allem dem Bett.') +
+    photo('rts-tag3-fenster.jpg', 512, 320, 'Das fertige Gitterfenster aus Holz in der weißen Wand', TAGEBUCH_TAG3) +
+    p('Tag 3 war der Tag des Holzes. In die weiße Wand kam ein Gitterfenster nach chinesischem Vorbild, jede Leiste einzeln zugeschnitten und eingepasst.') +
+    photo('rts-tag3-saege.jpg', 512, 320, 'Zuschnitt an der Kappsäge', TAGEBUCH_TAG3) +
+    p('Dazu der gebogene Rahmen für die Brücke, die Teichfolie und der Sand für den Belag. Jeder Schnitt muss sitzen, nachbessern kostet Zeit, die keiner hat.') +
+    button(TAGEBUCH_TAG3, 'Alle Bilder im Tagebuch') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Heute, Sa 26.09.</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Letzter Wettkampftag</strong></td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Morgen</td><td style="padding:3px 0 3px 12px">27.09., Siegerehrung</td></tr>
+      </table>`
+    ) +
+    divider() +
+    h2('Heute zählt jeder Daumen') +
+    p('104 Menschen drücken den beiden inzwischen die Daumen. Heute fällt der letzte Hammerschlag, ein guter Tag für ein paar Laternen mehr.') +
+    button(SITE + '#daumendruecken', 'Daumen drücken') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -391,6 +427,7 @@ write('newsletter-eroeffnung.html', newsletterEroeffnung);
 write('newsletter-tag1.html', newsletterTag1);
 write('newsletter-reisegruppe.html', newsletterReisegruppe);
 write('newsletter-tag2.html', newsletterTag2);
+write('newsletter-tag3.html', newsletterTag3);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -405,5 +442,6 @@ write('preview-5-eroeffnung.html', demo(newsletterEroeffnung));
 write('preview-6-tag1.html', demo(newsletterTag1));
 write('preview-7-reisegruppe.html', demo(newsletterReisegruppe));
 write('preview-8-tag2.html', demo(newsletterTag2));
+write('preview-9-tag3.html', demo(newsletterTag3));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');
