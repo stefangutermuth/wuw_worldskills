@@ -479,6 +479,33 @@ const newsletterFinale = frame(
   }
 );
 
+// ---- Newsletter 9: Bronze (Versand So 27.09.2026 nach der Siegerehrung) ----
+// Titelbild vorerst das Faehnchen-Portrait, wird gegen das Jubelbild getauscht, sobald die Datei da ist.
+const newsletterBronze = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${SITE}" target="_blank"><img src="${ASSETS}/rts-bronze-hero.jpg" width="600" height="400" alt="Lennard lächelt mit einem Deutschlandfähnchen in der Hand in die Kamera" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
+  section(
+    preheader('Marc-Aurel und Lennard holen bei den WorldSkills 2026 in Shanghai die Bronzemedaille.') +
+    eyebrow('Road to Shanghai · Das Ergebnis') +
+    h1('Bronze!') +
+    p('Bei der Siegerehrung der WorldSkills 2026 in Shanghai haben Marc-Aurel Spalek und Lennard Weitzmann die <strong style="color:' + C.ink + '">Bronzemedaille</strong> im Skill 37 „Landscape Gardening" geholt. Vier Wettkampftage, 20 Zweierteams aus 20 Ländern, am Ende ein Platz auf dem Podest.') +
+    p('Was für eine Woche. Angefangen bei der Eröffnungsfeier, über vier Tage Mauern, Wege, Holz und Pflanzen, bis zu diesem Moment. Die beiden haben an jedem Tag ihr Ziel erreicht, das Zeitlimit gehalten und einen Garten abgeliefert, der sich sehen lassen kann.') +
+    photo('rts-tag4-hero.jpg', 512, 320, 'Der fertige Wettbewerbsgarten mit Holzbrücke, Mondtor und Bambus', SITE + '#tag-2609') +
+    p('Das ist der Garten, der dafür gesorgt hat.') +
+    divider() +
+    h2('Danke') +
+    p('Danke an alle, die mitgefiebert haben. An die Fans, die extra nach Shanghai geflogen sind, an die Familien, an alle im Betrieb und an die 111 Menschen, die auf unserer Seite eine Laterne für die beiden haben aufsteigen lassen.') +
+    button(SITE + '#tag-2609', 'Die ganze Woche im Tagebuch') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -496,6 +523,7 @@ write('newsletter-tag2.html', newsletterTag2);
 write('newsletter-tag3.html', newsletterTag3);
 write('newsletter-tag4.html', newsletterTag4);
 write('newsletter-finale.html', newsletterFinale);
+write('newsletter-bronze.html', newsletterBronze);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -513,5 +541,6 @@ write('preview-8-tag2.html', demo(newsletterTag2));
 write('preview-9-tag3.html', demo(newsletterTag3));
 write('preview-10-tag4.html', demo(newsletterTag4));
 write('preview-11-finale.html', demo(newsletterFinale));
+write('preview-12-bronze.html', demo(newsletterBronze));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');

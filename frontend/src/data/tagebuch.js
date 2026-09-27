@@ -121,8 +121,8 @@ export const tage = [
     id: '2709',
     tab: 'So 27.09.',
     title: 'Siegerehrung',
-    text: 'Heute um 13 Uhr beginnt die Abschlussfeier der WorldSkills 2026 mit der Siegerehrung, live auf YouTube. Bilder vom Finale kommen hier dazu, sobald sie da sind.',
-    link: { url: 'https://www.youtube.com/live/2yamAa_pcOU', label: 'Siegerehrung live ansehen', icon: 'youtube' },
+    text: 'Bronze! Bei der Abschlussfeier der WorldSkills 2026 haben Marc-Aurel und Lennard die Bronzemedaille im Skill 37 geholt. Bilder vom Finale kommen hier dazu, sobald sie da sind.',
+    link: { url: 'https://www.youtube.com/live/2yamAa_pcOU', label: 'Siegerehrung ansehen', icon: 'youtube' },
     photos: [],
   },
 ];
