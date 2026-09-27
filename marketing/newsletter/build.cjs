@@ -483,7 +483,7 @@ const newsletterFinale = frame(
 // Titelbild vorerst das Faehnchen-Portrait, wird gegen das Jubelbild getauscht, sobald die Datei da ist.
 const newsletterBronze = frame(
   `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
-     <a href="${SITE}" target="_blank"><img src="${ASSETS}/rts-bronze-hero.jpg" width="600" height="400" alt="Lennard lächelt mit einem Deutschlandfähnchen in der Hand in die Kamera" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+     <a href="${SITE}" target="_blank"><img src="${ASSETS}/rts-bronze-jubel.jpg" width="600" height="316" alt="Marc-Aurel und Lennard jubeln mit ihrem Trainer unter der Deutschlandfahne" style="display:block;width:100%;max-width:600px;height:auto" /></a>
    </td></tr>
    <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
   section(

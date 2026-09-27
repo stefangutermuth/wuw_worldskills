@@ -123,7 +123,9 @@ export const tage = [
     title: 'Siegerehrung',
     text: 'Bronze! Bei der Abschlussfeier der WorldSkills 2026 haben Marc-Aurel und Lennard die Bronzemedaille im Skill 37 geholt. Bilder vom Finale kommen hier dazu, sobald sie da sind.',
     link: { url: 'https://www.youtube.com/live/2yamAa_pcOU', label: 'Siegerehrung ansehen', icon: 'youtube' },
-    photos: [],
+    photos: [
+      { thumb: '/img/tagebuch/2709/p01-thumb', full: '/img/tagebuch/2709/p01', alt: 'Marc-Aurel und Lennard jubeln mit ihrem Trainer unter der Deutschlandfahne' },
+    ],
   },
 ];
 

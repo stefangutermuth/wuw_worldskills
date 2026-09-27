@@ -213,6 +213,28 @@ const chapters = [
     credit: 'Wirth & Wiener',
     gallery: ['/img/route/flaeche13/flaeche13-01'],
   },
+  {
+    num: '11', title: 'Bronze',
+    text: 'Vier Tage Arbeit, eine Medaille.',
+    img: '/img/route/bronze/bronze-card',
+    alt: 'Marc-Aurel und Lennard jubeln mit ihrem Trainer unter der Deutschlandfahne',
+    long: 'Bei der Siegerehrung der WorldSkills 2026 in Shanghai holen Marc-Aurel Spalek und Lennard Weitzmann die Bronzemedaille im Skill 37 „Landscape Gardening“. Vier Wettkampftage, 20 Zweierteams aus 20 Ländern, am Ende ein Platz auf dem Podest. Der Garten mit Trockenmauern, Wegen, Gitterfenster und Holzbrücke stand pünktlich, das Zeitlimit haben die beiden an jedem Tag gehalten.',
+    credit: 'AuGaLa/Reidel',
+    embed: {
+      url: 'https://www.youtube-nocookie.com/embed/2yamAa_pcOU?autoplay=1&rel=0',
+      title: 'WorldSkills Shanghai 2026 Closing Ceremony',
+      label: 'Siegerehrung ansehen',
+      meta: 'WorldSkills · YouTube',
+      note: 'Klick startet den Player von YouTube, dabei wird eine Verbindung zu YouTube (Google) aufgebaut.',
+    },
+    link: { url: 'https://www.instagram.com/p/Ddyg3Y9gEsj/', label: 'Beitrag von WorldSkills Germany' },
+    gallery: [
+      '/img/route/bronze/bronze-01',
+      '/img/route/bronze/bronze-02',
+      '/img/route/bronze/bronze-03',
+      '/img/route/bronze/bronze-04',
+    ],
+  },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
