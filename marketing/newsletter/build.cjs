@@ -495,6 +495,14 @@ const newsletterBronze = frame(
     photo('rts-tag4-hero.jpg', 512, 320, 'Der fertige Wettbewerbsgarten mit Holzbrücke, Mondtor und Bambus', SITE + '#tag-2609') +
     p('Das ist der Garten, der dafür gesorgt hat.') +
     divider() +
+    h2('So hat WorldSkills Germany es gemeldet') +
+    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 18px">
+      <tr><td style="background:${C.surface};border-left:3px solid ${C.primary};border-radius:6px;padding:18px 20px">
+        <p style="margin:0 0 10px;font-family:${F.body};font-size:15px;line-height:24px;color:${C.ink}">„🥉 BRONZE für Marc-Aurel Spalek und Lennard Weitzmann in der Disziplin Landschaftsgärtner*in! Herzlichen Glückwunsch!"</p>
+        <p style="margin:0;font-family:${F.body};font-size:13px;line-height:20px;color:${C.muted}">@worldskills_germany auf Instagram</p>
+      </td></tr></table>` +
+    button('https://www.instagram.com/p/Ddyg3Y9gEsj/', 'Beitrag auf Instagram ansehen', 'outline') +
+    divider() +
     h2('Danke') +
     p('Danke an alle, die mitgefiebert haben. An die Fans, die extra nach Shanghai geflogen sind, an die Familien, an alle im Betrieb und an die 111 Menschen, die auf unserer Seite eine Laterne für die beiden haben aufsteigen lassen.') +
     button(SITE + '#tag-2609', 'Die ganze Woche im Tagebuch') +
