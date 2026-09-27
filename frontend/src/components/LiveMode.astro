@@ -43,6 +43,19 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       </p>
     </aside>
 
+    <!-- Der Bronze-Beitrag von WorldSkills Germany, sichtbar auf der Seite.
+         Zwei-Klick: der Instagram-Rahmen wird erst nach dem Klick geladen, vorher geht nichts an Meta. -->
+    <div class="live__post" data-live-post>
+      <p class="live__post-label"><i class="fa-brands fa-instagram" aria-hidden="true"></i> WorldSkills Germany meldet Bronze</p>
+      <div class="live__post-frame" data-live-post-frame data-embed="https://www.instagram.com/p/Ddyg3Y9gEsj/embed">
+        <button type="button" class="live__post-btn" data-live-post-load>Beitrag anzeigen</button>
+        <p class="live__post-note">Der Beitrag wird von Instagram geladen, dabei entsteht eine Verbindung zu Instagram (Meta).</p>
+      </div>
+      <p class="live__post-meta">
+        <a href="https://www.instagram.com/p/Ddyg3Y9gEsj/" target="_blank" rel="noopener">Beitrag direkt auf Instagram öffnen</a>
+      </p>
+    </div>
+
     <!-- Vorfreude (vor dem Event): Zahl · Label · Datum in einer zentrierten Zeile -->
     <div class="live__pre" data-live-pre>
       <h2 id="live-title" class="live__cd">
@@ -448,6 +461,65 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     font-weight: 600;
     letter-spacing: 0.01em;
     color: var(--gold);
+  }
+
+  /* ---------- Eingebetteter Instagram-Beitrag (Zwei-Klick) ---------- */
+  .live__post {
+    margin-top: clamp(1.2rem, 3vh, 1.8rem);
+    padding: 1.1rem 1.2rem 1.2rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(201, 162, 75, 0.28);
+    background: rgba(9, 15, 24, 0.75);
+    backdrop-filter: blur(8px);
+  }
+  .live__post-label {
+    margin: 0 0 0.8rem;
+    font-size: var(--fs-label);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .live__post-label i { margin-right: 0.45rem; }
+  .live__post-frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 220px;
+    padding: 1.4rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    text-align: center;
+  }
+  .live__post-frame.is-loaded { display: block; padding: 0; min-height: 0; background: none; }
+  .live__post-btn {
+    min-height: 44px;
+    padding: 0.7rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 162, 75, 0.5);
+    background: rgba(201, 162, 75, 0.12);
+    color: var(--gold);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .live__post-btn:hover { background: rgba(201, 162, 75, 0.2); border-color: var(--gold); }
+  .live__post-note { margin: 0; max-width: 32rem; font-size: 0.78rem; line-height: 1.5; color: var(--ink-soft); }
+  .live__post-meta { margin: 0.7rem 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+  .live__post-meta a { color: var(--gold); }
+  :global(.live__post-iframe) {
+    display: block;
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 12px;
+    background: #fff;
+    min-height: 680px;
   }
 
   /* ---------- Aktuell-Karte (temporär) ---------- */

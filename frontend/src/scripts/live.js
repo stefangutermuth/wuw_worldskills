@@ -60,6 +60,26 @@ export function initLive(root) {
   initBgParallax(root.querySelector('[data-live-bg]'));
 
   // ---- Instagram-Feed (echte Posts der Haupt-WP via rts-backend) ----
+  // ---- Instagram-Beitrag: Rahmen erst auf Klick laden (Zwei-Klick-Lösung) ----
+  const postFrame = root.querySelector('[data-live-post-frame]');
+  const postBtn = root.querySelector('[data-live-post-load]');
+  if (postFrame && postBtn) {
+    postBtn.addEventListener('click', () => {
+      const src = postFrame.dataset.embed;
+      if (!src) return;
+      const frame = document.createElement('iframe');
+      frame.className = 'live__post-iframe';
+      frame.src = src;
+      frame.title = 'Instagram-Beitrag von WorldSkills Germany';
+      frame.loading = 'lazy';
+      frame.setAttribute('scrolling', 'no');
+      frame.setAttribute('allowtransparency', 'true');
+      postFrame.innerHTML = '';
+      postFrame.classList.add('is-loaded');
+      postFrame.appendChild(frame);
+    });
+  }
+
   // data-insta-fixed = feste Kacheln aus src/data/instagram.js (z. B. Collab-Beiträge,
   // die die Instagram-Schnittstelle nicht liefert). Dann nichts nachladen.
   const igGrid = root.querySelector('[data-insta-grid]:not([data-insta-fixed])');
