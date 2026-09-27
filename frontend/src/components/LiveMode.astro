@@ -11,7 +11,7 @@ const programm = [
   // Offizieller Livestream von WorldSkills (YouTube, Start 22.09. 12:00 UTC = 14 Uhr MESZ)
   { date: '22. Sep', label: 'Eröffnungsfeier', live: { url: 'https://www.youtube.com/watch?v=8CnEnzlDPfw', text: 'Aufzeichnung auf YouTube' } },
   { date: '23.–26. Sep', label: '4 Tage Wettkampf' },
-  { date: '27. Sep', label: 'Siegerehrung & Abschluss' },
+  { date: '27. Sep', label: 'Siegerehrung & Abschluss', live: { url: 'https://www.youtube.com/live/2yamAa_pcOU', text: 'Live auf YouTube, 13 Uhr' } },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
@@ -33,10 +33,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <aside class="live__update">
       <span class="live__update-badge">Aktuell · 26. September</span>
       <p class="live__update-text">
-        <strong>Geschafft, der Garten steht.</strong> Unter dem Jubel der mitgereisten Fans haben Marc-Aurel &amp; Lennard das Zeitlimit gehalten und vier Tage Arbeit fertig abgeliefert. Beide sind überwältigt. <strong>Morgen ist Siegerehrung</strong>, dann wissen wir, was dabei herauskommt. 🇨🇳
+        <strong>Heute fällt die Entscheidung.</strong> Der Garten steht, vier Wettkampftage sind geschafft. Um <strong>13 Uhr</strong> beginnt die Abschlussfeier mit der Siegerehrung, live auf YouTube. Daumen drücken für Marc-Aurel &amp; Lennard. 🇨🇳
       </p>
-      <a class="live__update-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener">
-        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Eröffnungsfeier nachschauen
+      <a class="live__update-live" href="https://www.youtube.com/live/2yamAa_pcOU" target="_blank" rel="noopener">
+        <i class="fa-brands fa-youtube" aria-hidden="true"></i> Siegerehrung live ansehen
       </a>
       <p class="live__update-meta">
         Alle Bilder vom Wettkampf im <a href="#tag-2609">Tagebuch</a> · Fotos: AuGaLa/Reidel
@@ -94,13 +94,19 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
       <div class="live__watch-text">
         <h3 class="live__sub"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> So bist du dabei</h3>
         <p>
-          Die Eröffnungsfeier gibt es als Aufzeichnung auf YouTube. Von den Wettkämpfen selbst gibt es
-          keinen Livestream, damit die Teams ungestört arbeiten können. Die Bilder kommen trotzdem: Team
-          Germany berichtet täglich auf Social Media, die Landschaftsgärtner zeigen den Baufortschritt, und
-          hier auf der Seite erscheinen die Berichte von Marc-Aurel &amp; Lennard.
+          Die Siegerehrung läuft heute ab 13 Uhr live auf YouTube, die Eröffnungsfeier gibt es dort als
+          Aufzeichnung. Von den Wettkämpfen selbst gab es keinen Livestream, damit die Teams ungestört
+          arbeiten konnten. Die Bilder kommen trotzdem: Team Germany und die Landschaftsgärtner berichten
+          auf Social Media, und hier auf der Seite stehen alle vier Wettkampftage im Tagebuch.
         </p>
       </div>
       <div class="live__follow">
+        <div class="live__follow-group">
+          <span class="live__follow-label">Siegerehrung <span class="live__follow-sub">· heute 13 Uhr</span></span>
+          <div class="live__follow-links">
+            <a class="live__follow-live" href="https://www.youtube.com/live/2yamAa_pcOU" target="_blank" rel="noopener" aria-label="Siegerehrung live auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Live ansehen</a>
+          </div>
+        </div>
         <div class="live__follow-group">
           <span class="live__follow-label">Eröffnungsfeier <span class="live__follow-sub">· Aufzeichnung</span></span>
           <div class="live__follow-links">

@@ -448,6 +448,37 @@ const newsletterTag4 = frame(
   }
 );
 
+// ---- Newsletter 8: Siegerehrung live (Versand So 27.09.2026 mittags, Start 13:00 MESZ) ----
+const FINALE = 'https://www.youtube.com/live/2yamAa_pcOU';
+const newsletterFinale = frame(
+  `<tr><td class="ww-hero" style="padding:0;font-size:0;line-height:0">
+     <a href="${FINALE}" target="_blank"><img src="${ASSETS}/rts-tag4-hero.jpg" width="600" height="400" alt="Der fertige Wettbewerbsgarten mit Holzbrücke, Mondtor und Bambus" style="display:block;width:100%;max-width:600px;height:auto" /></a>
+   </td></tr>
+   <tr><td class="ww-pad" align="right" style="padding:8px 44px 0;font-family:${F.body};font-size:11px;line-height:16px;color:${C.muted}">Foto: AuGaLa/Reidel</td></tr>` +
+  section(
+    preheader('Die Abschlussfeier der WorldSkills 2026 läuft heute ab 13 Uhr live auf YouTube.') +
+    eyebrow('Road to Shanghai · Siegerehrung') +
+    h1('Heute live: die Siegerehrung') +
+    p('Vier Wettkampftage liegen hinter Marc-Aurel und Lennard, ihr Garten steht. Heute fällt die Entscheidung. Die Abschlussfeier der WorldSkills 2026 wird live auf YouTube übertragen, und du kannst dabei sein, wenn die Medaillen vergeben werden.') +
+    infobox(
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:${F.body};font-size:14px;line-height:22px;color:${C.body}">
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wann</td><td style="padding:3px 0 3px 12px"><strong style="color:${C.ink}">Heute, 13:00 Uhr</strong> (in Shanghai ist es dann 19:00 Uhr)</td></tr>
+        <tr><td width="150" style="width:150px;padding:3px 0;color:${C.ink};font-weight:600;white-space:nowrap">Wo</td><td style="padding:3px 0 3px 12px">Live auf YouTube</td></tr>
+      </table>`
+    ) +
+    button(FINALE, 'Siegerehrung live ansehen') +
+    small(`Der Link führt zu YouTube. Falls der Button nicht funktioniert: ${link(FINALE, 'youtube.com/live/2yamAa_pcOU', C.muted)}`) +
+    divider() +
+    p('Alle Bilder der vier Wettkampftage findest du im Tagebuch auf unserer Seite.') +
+    button(SITE + '#tag-2609', 'Zum Tagebuch', 'outline') +
+    signature()
+  ),
+  {
+    footerExtra: `Du erhältst diese E-Mail, weil du dich auf ${link(SITE, 'shanghai.wirth-wiener.de', C.muted)} angemeldet hast.<br />
+      ${link('{unsubscription_url}', 'Newsletter abbestellen', C.muted)} &nbsp;·&nbsp; ${link('{profile_url}', 'Daten ändern', C.muted)}<br /><br />`,
+  }
+);
+
 // ---- Dateien schreiben ----
 // {message} sitzt in einer gepolsterten Zelle – so passen auch plugin-eigene Mails
 // (z. B. „E-Mail-Adresse geändert“), die nur <p>-Absätze liefern, ins Design.
@@ -464,6 +495,7 @@ write('newsletter-reisegruppe.html', newsletterReisegruppe);
 write('newsletter-tag2.html', newsletterTag2);
 write('newsletter-tag3.html', newsletterTag3);
 write('newsletter-tag4.html', newsletterTag4);
+write('newsletter-finale.html', newsletterFinale);
 
 // Vorschau: Plugin-Platzhalter durch Beispielwerte ersetzen
 const demo = (html) => html
@@ -480,5 +512,6 @@ write('preview-7-reisegruppe.html', demo(newsletterReisegruppe));
 write('preview-8-tag2.html', demo(newsletterTag2));
 write('preview-9-tag3.html', demo(newsletterTag3));
 write('preview-10-tag4.html', demo(newsletterTag4));
+write('preview-11-finale.html', demo(newsletterFinale));
 
 for (const f of fs.readdirSync(OUT).sort()) console.log(f.padEnd(28), fs.statSync(path.join(OUT, f)).size, 'Bytes');

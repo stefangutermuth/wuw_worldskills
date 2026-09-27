@@ -117,7 +117,14 @@ export const tage = [
       { thumb: '/img/tagebuch/2609/p10-thumb', full: '/img/tagebuch/2609/p10', alt: 'Steine aus der Schubkarre für die letzten Meter' },
     ],
   },
-  { id: '2709', tab: 'So 27.09.', title: 'Siegerehrung', photos: [] },
+  {
+    id: '2709',
+    tab: 'So 27.09.',
+    title: 'Siegerehrung',
+    text: 'Heute um 13 Uhr beginnt die Abschlussfeier der WorldSkills 2026 mit der Siegerehrung, live auf YouTube. Bilder vom Finale kommen hier dazu, sobald sie da sind.',
+    link: { url: 'https://www.youtube.com/live/2yamAa_pcOU', label: 'Siegerehrung live ansehen', icon: 'youtube' },
+    photos: [],
+  },
 ];
 
 export const hasContent = (t) => (t.photos && t.photos.length > 0) || !!t.text;
