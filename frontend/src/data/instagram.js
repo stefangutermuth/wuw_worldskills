@@ -15,6 +15,12 @@
 
 export const posts = [
   {
+    url: 'https://www.instagram.com/p/Ddyg3Y9gEsj/',
+    image: '/img/tagebuch/2309/p08-thumb',
+    alt: 'Bronze für Marc-Aurel und Lennard, gemeldet von @worldskills_germany',
+    credit: 'AuGaLa/Reidel',
+  },
+  {
     url: 'https://www.instagram.com/p/Dds2XWTFJgi/',
     image: '/img/tagebuch/2409/p02-thumb',
     alt: 'Tag 3 bei @die_landschaftsgaertner: Ein Stein wird auf der frei stehenden Mauer versetzt',
