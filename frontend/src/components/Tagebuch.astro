@@ -56,7 +56,7 @@ const credits = (t) => [...new Set((t.photos || []).map((p) => p.credit || t.cre
           </a>
         )}
       </div>
-      <div class="tb__grid">
+      <div class={`tb__grid${t.photos.length === 1 ? ' is-single' : ''}`}>
         {t.photos.map((p, i) => (
           <button
             type="button"
@@ -290,6 +290,10 @@ const credits = (t) => [...new Set((t.photos || []).map((p) => p.credit || t.cre
     cursor: zoom-in;
   }
   .tb__photo.is-wide { grid-column: span 2; aspect-ratio: auto; }
+  /* Einzelnes Foto: volle Breite, eigenes Seitenverhältnis statt 3:4-Ausschnitt */
+  .tb__grid.is-single { grid-template-columns: 1fr; max-width: 46rem; }
+  .tb__grid.is-single .tb__photo { aspect-ratio: auto; }
+  .tb__grid.is-single .tb__photo img { height: auto; }
   .tb__photo picture, .tb__photo img { display: block; width: 100%; height: 100%; }
   .tb__photo img { object-fit: cover; transition: transform 0.35s ease; }
   .tb__photo:hover img { transform: scale(1.04); }
