@@ -1,5 +1,5 @@
 ---
-// Footer (§A0): Newsletter, Sponsoren, Teilen, Rechtliches.
+// Footer (§A0): Newsletter, Sponsoren, Rechtliches. Teilen und Spendenaufruf seit 28.09.2026 raus (Erinnerungsseite).
 import Newsletter from './Newsletter.astro';
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
@@ -10,60 +10,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <div class="footer__top">
       <!-- Newsletter (Anmeldung für Updates) -->
       <Newsletter compact />
-
-      <!-- Teilen -->
-      <div class="footer__share">
-        <h3 class="footer__h">Teile das Abenteuer</h3>
-        <p class="footer__lead">Hilf mit, dass möglichst viele die Daumen drücken.</p>
-        <div class="footer__social" data-share>
-          <a class="social-icon" data-share-wa target="_blank" rel="noopener" href="#" aria-label="Per WhatsApp teilen">
-            <i class="fa-brands fa-whatsapp"></i>
-          </a>
-          <a class="social-icon" data-share-fb target="_blank" rel="noopener" href="#" aria-label="Auf Facebook teilen">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a class="social-icon" data-share-x target="_blank" rel="noopener" href="#" aria-label="Auf X teilen">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-          <a class="social-icon" data-share-insta target="_blank" rel="noopener" href="https://www.instagram.com/" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <button type="button" class="social-icon" data-share-copy aria-label="Link kopieren">
-            <i class="fa-solid fa-link"></i>
-          </button>
-        </div>
-        <p class="footer__share-status" data-share-status aria-live="polite"></p>
-        <p class="footer__hashtags">#WorldSkillsShanghai · #maximalzusammen · #teamgermany2026</p>
-      </div>
-    </div>
-
-    <!-- Unterstützen: Spenden (Limo-Verkauf nach der WM entfernt, 28.09.2026) -->
-    <div class="footer__support" id="unterstuetzen" style="scroll-margin-top: 90px;">
-
-      <!-- Spendenaufruf -->
-      <div class="footer__donate">
-      <div class="footer__donate-intro">
-        <h3 class="footer__h"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Unterstütze die Reise</h3>
-        <p class="footer__lead">
-          Trainingslager, Anreise, Coaching – die Vorbereitung auf Shanghai kostet. Jeder Beitrag hilft Marc-Aurel &amp; Lennard. Die Spenden sammelt der Verband Garten-, Landschafts- und Sportplatzbau Sachsen.
-        </p>
-      </div>
-      <dl class="footer__bank">
-        <dt>Kontoinhaber</dt>
-        <dd>Verband Garten-, Landschafts- und Sportplatzbau Sachsen e.&nbsp;V.</dd>
-        <dt>Bank</dt>
-        <dd>BW Bank</dd>
-        <dt>IBAN</dt>
-        <dd class="footer__iban">
-          <span data-iban>DE08 6005 0101 7472 5007 39</span>
-          <button type="button" class="footer__iban-copy" data-iban-copy aria-label="IBAN kopieren">
-            <i class="fa-solid fa-copy" aria-hidden="true"></i>
-          </button>
-        </dd>
-        <dt>Verwendungszweck</dt>
-        <dd>WorldSkills 2026</dd>
-      </dl>
-      </div>
     </div>
 
     <!-- Sponsoren -->
@@ -89,49 +35,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   </div>
 </footer>
 
-<script>
-  const root = document.querySelector('[data-share]');
-  if (root) {
-    const url = window.location.origin + '/';
-    const title = 'Road to Shanghai – drück mit die Daumen!';
-    const statusEl = document.querySelector('[data-share-status]');
-
-    const wa = root.querySelector('[data-share-wa]');
-    if (wa) wa.href = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
-
-    const fb = root.querySelector('[data-share-fb]');
-    if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-
-    const x = root.querySelector('[data-share-x]');
-    if (x) x.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
-
-    const copy = root.querySelector('[data-share-copy]');
-    copy?.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(url);
-        if (statusEl) statusEl.textContent = 'Link kopiert! 🔗';
-        setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
-      } catch {
-        if (statusEl) statusEl.textContent = url;
-      }
-    });
-  }
-
-  // IBAN kopieren
-  const ibanBtn = document.querySelector('[data-iban-copy]');
-  const ibanEl = document.querySelector('[data-iban]');
-  ibanBtn?.addEventListener('click', async () => {
-    const iban = (ibanEl?.textContent || '').replace(/\s+/g, '');
-    try {
-      await navigator.clipboard.writeText(iban);
-      const orig = ibanBtn.innerHTML;
-      ibanBtn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i>';
-      ibanBtn.classList.add('is-copied');
-      setTimeout(() => { ibanBtn.innerHTML = orig; ibanBtn.classList.remove('is-copied'); }, 1600);
-    } catch {}
-  });
-</script>
-
 <style>
   .footer {
     background: var(--ink);
@@ -139,114 +42,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     padding-block: clamp(3.5rem, 9vh, 6rem);
     border-top: 1px solid rgba(201, 162, 75, 0.18);
   }
-  .footer__top {
-    display: grid;
-    gap: clamp(2.5rem, 6vw, 4rem);
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 820px) {
-    .footer__top { grid-template-columns: 1.2fr 1fr; align-items: start; }
-  }
-  .footer__h { font-size: 1.6rem; color: var(--gold); margin-bottom: 0.4rem; }
-  .footer__lead { margin: 0 0 1.4rem; color: var(--ink-soft); font-size: 0.93rem; line-height: 1.55; }
-
-  /* Spendenaufruf */
-  .footer__donate {
-    margin-top: clamp(2.5rem, 6vh, 4rem);
-    padding: clamp(1.4rem, 3vw, 2rem);
-    border: 1px solid rgba(201, 162, 75, 0.28);
-    border-radius: var(--radius);
-    background: rgba(201, 162, 75, 0.05);
-    display: grid;
-    gap: 1.2rem 2.5rem;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 720px) {
-    .footer__donate { grid-template-columns: 1.1fr 1fr; align-items: center; }
-  }
-  .footer__donate .footer__h i { font-size: 1.1rem; margin-right: 0.3rem; }
-  .footer__donate .footer__lead { margin: 0; }
-
-  /* Unterstützen-Wrapper */
-  .footer__support { margin-top: clamp(2.5rem, 6vh, 4rem); }
-  .footer__support .footer__donate { margin-top: clamp(1.4rem, 3.5vh, 2.2rem); }
-
-  /* Bankdaten Spendenkonto */
-  .footer__bank {
-    margin: 0;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.35rem 1rem;
-    font-size: 0.9rem;
-  }
-  .footer__bank dt { color: var(--ink-soft); white-space: nowrap; }
-  .footer__bank dd { margin: 0; color: var(--paper); }
-  .footer__iban {
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.02em;
-  }
-  .footer__iban-copy {
-    background: transparent;
-    border: 1px solid rgba(201, 162, 75, 0.4);
-    color: var(--gold);
-    border-radius: 8px;
-    width: 36px;
-    height: 36px;
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    transition: background 0.2s ease, border-color 0.2s ease;
-  }
-  .footer__iban-copy:hover { background: rgba(201, 162, 75, 0.14); }
-  .footer__iban-copy.is-copied { color: var(--jade-lt, #7fd1b0); border-color: currentColor; }
-
-  /* Social Icons */
-  .footer__social {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    align-items: center;
-  }
-  .social-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 50%;
-    border: 1px solid rgba(201, 162, 75, 0.4);
-    background: transparent;
-    color: var(--gold);
-    font-size: 1.05rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.22s ease, border-color 0.22s ease, transform 0.18s var(--ease-out);
-  }
-  .social-icon:hover {
-    background: rgba(201, 162, 75, 0.16);
-    border-color: var(--gold);
-    transform: translateY(-3px);
-    color: var(--gold);
-  }
-  .footer__share-status {
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
-    color: var(--jade-lt);
-    min-height: 1.1em;
-  }
-  .footer__hashtags {
-    margin-top: 0.5rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.01em;
-  }
+  .footer__top { max-width: 46rem; }
 
   .footer__sponsors {
     margin-top: clamp(3rem, 7vh, 4.5rem);
@@ -303,11 +99,5 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .footer__legal { display: flex; gap: 1.5rem; }
   .footer__legal a { padding-block: 0.6rem; }
-  @media (max-width: 480px) {
-    .footer__bank { grid-template-columns: 1fr; gap: 0; }
-    .footer__bank dt { margin-top: 0.7rem; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; }
-    .footer__bank dt:first-of-type { margin-top: 0; }
-    .footer__iban-copy { width: 44px; height: 44px; font-size: 0.9rem; }
-  }
   .footer__legal a:hover { color: var(--gold); }
 </style>

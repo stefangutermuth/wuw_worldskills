@@ -58,13 +58,18 @@ const facts = [
 
 <section class="press" id="presse" aria-labelledby="press-title">
   <div class="press__inner u-container">
-    <div class="press__header">
-      <p class="u-eyebrow">Für die Presse</p>
-      <h2 id="press-title" class="press__title">Pressematerial</h2>
-      <p class="press__lead">
-        Alle Infos und Materialien für Redaktionen – kostenlos zur Berichterstattung nutzbar.
-      </p>
-    </div>
+    <!-- Seit 28.09.2026 (Erinnerungsseite) als Akkordeon, standardmäßig zu. Direktlinks
+         wie #pressetext klappen es per Skript unten automatisch auf. -->
+    <details class="press__acc" data-press-acc>
+      <summary class="press__summary">
+        <span class="press__summary-text">
+          <span class="u-eyebrow">Für die Presse</span>
+          <h2 id="press-title" class="press__title">Pressematerial</h2>
+          <span class="press__lead">Eckdaten, Pressestimmen, Pressemitteilung und Kontakt für Redaktionen</span>
+        </span>
+        <span class="press__chev" aria-hidden="true"></span>
+      </summary>
+      <div class="press__body">
 
     <div class="press__grid">
       <!-- Eckdaten -->
@@ -233,32 +238,73 @@ const facts = [
         <strong>Pressekontakt:</strong> GUMU Agentur · <a href="mailto:info@gumu-agentur.de">info@gumu-agentur.de</a>
       </p>
     </article>
+      </div>
+    </details>
   </div>
 </section>
+
+<script>
+  // Direktlink in den Pressebereich (z. B. #pressetext): Akkordeon vorher öffnen,
+  // sonst ist das Ziel unsichtbar und der Sprung landet ins Leere.
+  const acc = document.querySelector('[data-press-acc]');
+  if (acc) {
+    const openForHash = () => {
+      const id = location.hash.slice(1);
+      const el = id && document.getElementById(id);
+      if (el && acc.contains(el)) acc.open = true;
+    };
+    openForHash();
+    window.addEventListener('hashchange', openForHash);
+  }
+</script>
 
 <style>
   .press {
     background: var(--ink);
     color: var(--paper);
-    padding-block: clamp(4rem, 10vh, 7rem);
+    padding-block: clamp(2rem, 5vh, 3.5rem);
     border-top: 1px solid rgba(201, 162, 75, 0.12);
   }
 
-  .press__header {
-    text-align: center;
-    margin-bottom: clamp(2.5rem, 6vh, 4rem);
+  /* Akkordeon: schmale Kopfzeile, Inhalt erst auf Klick */
+  .press__acc { border: 1px solid rgba(201, 162, 75, 0.25); border-radius: var(--radius); }
+  .press__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding: 1.1rem 1.3rem;
+    min-height: 44px;
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--radius);
+    transition: background 0.2s ease;
   }
+  .press__summary::-webkit-details-marker { display: none; }
+  .press__summary:hover { background: rgba(201, 162, 75, 0.06); }
+  .press__summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .press__summary-text { display: grid; gap: 0.2rem; }
   .press__title {
-    font-size: var(--fs-h2);
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
     color: var(--gold);
-    margin: 0.4rem 0 0.7rem;
+    margin: 0;
   }
   .press__lead {
     color: var(--ink-soft);
-    max-width: 50ch;
-    margin-inline: auto;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
+  .press__chev {
+    flex: none;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    transform: rotate(45deg) translate(-2px, -2px);
+    transition: transform 0.25s ease;
+  }
+  .press__acc[open] .press__chev { transform: rotate(-135deg) translate(-2px, -2px); }
+  .press__body { padding: 0.4rem 1.3rem 1.5rem; }
 
   .press__grid {
     display: grid;
