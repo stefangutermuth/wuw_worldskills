@@ -163,11 +163,11 @@ button {
   width: 100%;
 }
 
-/* Scroll-Snap: Sektionen füllen mindestens den Viewport (Hero hat es schon via min-height: 100svh).
-   Route hat eigenes Höhen-Management via ScrollTrigger-Pin. */
+/* Sektionen füllen mindestens den Viewport (Hero hat es schon via min-height: 100svh).
+   Route hat eigenes Höhen-Management via ScrollTrigger-Pin. Presse nicht mehr: seit
+   28.09.2026 ein zugeklapptes Akkordeon, sonst bliebe darunter eine leere Bildschirmhöhe. */
 #daumendruecken,
-#live,
-#presse {
+#live {
   min-height: 100svh;
 }
 

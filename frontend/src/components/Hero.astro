@@ -58,7 +58,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     </div>
     <p class="u-eyebrow hero__eyebrow">WorldSkills 2026 · Shanghai</p>
     <h1 class="hero__title">
-      <span class="hero__title-kicker">Road to</span>
+      <span class="u-visually-hidden">Road to </span>
       <span class="hero__title-script u-gold-sheen">Shanghai</span>
     </h1>
     <p class="hero__subline">Unsere Jungs bei den WorldSkills 2026</p>
@@ -123,7 +123,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     window.addEventListener('scroll', onFirstScroll, { passive: true });
 
     // Intro-Reveal: Headline gestaffelt
-    gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-kicker, .hero__title-script, .hero__subline, .hero__status', {
+    gsap.from('.hero__clocks, .hero__eyebrow, .hero__title-script, .hero__subline, .hero__status', {
       y: 28,
       opacity: 0,
       duration: 1,
@@ -298,7 +298,10 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     inset: 0;
     z-index: 4;
     pointer-events: none;
-    background: radial-gradient(60% 52% at 50% 46%, rgba(0, 0, 0, 0.56), transparent 74%);
+    /* unten: leichter dunkler Verlauf nach oben, damit Ergebnis, Button und Scroll-Hinweis lesbar bleiben */
+    background:
+      linear-gradient(to top, rgba(6, 6, 8, 0.72) 0%, rgba(6, 6, 8, 0.45) 22%, rgba(6, 6, 8, 0.16) 44%, transparent 62%),
+      radial-gradient(60% 52% at 50% 46%, rgba(0, 0, 0, 0.56), transparent 74%);
   }
   .hero__vignette { z-index: 4; }
   .hero__grain { z-index: 6; }
@@ -424,17 +427,6 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     line-height: 1;
   }
   /* Nüchterner Über-Titel */
-  .hero__title-kicker {
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: clamp(0.95rem, 3vw, 1.8rem);
-    letter-spacing: 0.42em;
-    text-indent: 0.42em; /* Letter-Spacing optisch zentrieren */
-    text-transform: uppercase;
-    color: var(--paper);
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-    margin-bottom: 0.05em;
-  }
   /* Kalligrafischer Akzent „Shanghai" (Gold-Schimmer via .u-gold-sheen) */
   .hero__title-script {
     font-family: var(--font-script);
