@@ -15,9 +15,27 @@
 
 export const posts = [
   {
+    url: 'https://www.instagram.com/reel/Dd0L88sslih/',
+    image: '/img/tagebuch/2709/p02-thumb',
+    alt: 'Reel vom Siegerabend bei @die_landschaftsgaertner: Jubel mit der Deutschlandfahne auf der Bühne',
+    credit: 'AuGaLa/Reidel',
+  },
+  {
+    url: 'https://www.instagram.com/p/DdywiYvCiyI/',
+    image: '/img/tagebuch/2709/p05-thumb',
+    alt: 'Bronze für Deutschland: beide mit Medaille und Fahne, Beitrag von @die_landschaftsgaertner',
+    credit: 'AuGaLa/Reidel',
+  },
+  {
     url: 'https://www.instagram.com/p/Ddyg3Y9gEsj/',
     image: '/img/tagebuch/2309/p08-thumb',
     alt: 'Bronze für Marc-Aurel und Lennard, gemeldet von @worldskills_germany',
+    credit: 'AuGaLa/Reidel',
+  },
+  {
+    url: 'https://www.instagram.com/reel/Ddv0LcPM67U/',
+    image: '/img/tagebuch/2609/p01-thumb',
+    alt: 'Reel vom letzten Wettkampftag bei @die_landschaftsgaertner: der fertige Garten mit Holzbrücke',
     credit: 'AuGaLa/Reidel',
   },
   {
