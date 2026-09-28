@@ -9,7 +9,8 @@ auf dem Weg zu den **WorldSkills 2026 in Shanghai**.
 - **`conf/nginx/`** — nginx-Templates für das lokale Proxy-Setup (`.local` → Astro, `/wp-admin` → WordPress).
 
 ## Dokumentation
-- **`frontend/STATUS.md`** — vollständiger Projektstand, Architektur, Setup, To-dos.
+- **`STAND.md`** · aktueller Stand nach der WM (28.09.2026): Aufbau, Pflege, Deploy, Newsletter, Bildnachweise, offene Punkte. **Hier zuerst lesen.**
+- **`frontend/STATUS.md`** · älterer Projektstand vom Juni 2026 (Architektur, Setup).
 - **`frontend/IMAGES.md`** — Bild-Briefing & Prompts.
 
 ## Schnellstart (lokal)

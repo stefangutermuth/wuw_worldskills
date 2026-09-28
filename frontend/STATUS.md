@@ -1,5 +1,7 @@
 # Projekt-Status — Road to Shanghai
 
+> **Veraltet (Stand Juni 2026).** Aktueller Stand nach der WM: [`../STAND.md`](../STAND.md)
+
 **Kampagnen-Microsite** zur Berufe-Weltmeisterschaft **WorldSkills 2026 in Shanghai** (22.–27.09.2026)
 für die Azubis **Marc-Aurel Spalek & Lennard Weitzmann** (Wirth & Wiener GmbH, GaLaBau Chemnitz, Deutsche Meister 2025).
 Konzept: **Koi-zur-Drache-Legende** & „East meets Erzgebirge". Vollständiges Briefing: `~/Desktop/CLAUDE.md`.
