@@ -3,19 +3,6 @@
 import Newsletter from './Newsletter.astro';
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
-
-// Bestell-Mail für die Landschaftsgärtner-Limonade (Bestellungen gehen direkt an W&W)
-const limoBody = `Hallo Team Wirth & Wiener,
-
-ich möchte folgende Kästen der Landschaftsgärtner-Limonade „Gurke-Zitrone“ bestellen (Abholung bei Ihnen in Chemnitz):
-
-Anzahl Kästen:
-Name:
-Telefon:
-Wunschtermin zur Abholung:
-
-Vielen Dank!`;
-const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Bestellung Landschaftsgärtner-Limonade')}&body=${encodeURIComponent(limoBody)}`;
 ---
 
 <footer class="footer" id="newsletter">
@@ -50,36 +37,8 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
       </div>
     </div>
 
-    <!-- Unterstützen: Limo kaufen + Spenden -->
+    <!-- Unterstützen: Spenden (Limo-Verkauf nach der WM entfernt, 28.09.2026) -->
     <div class="footer__support" id="unterstuetzen" style="scroll-margin-top: 90px;">
-
-      <!-- Landschaftsgärtner-Limonade -->
-      <div class="footer__limo">
-        <a class="footer__limo-media" href={limoHref} aria-label="Landschaftsgärtner-Limonade bestellen">
-          <picture>
-            <source media="(min-width: 640px)" srcset={asset('/img/limo/limo-square.webp')} type="image/webp" />
-            <source media="(min-width: 640px)" srcset={asset('/img/limo/limo-square.jpg')} />
-            <source srcset={asset('/img/limo/limo-story.webp')} type="image/webp" />
-            <img src={asset('/img/limo/limo-story.jpg')} alt="Landschaftsgärtner-Limonade Gurke-Zitrone – von jedem Kasten gehen 5 Euro an die WM-Vorbereitung von Marc-Aurel und Lennard" loading="lazy" decoding="async" width="1200" height="1200" />
-          </picture>
-        </a>
-        <div class="footer__limo-body">
-          <h3 class="footer__h"><i class="fa-solid fa-bottle-droplet" aria-hidden="true"></i> Trinken. Unterstützen. Mitfiebern.</h3>
-          <p class="footer__lead">
-            Die neue <strong>Landschaftsgärtner-Limonade „Gurke-Zitrone“</strong> ist ab sofort erhältlich. Von jedem verkauften Kasten fließen <strong>5,00&nbsp;€</strong> direkt in die Trainings- und Wettkampfvorbereitung.
-          </p>
-          <ul class="footer__limo-facts">
-            <li>1 Kasten = 20 Flaschen à 0,33&nbsp;l</li>
-            <li><strong>20,00&nbsp;€</strong> <span>zzgl. 4,50&nbsp;€ Pfand + 19&nbsp;% MwSt.</span></li>
-            <li>5,00&nbsp;€ pro Kasten für Marc-Aurel &amp; Lennard</li>
-            <li>Abholung bei Wirth &amp; Wiener: Am Erlenwald&nbsp;4, 09128&nbsp;Chemnitz</li>
-          </ul>
-          <a class="footer__limo-btn" href={limoHref}>
-            <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i> Kasten reservieren
-          </a>
-          <p class="footer__limo-note">oder telefonisch: 0371&nbsp;77440-0 · keine Lieferung, nur Abholung</p>
-        </div>
-      </div>
 
       <!-- Spendenaufruf -->
       <div class="footer__donate">
@@ -212,60 +171,7 @@ const limoHref = `mailto:info@wirth-wiener.de?subject=${encodeURIComponent('Best
   .footer__support { margin-top: clamp(2.5rem, 6vh, 4rem); }
   .footer__support .footer__donate { margin-top: clamp(1.4rem, 3.5vh, 2.2rem); }
 
-  /* Landschaftsgärtner-Limonade */
-  .footer__limo {
-    display: grid;
-    gap: 1.4rem 2rem;
-    grid-template-columns: 1fr;
-    align-items: center;
-  }
-  @media (min-width: 720px) {
-    .footer__limo { grid-template-columns: minmax(0, 300px) 1fr; }
-  }
-  .footer__limo-media {
-    display: block;
-    width: 100%; /* sonst 0 px breit, bis das (lazy) Bild geladen ist → Layoutsprung */
-    max-width: 340px;
-    margin-inline: auto;
-    border-radius: var(--radius);
-    border: 1px solid rgba(201, 162, 75, 0.2);
-    overflow: hidden;
-    line-height: 0;
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
-    transition: transform 0.25s var(--ease-out);
-  }
-  @media (min-width: 720px) { .footer__limo-media { max-width: none; } }
-  .footer__limo-media:hover { transform: translateY(-3px); }
-  .footer__limo-media img { width: 100%; height: auto; display: block; }
-  .footer__limo .footer__h i { font-size: 1.1rem; margin-right: 0.3rem; }
-  .footer__limo-facts {
-    list-style: none;
-    margin: 0 0 1.2rem;
-    padding: 0;
-    display: grid;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    color: var(--paper);
-  }
-  .footer__limo-facts li { position: relative; padding-left: 1.4rem; }
-  .footer__limo-facts li::before { content: "🌿"; position: absolute; left: 0; font-size: 0.78rem; }
-  .footer__limo-facts span { color: var(--ink-soft); }
-  .footer__limo-facts strong { color: var(--gold); }
-  .footer__limo-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.72rem 1.4rem;
-    border-radius: 999px;
-    background: var(--china-red);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: background 0.2s ease, transform 0.18s var(--ease-out);
-  }
-  .footer__limo-btn:hover { background: var(--china-red-dk); transform: translateY(-2px); }
-  .footer__limo-note { margin: 0.7rem 0 0; font-size: 0.82rem; color: var(--ink-soft); }
+  /* Bankdaten Spendenkonto */
   .footer__bank {
     margin: 0;
     display: grid;

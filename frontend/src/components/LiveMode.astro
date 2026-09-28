@@ -5,14 +5,6 @@ const igCredits = [...new Set(igPosts.slice(0, 5).map((p) => p.credit).filter(Bo
 // Sektion „Live aus Shanghai" (§A4) – Reportage-Dashboard.
 // Vorfreude/Countdown, danach Tagebuch der WM-Woche (Reiter pro Tag, s. Tagebuch.astro).
 // Während (Status=on / Dispatches vorhanden): Reportage (Featured + Karten).
-// Programm-Woche in Shanghai (Quelle: WorldSkills-Germany-Presseinfo).
-const programm = [
-  { date: '17. Sep', label: 'Anreise nach Shanghai' },
-  // Offizieller Livestream von WorldSkills (YouTube, Start 22.09. 12:00 UTC = 14 Uhr MESZ)
-  { date: '22. Sep', label: 'Eröffnungsfeier', live: { url: 'https://www.youtube.com/watch?v=8CnEnzlDPfw', text: 'Aufzeichnung auf YouTube' } },
-  { date: '23.–26. Sep', label: '4 Tage Wettkampf' },
-  { date: '27. Sep', label: 'Siegerehrung & Abschluss', live: { url: 'https://www.youtube.com/live/2yamAa_pcOU', text: 'Bronze! Aufzeichnung auf YouTube' } },
-];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);
 ---
@@ -72,74 +64,24 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     <!-- Tagebuch der WM-Woche: Reiter pro Tag, Inhalte in src/data/tagebuch.js -->
     <Tagebuch />
 
-    <!-- Programm-Woche in Shanghai -->
-    <div class="live__programm">
-      <h3 class="live__sub">Das Programm in Shanghai</h3>
-      <ol class="live__timeline">
-        {programm.map((p) => (
-          <li class="live__tl-item">
-            <span class="live__tl-date">{p.date}</span>
-            <span class="live__tl-label">{p.label}</span>
-            {p.live && (
-              <a class="live__tl-live" href={p.live.url} target="_blank" rel="noopener">
-                <i class="fa-brands fa-youtube" aria-hidden="true"></i> {p.live.text}
-              </a>
-            )}
-          </li>
-        ))}
-      </ol>
-      <div class="live__notes">
-        <p class="live__note">
-          <i class="fa-solid fa-ticket-simple" aria-hidden="true"></i>
-          <span>Du reist mit nach Shanghai? <a href="https://worldskills2026.com/" target="_blank" rel="noopener">Tickets für Eröffnung &amp; Siegerehrung</a> gibt es über die offizielle Event-Seite.</span>
-        </p>
-        <p class="live__note">
-          <span class="mascot-dots" aria-hidden="true"><span class="mascot-dot mascot-dot--blue"></span><span class="mascot-dot mascot-dot--red"></span></span>
-          <span>Die Maskottchen 2026: <strong>Neng Neng</strong> &amp; <strong>Qiao Qiao</strong>. Motto: „Master Skills, Change Your Future“.</span>
-        </p>
-      </div>
-    </div>
-
-    <!-- So bist du dabei. Stand 21.09.2026: Die ERÖFFNUNGSFEIER streamt WorldSkills live auf
-         YouTube (22.09., 14 Uhr MESZ). Von den WETTKÄMPFEN gibt es keinen Livestream (Info
-         WorldSkills Germany, 11.09.) – dafür die Kanäle, die täglich berichten. -->
-    <div class="live__watch">
-      <div class="live__watch-text">
-        <h3 class="live__sub"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> So bist du dabei</h3>
-        <p>
-          Siegerehrung und Eröffnungsfeier gibt es als Aufzeichnung auf YouTube. Von den Wettkämpfen selbst gab es keinen Livestream, damit die Teams ungestört
-          arbeiten konnten. Die Bilder kommen trotzdem: Team Germany und die Landschaftsgärtner berichten
-          auf Social Media, und hier auf der Seite stehen alle vier Wettkampftage im Tagebuch.
-        </p>
-      </div>
-      <div class="live__follow">
-        <div class="live__follow-group">
-          <span class="live__follow-label">Siegerehrung <span class="live__follow-sub">· Aufzeichnung</span></span>
+    <!-- Zum Nachschauen (seit 28.09.2026 statt Programm und „So bist du dabei“):
+         Aufzeichnungen und die Kanäle, auf denen die WM-Woche gezeigt wurde. Bewusst kompakt. -->
+    <div class="live__replay">
+      <h3 class="live__sub">Zum Nachschauen</h3>
+      <div class="live__replay-rows">
+        <div class="live__replay-row">
+          <span class="live__follow-label">Aufzeichnungen</span>
           <div class="live__follow-links">
-            <a class="live__follow-live" href="https://www.youtube.com/live/2yamAa_pcOU" target="_blank" rel="noopener" aria-label="Siegerehrung auf YouTube ansehen"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Auf YouTube ansehen</a>
+            <a class="live__follow-live" href="https://www.youtube.com/live/2yamAa_pcOU" target="_blank" rel="noopener"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Siegerehrung</a>
+            <a class="live__follow-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Eröffnungsfeier</a>
           </div>
         </div>
-        <div class="live__follow-group">
-          <span class="live__follow-label">Eröffnungsfeier <span class="live__follow-sub">· Aufzeichnung</span></span>
+        <div class="live__replay-row">
+          <span class="live__follow-label">Beiträge</span>
           <div class="live__follow-links">
-            <a class="live__follow-live" href="https://www.youtube.com/watch?v=8CnEnzlDPfw" target="_blank" rel="noopener" aria-label="Aufzeichnung der Eröffnungsfeier auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Auf YouTube ansehen</a>
-          </div>
-        </div>
-        <div class="live__follow-group">
-          <span class="live__follow-label">Team Germany</span>
-          <div class="live__follow-links">
-            <a href="https://www.instagram.com/worldskills_germany/" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>
-            <a href="https://www.facebook.com/WorldSkillsGermany/" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a>
-            <a href="https://www.linkedin.com/company/worldskills-germany" target="_blank" rel="noopener" aria-label="WorldSkills Germany auf LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> LinkedIn</a>
-          </div>
-        </div>
-        <div class="live__follow-group">
-          <span class="live__follow-label">Die Landschaftsgärtner <span class="live__follow-sub">· Baufortschritt</span></span>
-          <div class="live__follow-links">
-            <a href="https://www.instagram.com/die_landschaftsgaertner/" target="_blank" rel="noopener" aria-label="Die Landschaftsgärtner auf Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a>
-            <a href="https://www.facebook.com/dielandschaftsgaertner" target="_blank" rel="noopener" aria-label="Die Landschaftsgärtner auf Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a>
-            <a href="https://www.tiktok.com/@ausbildung_galabau" target="_blank" rel="noopener" aria-label="Ausbildung GaLaBau auf TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i> TikTok</a>
-            <a href="https://www.youtube.com/@Ausbildung_galabau" target="_blank" rel="noopener" aria-label="Ausbildung GaLaBau auf YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a>
+            <a href="https://www.instagram.com/die_landschaftsgaertner/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Die Landschaftsgärtner</a>
+            <a href="https://www.instagram.com/worldskills_germany/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Team Germany</a>
+            <a href="https://www.youtube.com/@Ausbildung_galabau" target="_blank" rel="noopener"><i class="fa-brands fa-youtube" aria-hidden="true"></i> Ausbildung GaLaBau</a>
           </div>
         </div>
       </div>
@@ -559,39 +501,18 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
   }
   .live__update-meta a { color: var(--gold); text-decoration: underline; }
 
-  /* ---------- So bist du dabei (kein Livestream, Social-Kanäle) ---------- */
-  .live__watch {
-    margin-top: clamp(2.5rem, 6vh, 4rem);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.2rem 2rem;
-    padding: 1.4rem 1.6rem;
+  /* ---------- Zum Nachschauen (kompakt, seit 28.09.2026) ---------- */
+  .live__replay {
+    margin-top: clamp(2rem, 5vh, 3rem);
+    padding: 1.2rem 1.4rem;
     border-radius: var(--radius);
-    border: 1px solid rgba(201, 162, 75, 0.3);
-    background: rgba(9, 15, 24, 0.82);
+    border: 1px solid rgba(201, 162, 75, 0.28);
+    background: rgba(9, 15, 24, 0.78);
     backdrop-filter: blur(8px);
-    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
   }
-  .live__watch-text { flex: 1 1 320px; }
-  .live__watch-text .live__sub {
-    text-align: left;
-    font-size: 1.15rem;
-    margin-bottom: 0.45rem;
-  }
-  .live__watch-text .live__sub i { color: var(--gold); }
-  .live__watch-text p {
-    color: rgba(241, 232, 214, 0.9);
-    line-height: 1.6;
-    font-size: 0.95rem;
-  }
-  .live__follow {
-    flex: 1 1 300px;
-    display: grid;
-    gap: 0.9rem;
-  }
-  .live__follow-sub { white-space: nowrap; }
+  .live__replay .live__sub { text-align: left; font-size: 1.15rem; margin-bottom: 0.9rem; }
+  .live__replay-rows { display: grid; gap: 0.9rem 2rem; }
+  @media (min-width: 900px) { .live__replay-rows { grid-template-columns: auto 1fr; } }
   .live__follow-label {
     display: block;
     margin-bottom: 0.4rem;
@@ -632,7 +553,7 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     background: rgba(168, 30, 46, 0.22);
   }
   .live__follow-links a.live__follow-live:hover { border-color: #ff6b6b; color: #fff; }
-  .live__follow-live i, .live__update-live i, .live__tl-live i { color: #ff4d4d; }
+  .live__follow-live i, .live__update-live i { color: #ff4d4d; }
   .live__update-live {
     display: inline-flex;
     align-items: center;
@@ -650,20 +571,8 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     transition: border-color 0.2s ease, transform 0.18s var(--ease-out);
   }
   .live__update-live:hover { border-color: #ff6b6b; transform: translateY(-2px); }
-  .live__tl-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    margin-top: 0.35rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--gold);
-    text-decoration: none;
-  }
-  .live__tl-live:hover { text-decoration: underline; }
 
-  /* ---------- Programm-Woche ---------- */
-  .live__programm { margin-top: clamp(2.5rem, 6vh, 4rem); }
+  /* ---------- Zwischenüberschriften ---------- */
   .live__sub {
     font-family: var(--font-display);
     font-size: clamp(1.3rem, 3vw, 1.8rem);
@@ -671,64 +580,4 @@ const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith
     text-align: center;
     margin-bottom: 1.5rem;
   }
-  .live__timeline {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.8rem;
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 720px) {
-    .live__timeline { grid-template-columns: repeat(4, 1fr); gap: 1rem; }
-  }
-  .live__tl-item {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    padding: 1rem 1.1rem;
-    border-radius: var(--radius);
-    border: 1px solid rgba(201, 162, 75, 0.22);
-    background: rgba(9, 15, 24, 0.82);
-    backdrop-filter: blur(8px);
-  }
-  .live__tl-item::before {
-    content: '';
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 10px var(--gold-glow);
-    margin-bottom: 0.35rem;
-  }
-  .live__tl-date {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--gold);
-  }
-  .live__tl-label { font-size: 0.9rem; color: rgba(241, 232, 214, 0.86); }
-
-  .live__notes {
-    margin-top: 1.4rem;
-    display: grid;
-    gap: 0.7rem;
-  }
-  .live__note {
-    font-size: 0.92rem;
-    color: rgba(241, 232, 214, 0.82);
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-  .live__note i { color: var(--gold); flex: none; }
-  .mascot-dots { flex: none; display: inline-flex; align-items: center; }
-  .live__note strong { color: var(--paper); }
-  .live__note a { color: var(--gold); text-decoration: underline; }
-  .mascot-dot {
-    display: inline-block;
-    width: 10px; height: 10px; border-radius: 50%;
-    transform: translateY(1px);
-  }
-  .mascot-dot--blue { background: #3aa0e0; box-shadow: 0 0 8px rgba(58, 160, 224, 0.6); }
-  .mascot-dot--red { background: #e0533a; box-shadow: 0 0 8px rgba(224, 83, 58, 0.6); margin-left: -0.3rem; }
 </style>
