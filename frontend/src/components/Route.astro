@@ -251,6 +251,21 @@ const chapters = [
       '/img/route/empfang/empfang-04',
     ],
   },
+  {
+    num: '13', title: 'Die Jahrgangsbesten',
+    text: 'Auszeichnung in Dresden.',
+    img: '/img/route/jahrgangsbeste/jahrgangsbeste-card',
+    alt: 'Marc-Aurel und Lennard mit Urkunden und Blumen auf der Bühne in Dresden',
+    long: 'Am 9. Oktober 2026 wurden in Dresden die Jahrgangsbesten ausgezeichnet. Auch Marc-Aurel und Lennard standen auf der Bühne und bekamen Urkunde und Blumen überreicht. Ein schöner Schlusspunkt für eine Reise, die im September 2025 mit dem Sieg beim Landschaftsgärtner-Cup in Berlin begann und mit Bronze bei der Weltmeisterschaft in Shanghai endete.',
+    // Bildnachweis noch offen (Quelle bei Stefan erfragt), Fotos kamen per WhatsApp am 09.10.2026
+    gallery: [
+      '/img/route/jahrgangsbeste/jahrgangsbeste-01',
+      '/img/route/jahrgangsbeste/jahrgangsbeste-02',
+      '/img/route/jahrgangsbeste/jahrgangsbeste-03',
+      '/img/route/jahrgangsbeste/jahrgangsbeste-04',
+      '/img/route/jahrgangsbeste/jahrgangsbeste-05',
+    ],
+  },
 ];
 // Public-Asset mit Base-Pfad (GitHub-Pages-Unterordner; lokal/Prod = '/').
 const asset = (p) => import.meta.env.BASE_URL.replace(/\/$/, '') + (p.startsWith('/') ? p : '/' + p);

@@ -33,8 +33,9 @@ Reihenfolge von oben nach unten (`frontend/src/pages/index.astro`):
    Screenreader da), Unterzeile „Unsere Jungs bei den WorldSkills 2026", großes **Bronze** in
    Bronzetönen mit Lichtschein, Button „Siegerehrung ansehen", Scroll-Hinweis „Die Reise nacherleben".
    Unten ein leichter dunkler Verlauf für die Lesbarkeit (in `.hero__scrim`).
-2. **Die Reise** (`components/Route.astro`): 11 Kapitel, zuletzt 09 Die Eröffnung (Video),
-   10 Fläche 13, 11 Bronze (Video der Siegerehrung, Link zum WSG-Beitrag, 6 Bilder).
+2. **Die Reise** (`components/Route.astro`): 13 Kapitel, zuletzt 09 Die Eröffnung (Video),
+   10 Fläche 13, 11 Bronze (Video der Siegerehrung, Link zum WSG-Beitrag, 6 Bilder),
+   12 Der Empfang (08.10., Klipphausen), 13 Die Jahrgangsbesten (09.10., Dresden).
 3. **Daumendrücken** (`components/Cheer.astro`): Laternen, Zähler, Formular. Noch unverändert,
    siehe offene Punkte.
 4. **Die WM-Woche in Shanghai** (`components/LiveMode.astro`, Anker `#live`, Menüpunkt „Tagebuch"):
@@ -78,7 +79,8 @@ pulsierender Live-Punkt, eingebetteter Instagram-Beitrag.
 | Petra Reidel, Eröffnung und Pressegespräch 10.09. | **Petra Reidel** | Tagebuch 22.09., Reise 08 |
 | Eigene Fotos (Handy, mitgereiste Fans) | **Wirth & Wiener** | Tagebuch 22./23.09., Reise 09/10, Newsletter 3/4 |
 | WorldSkills Germany | WorldSkills Germany / Frank Erpinar | Team-Germany-Fotos |
-| Verband GaLaBau Sachsen | © Verband … Sachsen e. V. | ältere Kapitel |
+| Verband GaLaBau Sachsen | © Verband … Sachsen e. V. | ältere Kapitel, Reise 12 Der Empfang |
+| unbekannt (WhatsApp 09.10.) | **fehlt noch** | Reise 13 Die Jahrgangsbesten |
 
 Kontakt Reidel: blätterwerk redaktionsbüro, Petra Reidel, Dorfstraße 42, 88527 Unlingen, Tel. 0175 2711433.
 
@@ -161,6 +163,7 @@ Plugin **`wuw-shanghai-hinweis` 2.0.0** (Kopie im Repo unter `app/public/wp-cont
 - [ ] Ziel beim Daumendrücken (100) anpassen oder Balken auf „Ziel erreicht" stellen.
 - [ ] Quelle des Jubelbilds klären, dann Nachweis im Tagebuch und Pop-up nachtragen
       (oder im Pop-up auf Reidels Bühnenjubel wechseln, Quelle eindeutig).
+- [ ] Bildnachweis für Kapitel 13 (Dresden, 09.10.) eintragen, Quelle offen. Fotos kamen per WhatsApp.
 - [ ] Silber-Team ergänzen, falls das Podest im Text stehen soll.
 - [ ] Presse-Akkordeon inhaltlich nachziehen: Zeilen „Livestream" und „Täglich ab 22.09." sind noch
       im Vorab-Stand, Ergebnis Bronze fehlt in den Eckdaten.
